@@ -1,17 +1,24 @@
 package com.kotlin.zerowasteappvol1
 
+
+
+
+
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
-import android.util.Log
 import android.support.v4.content.ContextCompat
-import android.util.Range
+import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
+import android.widget.PopupWindow
 import android.widget.TextView
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -21,20 +28,23 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_maps.*
+//import sun.awt.windows.ThemeReader.getPosition
+import com.google.android.gms.maps.model.Marker
+import kotlinx.android.synthetic.main.marker_popup.*
+import java.util.*
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
-//    private val LOCATION_REQUEST_CODE = 101
     private lateinit var mMap: GoogleMap
     private val REQUEST_PERMISSION_CODE: Int = 123
-    private val place = Places("Miejsce 1", LatLng(49.818070, 19.054087))
+    private val place = Places("Miejsce 1", LatLng(49.83455, 19.077633), "Orchidei 22H",
+        "123456789")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
         supportActionBar?.setTitle("Zero Waste App")
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -48,6 +58,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             true}
             else -> false
         } }
+
 
     }
 
@@ -64,10 +75,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         else{
             setMapToCurrentLocation(mMap)
-            Log.d("PERMISSION GRANTED", "BEFORE")
         }
+        mMap.addMarker(MarkerOptions().position(place.Coordinates).title(place.Name))
 
-        mMap.addMarker(MarkerOptions().position(place.Coordinates))
+        mMap.setOnMarkerClickListener{
+            val window = PopupWindow(this)
+            val view = layoutInflater.inflate(R.layout.marker_popup,null)
+            window.contentView = view
+            window.showAtLocation(SearchPanel, Gravity.BOTTOM, 0, 0)
+            val placeNameText = view.findViewById<TextView>(R.id.textName)
+            val placeAddressText = view.findViewById<TextView>(R.id.textAddress)
+            val placePhoneText = view.findViewById<TextView>(R.id.textPhone)
+            placeNameText.text = place.Name
+            placeAddressText.text = place.Address
+            placePhoneText.text = place.PhoneNumber
+            true
+        }
 
     }
 
