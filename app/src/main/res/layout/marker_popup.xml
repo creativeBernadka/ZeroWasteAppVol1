@@ -3,8 +3,13 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@android:color/background_light">
+              android:background="@android:color/background_light"
+              >
 
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/closeButton" android:background="@android:drawable/btn_dialog"/>
     <TextView
             android:text="TextView"
             android:layout_width="match_parent"

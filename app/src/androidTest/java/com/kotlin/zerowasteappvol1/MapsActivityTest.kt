@@ -66,4 +66,13 @@ class MapsActivityTest {
         onView(withText("123456789")).inRoot(isPlatformPopup()).check(matches(isDisplayed()))
     }
 
+    @Test
+    fun popupWindowClosesAfterClickingCloseButton(){
+//        nie wiem jak sprawdzic, ze isNotDisplayed, wiec ten test powiniene nie przechodzic, jesli feature bedzie dzialal
+        val device = UiDevice.getInstance(getInstrumentation())
+        val marker = device.findObject(UiSelector().descriptionContains("Miejsce 1"))
+        marker.click()
+        onView(withId(R.id.closeButton)).inRoot(isPlatformPopup()).perform(click()).check(matches(isDisplayed()))
+    }
+
 }

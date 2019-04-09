@@ -1,9 +1,5 @@
 package com.kotlin.zerowasteappvol1
 
-
-
-
-
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
@@ -17,7 +13,9 @@ import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.PopupWindow
 import android.widget.TextView
 
@@ -31,7 +29,9 @@ import kotlinx.android.synthetic.main.activity_maps.*
 //import sun.awt.windows.ThemeReader.getPosition
 import com.google.android.gms.maps.model.Marker
 import kotlinx.android.synthetic.main.marker_popup.*
+import kotlinx.coroutines.*
 import java.util.*
+import javax.inject.Inject
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -40,27 +40,47 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val REQUEST_PERMISSION_CODE: Int = 123
     private val place = Places("Miejsce 1", LatLng(49.83455, 19.077633), "Orchidei 22H",
         "123456789")
-
+    @Inject lateinit var markerRepository: MarkerRepository
+//    private val place = Places("Miejsce 1", LatLng( 49.785538, 19.057291), "Orchidei 22H",
+//    "123456789")
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps)
-        supportActionBar?.setTitle("Zero Waste App")
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_maps)
+    supportActionBar?.setTitle("Zero Waste App")
+    DaggerMapComponent.create().inject(this)
+    val mapFragment = supportFragmentManager
+        .findFragmentById(R.id.map) as SupportMapFragment
+    mapFragment.getMapAsync(this)
 
 
-        SearchPanel.setOnEditorActionListener { _, actionId, _ ->
-//            do czyszczenia SearchPanelu
-            when(actionId){
+    SearchPanel.setOnEditorActionListener { _, actionId, _ ->
+        //            do czyszczenia SearchPanelu
+        when (actionId) {
             EditorInfo.IME_ACTION_DONE -> {
-            SearchPanel.text.clear()
-            true}
+                SearchPanel.text.clear()
+                true
+            }
             else -> false
-        } }
-
-
+        }
     }
+
+    ShowPlacesButton.setOnClickListener {
+        val window = PopupWindow(this)
+        val view = layoutInflater.inflate(R.layout.loading_popup, null)
+        window.contentView = view
+        window.showAtLocation(ShowPlacesButton, Gravity.CENTER, 0, 0)
+        GlobalScope.launch {
+            val points = markerRepository.getAllData()
+            for (point in points) {
+//                    mMap.addMarker(MarkerOptions().position(point.Coordinates).title(point.Name))
+            }
+            delay(2000)
+            window.dismiss()
+        }
+//        }
+        }
+    }
+
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
@@ -89,6 +109,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             placeNameText.text = place.Name
             placeAddressText.text = place.Address
             placePhoneText.text = place.PhoneNumber
+            val closeButtonHandler = view.findViewById<Button>(R.id.closeButton)
+            closeButtonHandler.setOnClickListener {
+                window.dismiss()
+            }
             true
         }
 
