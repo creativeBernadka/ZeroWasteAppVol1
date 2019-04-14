@@ -3,8 +3,7 @@ package com.kotlin.zerowasteappvol1
 import com.google.android.gms.maps.model.LatLng
 
 class Repository: MarkerRepository {
-
-    override fun getAllData(): Array<Places> {
+    override suspend fun getAllDataAsync(): Array<Places> {
         return arrayOf(Places("Place 1", LatLng(49.97232, 19.03432), "sfsdf", "23243243"))
     }
 

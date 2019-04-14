@@ -1,84 +1,80 @@
 package com.kotlin.zerowasteappvol1
 
+//import sun.awt.windows.ThemeReader.getPosition
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.PopupWindow
+import android.widget.ProgressBar
 import android.widget.TextView
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_maps.*
-//import sun.awt.windows.ThemeReader.getPosition
-import com.google.android.gms.maps.model.Marker
-import kotlinx.android.synthetic.main.marker_popup.*
 import kotlinx.coroutines.*
-import java.util.*
+import java.lang.Exception
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope, GoogleMap.OnMarkerClickListener{
 
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main
     private lateinit var mMap: GoogleMap
     private val REQUEST_PERMISSION_CODE: Int = 123
-    private val place = Places("Miejsce 1", LatLng(49.83455, 19.077633), "Orchidei 22H",
-        "123456789")
     @Inject lateinit var markerRepository: MarkerRepository
-//    private val place = Places("Miejsce 1", LatLng( 49.785538, 19.057291), "Orchidei 22H",
-//    "123456789")
+    private lateinit var points: Array<Places>
     override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_maps)
-    supportActionBar?.setTitle("Zero Waste App")
-    DaggerMapComponent.create().inject(this)
-    val mapFragment = supportFragmentManager
-        .findFragmentById(R.id.map) as SupportMapFragment
-    mapFragment.getMapAsync(this)
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_maps)
+        supportActionBar?.setTitle("Zero Waste App")
+        DaggerMapComponent.create().inject(this)
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 
 
-    SearchPanel.setOnEditorActionListener { _, actionId, _ ->
-        //            do czyszczenia SearchPanelu
-        when (actionId) {
-            EditorInfo.IME_ACTION_DONE -> {
-                SearchPanel.text.clear()
-                true
+        SearchPanel.setOnEditorActionListener { _, actionId, _ ->
+            //            do czyszczenia SearchPanelu
+            when (actionId) {
+                EditorInfo.IME_ACTION_DONE -> {
+                    SearchPanel.text.clear()
+                    true
+                }
+                else -> false
             }
-            else -> false
         }
-    }
 
-    ShowPlacesButton.setOnClickListener {
-        val window = PopupWindow(this)
-        val view = layoutInflater.inflate(R.layout.loading_popup, null)
-        window.contentView = view
-        window.showAtLocation(ShowPlacesButton, Gravity.CENTER, 0, 0)
-        GlobalScope.launch {
-            val points = markerRepository.getAllData()
-            for (point in points) {
-//                    mMap.addMarker(MarkerOptions().position(point.Coordinates).title(point.Name))
+//        ShowPlacesButton.setOnClickListener {
+            launch{
+                progressBarMarkers.visibility = View.VISIBLE
+                try {
+                    val repository = MarkerRepositoryMock()
+                    points = async { repository.getAllDataAsync() }.await()
+                    addMarkersToMap()
+                }catch (ex:Exception){
+                }finally {
+                    progressBarMarkers.visibility = View.INVISIBLE
+                }
             }
-            delay(2000)
-            window.dismiss()
-        }
 //        }
-        }
+
     }
 
 
@@ -96,26 +92,41 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         else{
             setMapToCurrentLocation(mMap)
         }
-        mMap.addMarker(MarkerOptions().position(place.Coordinates).title(place.Name))
 
-        mMap.setOnMarkerClickListener{
-            val window = PopupWindow(this)
-            val view = layoutInflater.inflate(R.layout.marker_popup,null)
-            window.contentView = view
-            window.showAtLocation(SearchPanel, Gravity.BOTTOM, 0, 0)
-            val placeNameText = view.findViewById<TextView>(R.id.textName)
-            val placeAddressText = view.findViewById<TextView>(R.id.textAddress)
-            val placePhoneText = view.findViewById<TextView>(R.id.textPhone)
-            placeNameText.text = place.Name
-            placeAddressText.text = place.Address
-            placePhoneText.text = place.PhoneNumber
-            val closeButtonHandler = view.findViewById<Button>(R.id.closeButton)
-            closeButtonHandler.setOnClickListener {
-                window.dismiss()
+
+        mMap.setOnMarkerClickListener(this)
+
+    }
+
+    override fun onMarkerClick(marker: Marker):Boolean {
+        var place: Places = points[0]
+        for (point in points){
+            if (point.Name == marker.title){
+                place = point
+                break
             }
-            true
         }
+        val window = PopupWindow(this)
+        val view = layoutInflater.inflate(R.layout.marker_popup,null)
+        window.contentView = view
+        window.showAtLocation(SearchPanel, Gravity.BOTTOM, 0, 0)
+        val placeNameText = view.findViewById<TextView>(R.id.textName)
+        val placeAddressText = view.findViewById<TextView>(R.id.textAddress)
+        val placePhoneText = view.findViewById<TextView>(R.id.textPhone)
+        placeNameText.text = place.Name
+        placeAddressText.text = place.Address
+        placePhoneText.text = place.PhoneNumber
+        val closeButtonHandler = view.findViewById<Button>(R.id.closeButton)
+        closeButtonHandler.setOnClickListener {
+            window.dismiss()
+        }
+        return true //musi byc true, zeby nie pokazywalo infoWindow
+    }
 
+    private fun addMarkersToMap(){
+        for (point in points){
+            mMap.addMarker(MarkerOptions().position(point.Coordinates).title(point.Name))
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng
 
 interface MarkerRepository {
 
-    fun getAllData(): Array<Places>
+    suspend fun getAllDataAsync(): Array<Places>
     fun removeInstance(index: Int)
     fun addInstance(place: Places)
     fun findInCategory(category: String)

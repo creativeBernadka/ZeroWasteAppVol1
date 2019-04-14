@@ -11,6 +11,6 @@ class MarkerRepositoryTest {
     fun checkIfGetAllDataReturnsArrayOfPlaces(){
         val repository = Repository()
         val expected: Array<Places> = arrayOf(Places("", LatLng(0.0, 0.0)))
-        assertSame(expected::class, repository.getAllData()::class)
+        assertSame(expected::class, repository.getAllDataAsync()::class)
     }
 }
