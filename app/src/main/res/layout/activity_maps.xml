@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/map"
-        tools:context=".MapsActivity"
+        tools:context=".UI.MapsActivity"
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
     <EditText
@@ -32,18 +32,41 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"/>
 
-    <Button
-            android:text="Show places"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ShowPlacesButton"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-    />
     <ProgressBar
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/progressBarMarkers" android:layout_centerInParent="true" android:visibility="invisible"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/background_light"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:id="@+id/layout_short_description" android:padding="8dp">
 
-</RelativeLayout>
+        <TextView
+                android:text="Nazwa sklepu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/textView_name" android:textSize="18sp"/>
+
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <RatingBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ratingBar"
+                    android:numStars="5"/>
+        </LinearLayout>
+
+        <TextView
+                android:text="Co to jest(np warsztat samochodowy)"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/textView3"/>
+        <TextView
+                android:text="Jesli sa to godziny otwarcia dzisiaj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/textView4"/>
+    </LinearLayout>
+
+    </RelativeLayout>

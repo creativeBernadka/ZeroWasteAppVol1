@@ -1,23 +1,21 @@
-package com.kotlin.zerowasteappvol1
+package com.kotlin.zerowasteappvol1.UI
 
 //import sun.awt.windows.ThemeReader.getPosition
 import android.Manifest
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Rect
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.PopupWindow
-import android.widget.ProgressBar
-import android.widget.TextView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -25,12 +23,14 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.kotlin.zerowasteappvol1.OnTouchOutsideViewListener
+import com.kotlin.zerowasteappvol1.OnTouchOutsideViewListenerImpl
+import com.kotlin.zerowasteappvol1.PlacesViewModel
+import com.kotlin.zerowasteappvol1.R
+import com.kotlin.zerowasteappvol1.room.ShortPlace
 import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.coroutines.*
-import java.lang.Exception
-import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
-
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope, GoogleMap.OnMarkerClickListener{
 
@@ -38,17 +38,33 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope, Go
         get() = Dispatchers.Main
     private lateinit var mMap: GoogleMap
     private val REQUEST_PERMISSION_CODE: Int = 123
-    @Inject lateinit var markerRepository: MarkerRepository
-    private lateinit var points: Array<Places>
+//    @Inject lateinit var markerRepository: MarkerRepository
+    private lateinit var points: List<ShortPlace>
+    private var eventMarkerMap: HashMap<Marker, ShortPlace> = HashMap()
+    private lateinit var placesViewModel: PlacesViewModel //DI
+    private lateinit var mTouchOutsideView: View
+    private lateinit var onTouchOutsideViewListener: OnTouchOutsideViewListener //DI
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-        supportActionBar?.setTitle("Zero Waste App")
-        DaggerMapComponent.create().inject(this)
+        supportActionBar?.title = "Zero Waste App"
+//        DaggerAppComponent.create().inject(this)
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        placesViewModel = ViewModelProviders.of(this).get(PlacesViewModel::class.java)
+        onTouchOutsideViewListener = OnTouchOutsideViewListenerImpl()
+
+        placesViewModel.allPlaces.observe(this, Observer { places ->
+//            progressBarMarkers.visibility = View.VISIBLE
+            if(places != null){
+                points = places
+                addMarkersToMap()
+            }
+//            progressBarMarkers.visibility = View.GONE
+        })
 
         SearchPanel.setOnEditorActionListener { _, actionId, _ ->
             //            do czyszczenia SearchPanelu
@@ -61,23 +77,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope, Go
             }
         }
 
-//        ShowPlacesButton.setOnClickListener {
-            launch{
-                progressBarMarkers.visibility = View.VISIBLE
-                try {
-                    val repository = MarkerRepositoryMock()
-                    points = async { repository.getAllDataAsync() }.await()
-                    addMarkersToMap()
-                }catch (ex:Exception){
-                }finally {
-                    progressBarMarkers.visibility = View.INVISIBLE
-                }
-            }
-//        }
+        setOnTouchOutsideViewListener(layout_short_description, onTouchOutsideViewListener)
 
+//            launch{
+//                progressBarMarkers.visibility = View.VISIBLE
+//                try {
+//                    points = async { markerRepository.getAllDataAsync() }.await()
+//                    addMarkersToMap()
+//                }catch (ex:Exception){
+//
+//                }finally {
+//                    progressBarMarkers.visibility = View.INVISIBLE
+//                }
+//            }
     }
-
-
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
@@ -92,42 +105,43 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope, Go
         else{
             setMapToCurrentLocation(mMap)
         }
-
-
         mMap.setOnMarkerClickListener(this)
 
     }
 
-    override fun onMarkerClick(marker: Marker):Boolean {
-        var place: Places = points[0]
+    private fun addMarkersToMap(){
         for (point in points){
-            if (point.Name == marker.title){
-                place = point
-                break
-            }
+            val marker = mMap.addMarker(MarkerOptions().position(point.coordinates).title(point.name))
+            eventMarkerMap[marker] = point
         }
-        val window = PopupWindow(this)
-        val view = layoutInflater.inflate(R.layout.marker_popup,null)
-        window.contentView = view
-        window.showAtLocation(SearchPanel, Gravity.BOTTOM, 0, 0)
-        val placeNameText = view.findViewById<TextView>(R.id.textName)
-        val placeAddressText = view.findViewById<TextView>(R.id.textAddress)
-        val placePhoneText = view.findViewById<TextView>(R.id.textPhone)
-        placeNameText.text = place.Name
-        placeAddressText.text = place.Address
-        placePhoneText.text = place.PhoneNumber
-        val closeButtonHandler = view.findViewById<Button>(R.id.closeButton)
-        closeButtonHandler.setOnClickListener {
-            window.dismiss()
-        }
+    }
+
+    override fun onMarkerClick(marker: Marker):Boolean {
+        val place: ShortPlace? = eventMarkerMap[marker]
+        layout_short_description.visibility = View.VISIBLE
+        textView_name.text = place?.name
         return true //musi byc true, zeby nie pokazywalo infoWindow
     }
 
-    private fun addMarkersToMap(){
-        for (point in points){
-            mMap.addMarker(MarkerOptions().position(point.Coordinates).title(point.Name))
-        }
+    fun setOnTouchOutsideViewListener(view: View, onTouchOutsideViewListener: OnTouchOutsideViewListener) {
+        mTouchOutsideView = view
+        this.onTouchOutsideViewListener = onTouchOutsideViewListener
     }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (ev.action == MotionEvent.ACTION_DOWN) {
+            // Notify touch outside listener if user tapped outside a given view
+            if (mTouchOutsideView.visibility == View.VISIBLE) {
+                val viewRect = Rect()
+                mTouchOutsideView.getGlobalVisibleRect(viewRect)
+                if (!viewRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
+                    onTouchOutsideViewListener.onTouchOutside(mTouchOutsideView, ev)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode){
@@ -148,12 +162,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope, Go
     private fun setMapToCurrentLocation(googleMap: GoogleMap){
 //        Zastanowic sie, czy nie zrobic lokalizacji na GPS lub jakiegos 'wybierz najlepszy lokalizator'
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val locationProvider: String = LocationManager.NETWORK_PROVIDER
+        val locationProvider: String = LocationManager.GPS_PROVIDER
         val lastKnownLocation: Location = locationManager.getLastKnownLocation(locationProvider)
         val currentLocation = LatLng(lastKnownLocation.latitude, lastKnownLocation.longitude)
         with(googleMap){
             moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
-            googleMap.setMyLocationEnabled(true)
+            googleMap.isMyLocationEnabled = true
         }
     }
 }

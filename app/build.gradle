@@ -24,6 +24,9 @@ android {
     }
     productFlavors {
     }
+    packagingOptions {
+        exclude 'META-INF/atomicfu.kotlin_module'
+    }
 }
 
 dependencies {
@@ -31,10 +34,27 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
+
+//    Android components
+    // Room components
+    implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
+    kapt "android.arch.persistence.room:compiler:$rootProject.roomVersion"
+    androidTestImplementation "android.arch.persistence.room:testing:$rootProject.roomVersion"
+
+    // Lifecycle components
+    implementation "android.arch.lifecycle:extensions:$rootProject.archLifecycleVersion"
+    kapt "android.arch.lifecycle:compiler:$rootProject.archLifecycleVersion"
+
+//  Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutines"
+
+//    dagger - DI
     implementation 'com.google.dagger:dagger:2.13'
     kapt 'com.google.dagger:dagger-compiler:2.13'
+
+//    testing
+    compileOnly 'javax.annotation:jsr250-api:1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     testImplementation 'com.nhaarman:mockito-kotlin-kt1.1:1.5.0'
