@@ -21,10 +21,10 @@ interface PlacesDao {
     fun getAllPlaces(): List<ShortPlace>
 
     @Query("SELECT places.name, places.latitude, places.longitude, places.rating, places.type_of_place, " +
-            "opening_hours.startHour, opening_hours.endHour " +
+            "opening_hours.startHour, opening_hours.endHour, opening_hours.weekday " +
             "FROM places INNER JOIN opening_hours ON places.id = opening_hours.placeId " +
-            "WHERE( name = :name and latitude = :latitude and longitude = :longitude) LIMIT 1")
-    fun getMarkerDescription(name: String, latitude: Double, longitude: Double): PlaceDescription
+            "WHERE( name = :name and latitude = :latitude and longitude = :longitude and weekday = :dayOfWeek) LIMIT 1")
+    fun getMarkerDescription(name: String, latitude: Double, longitude: Double, dayOfWeek: Int): PlaceDescription
 
     @Query("SELECT images_url.url FROM images_url INNER JOIN places ON places.id = images_url.placeId " +
             "WHERE( places.name = :name and places.latitude = :latitude and places.longitude = :longitude)")

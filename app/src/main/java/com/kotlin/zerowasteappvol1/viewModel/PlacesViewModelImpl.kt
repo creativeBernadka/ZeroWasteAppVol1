@@ -1,25 +1,30 @@
-package com.kotlin.zerowasteappvol1.presenter
+package com.kotlin.zerowasteappvol1.viewModel
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.graphics.drawable.Drawable
 import com.kotlin.zerowasteappvol1.database.Place
 import com.kotlin.zerowasteappvol1.database.PlaceDescription
-import com.kotlin.zerowasteappvol1.database.PlacesRoomDatabase
 import com.kotlin.zerowasteappvol1.database.ShortPlace
+import com.kotlin.zerowasteappvol1.repository.PlacesRepository
 import kotlinx.coroutines.*
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 class PlacesViewModelImpl @Inject constructor(application: Application, var repository: PlacesRepository,
                                               var scope: CoroutineScope)
     : AndroidViewModel(application), PlacesViewModel {
 
-
     override var allPlaces =  MutableLiveData<List<ShortPlace>>()
     override var placeDescription = MutableLiveData<PlaceDescription>()
-    override var placeImages = MutableLiveData<List<String>>()
+    override var placeImages = MutableLiveData<List<Drawable?>>()
+
+    init {
+        scope.launch(Dispatchers.IO) {
+            allPlaces.postValue(async{repository.getAllPlacesAsync()}.await())
+        }
+    }
 
     override fun getAllPlaces(){
         scope.launch(Dispatchers.IO) {

@@ -3,9 +3,11 @@ package com.kotlin.zerowasteappvol1.database
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.*
 import android.content.Context
+import com.kotlin.zerowasteappvol1.application.ZeroWasteApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @Database(entities = [Place::class, OpeningHours::class, ImagesUrl::class], version = 4, exportSchema = false)
@@ -19,6 +21,7 @@ abstract class PlacesRoomDatabase: RoomDatabase() {
         private var INSTANCE: PlacesRoomDatabase? = null
 
         fun getDatabase(context: Context, scope: CoroutineScope): PlacesRoomDatabase{
+
             val tempInstance = INSTANCE
             if (tempInstance != null){
                 return tempInstance
@@ -49,7 +52,7 @@ abstract class PlacesRoomDatabase: RoomDatabase() {
             }
 
             fun populateDatabase(placesDao: PlacesDao){
-
+//
 //                var place = Place(1, "Miejsce 1",  49.835543, 19.076082, 5.0,
 //                    "sklep","123456789", "To jest miejsce 1", website = null)
 //                placesDao.insertPlace(place)
@@ -60,15 +63,47 @@ abstract class PlacesRoomDatabase: RoomDatabase() {
 //                    "sklep","123456789", "To jest miejsce 3", website = null)
 //                placesDao.insertPlace(place)
 //
-//                var openingHours = OpeningHours(1,1, 2, "8:00", "15:00")
+//                var openingHours = OpeningHours(1,1, 1, "8:00", "15:00")
 //                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(2,1, 3, "8:00", "17:00")
+//                openingHours = OpeningHours(2,1, 2, "8:05", "15:05")
 //                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(3, 2, 4, "10:00", "17:00")
+//                openingHours = OpeningHours(3,1, 3, "8:10", "15:10")
 //                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(4, 2, 6, "8:00", "14:00")
+//                openingHours = OpeningHours(4,1, 4, "8:15", "15:15")
 //                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(5, 3, 7, "9:00", "17:00")
+//                openingHours = OpeningHours(5,1, 5, "8:20", "15:20")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(6,1, 6, "8:25", "15:25")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(7,1, 7, "8:30", "15:30")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(8, 2, 1, "9:00", "16:00")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(9, 2, 2, "9:05", "16:05")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(10, 2, 3, "9:10", "16:10")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(11, 2, 4, "9:15", "16:15")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(12, 2, 5, "9:20", "16:20")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(13, 2, 6, "9:25", "16:25")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(14, 2, 7, "9:30", "16:30")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(15, 3, 1, "10:00", "17:00")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(16, 3, 2, "10:05", "17:05")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(17, 3, 3, "10:10", "17:10")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(18, 3, 4, "10:15", "17:15")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(19, 3, 5, "10:20", "17:20")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(20, 3, 6, "10:25", "17:25")
+//                placesDao.insertHour(openingHours)
+//                openingHours = OpeningHours(21, 3, 7, "10:30", "17:30")
 //                placesDao.insertHour(openingHours)
 //
 //                var imageUrl = ImagesUrl(1, 1, "https://bit.ly/2WbBDkJ")
@@ -81,7 +116,7 @@ abstract class PlacesRoomDatabase: RoomDatabase() {
 //                placesDao.insertImage(imageUrl)
 //                imageUrl = ImagesUrl(5, 3, "https://bit.ly/2WbBDkJ")
 //                placesDao.insertImage(imageUrl)
-//                imageUrl = ImagesUrl(5, 3, "https://bit.ly/2WbBDkJ")
+//                imageUrl = ImagesUrl(6, 3, "https://bit.ly/2WbBDkJ")
 //                placesDao.insertImage(imageUrl)
 //                imageUrl = ImagesUrl(7, 3, "https://bit.ly/2WbBDkJ")
 //                placesDao.insertImage(imageUrl)

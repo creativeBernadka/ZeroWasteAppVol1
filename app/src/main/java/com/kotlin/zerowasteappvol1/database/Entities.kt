@@ -60,8 +60,9 @@ data class PlaceDescription(
     val longitude: Double,
     val rating: Double?,
     @ColumnInfo(name = "type_of_place") val typeOfPlace: String?,
-    @ColumnInfo(name = "startHour") val startHour: Double,
-    @ColumnInfo(name = "endHour") val endHour: Double
+    @ColumnInfo(name = "startHour") val startHour: String,
+    @ColumnInfo(name = "endHour") val endHour: String,
+    @ColumnInfo(name = "weekday") val dayOfWeek: Int
 ){
     val coordinates: LatLng
         get() = LatLng(latitude, longitude)
