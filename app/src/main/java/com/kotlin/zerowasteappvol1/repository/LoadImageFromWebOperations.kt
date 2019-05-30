@@ -1,4 +1,4 @@
-package com.kotlin.zerowasteappvol1.UI
+package com.kotlin.zerowasteappvol1.repository
 
 import android.graphics.drawable.Drawable
 import java.io.InputStream

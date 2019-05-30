@@ -3,11 +3,15 @@ package com.kotlin.zerowasteappvol1.UI
 import android.Manifest
 import android.arch.lifecycle.Observer
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.location.Address
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
@@ -46,6 +50,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
     private var eventMarkerMap: HashMap<Marker, ShortPlace> = HashMap()
     private lateinit var mTouchOutsideView: View
     private lateinit var onTouchOutsideViewListener: OnTouchOutsideViewListener
+    private var phoneNumber: String? = null
 
     @Inject lateinit var placesViewModel: PlacesViewModel
 
@@ -79,10 +84,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
                 ratingBar.rating = place.rating!!.toFloat()
                 textView_type_of_place.text = place.typeOfPlace
                 textView_open_hours.text = place.startHour + " - " + place.endHour
+                textView_address.text = place.address
+                if(place.phoneNumber != null){
+                    phoneNumber = place.phoneNumber
+                    button_call.visibility = View.VISIBLE
+                }
+                if(place.website != null){
+                    button_website.visibility = View.VISIBLE
+                }
                 progressBar_description.visibility = View.GONE
                 ratingBar.visibility = View.VISIBLE
                 textView_type_of_place.visibility = View.VISIBLE
                 textView_open_hours.visibility = View.VISIBLE
+                textView_address.visibility = View.VISIBLE
             }
         })
 
@@ -100,6 +114,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
                     true
                 }
                 else -> false
+            }
+        }
+
+        button_call.setOnClickListener {
+            val uri = "tel:$phoneNumber"
+            val callIntent: Intent = Uri.parse(uri).let { number ->
+                Intent(Intent.ACTION_DIAL, number)
+            }
+            val activities: List<ResolveInfo> = packageManager.queryIntentActivities(callIntent, 0)
+            if (activities.isNotEmpty()){
+                startActivity(callIntent)
             }
         }
     }
@@ -145,7 +170,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
                 val viewRect = Rect()
                 mTouchOutsideView.getGlobalVisibleRect(viewRect)
                 if (!viewRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
-                    onTouchOutsideViewListener.onTouchOutside(mTouchOutsideView, ev)
+                    onTouchOutsideViewListener.onTouchOutside(mTouchOutsideView, ev, this)
                 }
             }
         }
@@ -158,19 +183,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
         val imageWidth = (displayMetrics.widthPixels / INITIAL_ITEMS_COUNT).toInt()
         var imageItem: ImageView
         var countNulls = 0
-        linearLayout_carousel_images.removeAllViews()
         imagesList.map {item ->
             imageItem = ImageView(this)
             if(item == null) countNulls += 1
             else{
                 imageItem.setImageDrawable(item)
-                imageItem.layoutParams = LinearLayout.LayoutParams(imageWidth, imageWidth)
+                val linearLayout = LinearLayout.LayoutParams(imageWidth, imageWidth)
+                linearLayout.rightMargin = 2
+                imageItem.layoutParams = linearLayout
                 linearLayout_carousel_images.addView(imageItem)
             }
         }
         if (countNulls != imagesList.size) cardView_carousel_images.visibility = View.VISIBLE
     }
-
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode){

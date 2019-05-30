@@ -2,10 +2,7 @@ package com.kotlin.zerowasteappvol1.UI
 
 import android.support.v7.widget.CardView
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.RatingBar
-import android.widget.TextView
+import android.widget.*
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import com.kotlin.zerowasteappvol1.R
@@ -31,11 +28,14 @@ class OnMarkerClickListener(
         activity.findViewById<TextView>(R.id.textView_type_of_place).visibility = View.GONE
         activity.findViewById<TextView>(R.id.textView_open_hours).visibility = View.GONE
         activity.findViewById<CardView>(R.id.cardView_carousel_images).visibility = View.GONE
+        activity.findViewById<TextView>(R.id.textView_address).visibility = View.GONE
+        activity.findViewById<Button>(R.id.button_call).visibility = View.GONE
+        activity.findViewById<Button>(R.id.button_website).visibility = View.GONE
         activity.findViewById<LinearLayout>(R.id.linearLayout_short_description).visibility = View.VISIBLE
         activity.findViewById<ProgressBar>(R.id.progressBar_description).visibility = View.VISIBLE
         activity.findViewById<TextView>(R.id.textView_name).text = place?.name
         launch {
-            placesViewModel.getPlaceDescription(place)
+            placesViewModel.getPlaceDescription(place, activity)
         }
         return true //musi byc true, zeby nie pokazywalo infoWindow
     }

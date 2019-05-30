@@ -1,9 +1,6 @@
 package com.kotlin.zerowasteappvol1.database
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
-import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.*
 import com.google.android.gms.maps.model.LatLng
 
 
@@ -56,15 +53,12 @@ data class ShortPlace(
 
 data class PlaceDescription(
     val name: String,
-    val latitude: Double,
-    val longitude: Double,
     val rating: Double?,
     @ColumnInfo(name = "type_of_place") val typeOfPlace: String?,
+    @ColumnInfo(name = "phone_number") val phoneNumber: String?,
+    @ColumnInfo(name = "website") val website: String?,
     @ColumnInfo(name = "startHour") val startHour: String,
     @ColumnInfo(name = "endHour") val endHour: String,
     @ColumnInfo(name = "weekday") val dayOfWeek: Int
-){
-    val coordinates: LatLng
-        get() = LatLng(latitude, longitude)
-}
+)
 

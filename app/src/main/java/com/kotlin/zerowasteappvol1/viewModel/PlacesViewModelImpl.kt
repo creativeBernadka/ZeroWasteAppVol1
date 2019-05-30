@@ -4,10 +4,12 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.content.Context
 import android.graphics.drawable.Drawable
 import com.kotlin.zerowasteappvol1.database.Place
 import com.kotlin.zerowasteappvol1.database.PlaceDescription
 import com.kotlin.zerowasteappvol1.database.ShortPlace
+import com.kotlin.zerowasteappvol1.repository.PlaceDescriptionWithAddress
 import com.kotlin.zerowasteappvol1.repository.PlacesRepository
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -17,7 +19,7 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
     : AndroidViewModel(application), PlacesViewModel {
 
     override var allPlaces =  MutableLiveData<List<ShortPlace>>()
-    override var placeDescription = MutableLiveData<PlaceDescription>()
+    override var placeDescription = MutableLiveData<PlaceDescriptionWithAddress>()
     override var placeImages = MutableLiveData<List<Drawable?>>()
 
     init {
@@ -32,9 +34,9 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
         }
     }
 
-    override fun getPlaceDescription(shortPlace: ShortPlace?){
+    override fun getPlaceDescription(shortPlace: ShortPlace?, context: Context){
         scope.launch(Dispatchers.IO) {
-            placeDescription.postValue(async{repository.getMarkerDescriptionAsync(shortPlace)}.await())
+            placeDescription.postValue(async{repository.getMarkerDescriptionAsync(shortPlace, context)}.await())
             placeImages.postValue(async { repository.getMarkerImagesAsync(shortPlace) }.await())
         }
     }

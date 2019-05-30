@@ -1,9 +1,10 @@
 package com.kotlin.zerowasteappvol1.repository
 
 import android.arch.lifecycle.LiveData
+import android.content.Context
 import android.graphics.drawable.Drawable
+import android.location.Address
 import android.support.annotation.WorkerThread
-import com.kotlin.zerowasteappvol1.UI.loadImageFromWebOperations
 import com.kotlin.zerowasteappvol1.database.Place
 import com.kotlin.zerowasteappvol1.database.PlaceDescription
 import com.kotlin.zerowasteappvol1.database.PlacesDao
@@ -11,6 +12,9 @@ import com.kotlin.zerowasteappvol1.database.ShortPlace
 import kotlinx.coroutines.delay
 import java.util.*
 import javax.inject.Inject
+import android.location.Geocoder
+import android.util.Log
+
 
 class PlacesRepositoryImpl @Inject constructor(private val placesDao: PlacesDao):
     PlacesRepository {
@@ -23,7 +27,8 @@ class PlacesRepositoryImpl @Inject constructor(private val placesDao: PlacesDao)
     }
 
     @WorkerThread
-    override suspend fun getMarkerDescriptionAsync(shortPlace: ShortPlace?): PlaceDescription?{
+    override suspend fun getMarkerDescriptionAsync(shortPlace: ShortPlace?, context: Context)
+            : PlaceDescriptionWithAddress?{
         delay(500)
         val name = shortPlace!!.name
         val coordinates = shortPlace.coordinates
@@ -38,7 +43,21 @@ class PlacesRepositoryImpl @Inject constructor(private val placesDao: PlacesDao)
             Calendar.SUNDAY -> 7
             else -> 1
         }
-        return placesDao.getMarkerDescription(name, coordinates.latitude, coordinates.longitude, dayOfWeek)
+        val geocoder = Geocoder(context, Locale.getDefault())
+        val addresses: List<Address>? = try{
+            geocoder.getFromLocation(coordinates.latitude, coordinates.longitude, 1)
+        }catch(e:Exception){null}
+        val address: String? = addresses!!.map{item -> item.getAddressLine(0)?.toString()}[0]
+        val markerDescription = placesDao.getMarkerDescription(name, coordinates.latitude, coordinates.longitude, dayOfWeek)
+        val placeDescriptionWithAddress = PlaceDescriptionWithAddress(name)
+        placeDescriptionWithAddress.rating = markerDescription.rating
+        placeDescriptionWithAddress.typeOfPlace = markerDescription.typeOfPlace
+        placeDescriptionWithAddress.startHour = markerDescription.startHour
+        placeDescriptionWithAddress.endHour = markerDescription.endHour
+        placeDescriptionWithAddress.phoneNumber = markerDescription.phoneNumber
+        placeDescriptionWithAddress.website = markerDescription.website
+        placeDescriptionWithAddress.address = address
+        return placeDescriptionWithAddress
     }
 
     @WorkerThread

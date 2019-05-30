@@ -20,7 +20,7 @@ interface PlacesDao {
     @Query("SELECT name, latitude, longitude FROM places")
     fun getAllPlaces(): List<ShortPlace>
 
-    @Query("SELECT places.name, places.latitude, places.longitude, places.rating, places.type_of_place, " +
+    @Query("SELECT places.name, places.rating, places.type_of_place, places.phone_number, places.website, " +
             "opening_hours.startHour, opening_hours.endHour, opening_hours.weekday " +
             "FROM places INNER JOIN opening_hours ON places.id = opening_hours.placeId " +
             "WHERE( name = :name and latitude = :latitude and longitude = :longitude and weekday = :dayOfWeek) LIMIT 1")
