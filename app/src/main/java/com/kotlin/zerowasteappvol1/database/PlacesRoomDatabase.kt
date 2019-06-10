@@ -54,13 +54,13 @@ abstract class PlacesRoomDatabase: RoomDatabase() {
             fun populateDatabase(placesDao: PlacesDao){
 //
 //                var place = Place(1, "Miejsce 1",  49.835543, 19.076082, 5.0,
-//                    "sklep","123456789", "To jest miejsce 1", website = null)
+//                    "sklep","123456789", "To jest miejsce 1", website = "https://developer.android.com")
 //                placesDao.insertPlace(place)
 //                place = Place(2, "Miejsce 2", 49.83455, 19.077633, 2.5,
-//                    "restauracja","123456789", "To jest miejsce 2", website = null)
+//                    "restauracja","456789123", "To jest miejsce 2", website = "http://sklepbezpudla.pl")
 //                placesDao.insertPlace(place)
 //                place = Place(3, "Miejsce 3",  49.834240, 19.079626, 3.0,
-//                    "sklep","123456789", "To jest miejsce 3", website = null)
+//                    "sklep","789123456", "To jest miejsce 3", website = "http://eloquentjavascript.net")
 //                placesDao.insertPlace(place)
 //
 //                var openingHours = OpeningHours(1,1, 1, "8:00", "15:00")

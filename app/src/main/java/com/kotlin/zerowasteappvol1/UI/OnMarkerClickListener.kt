@@ -24,6 +24,8 @@ class OnMarkerClickListener(
 
     override fun onMarkerClick(marker: Marker?): Boolean {
         val place: ShortPlace? = eventMarkerMap[marker]
+
+        activity.latLng = place?.coordinates
         activity.findViewById<RatingBar>(R.id.ratingBar).visibility = View.GONE
         activity.findViewById<TextView>(R.id.textView_type_of_place).visibility = View.GONE
         activity.findViewById<TextView>(R.id.textView_open_hours).visibility = View.GONE

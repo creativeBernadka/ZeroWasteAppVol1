@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.location.Address
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -36,7 +35,9 @@ import com.kotlin.zerowasteappvol1.viewModel.PlacesViewModel
 import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.HashMap
 import kotlin.coroutines.CoroutineContext
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
@@ -51,6 +52,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
     private lateinit var mTouchOutsideView: View
     private lateinit var onTouchOutsideViewListener: OnTouchOutsideViewListener
     private var phoneNumber: String? = null
+    private var website: String? = null
+    var latLng: LatLng? = null
+    private var startClickTime = "0".toLong()
 
     @Inject lateinit var placesViewModel: PlacesViewModel
 
@@ -90,6 +94,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
                     button_call.visibility = View.VISIBLE
                 }
                 if(place.website != null){
+                    website = place.website
                     button_website.visibility = View.VISIBLE
                 }
                 progressBar_description.visibility = View.GONE
@@ -125,6 +130,30 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
             val activities: List<ResolveInfo> = packageManager.queryIntentActivities(callIntent, 0)
             if (activities.isNotEmpty()){
                 startActivity(callIntent)
+            }
+        }
+
+        button_navigation.setOnClickListener {
+            val uri = "https://www.google.com/maps/dir/?api=1" +
+                    "&destination=${latLng!!.latitude},${latLng!!.longitude}" +
+                    "&travelmode=walking"
+            val navigationIntent: Intent = Uri.parse(uri).let { location ->
+                Intent(Intent.ACTION_VIEW, location)
+            }
+            val activities: List<ResolveInfo> = packageManager.queryIntentActivities(navigationIntent, 0)
+            if (activities.isNotEmpty()){
+                startActivity(navigationIntent)
+            }
+        }
+
+        button_website.setOnClickListener {
+            val uri = "$website"
+            val webIntent: Intent = Uri.parse(uri).let { webpage ->
+                Intent(Intent.ACTION_VIEW, webpage)
+            }
+            val activities: List<ResolveInfo> = packageManager.queryIntentActivities(webIntent, 0)
+            if (activities.isNotEmpty()){
+                startActivity(webIntent)
             }
         }
     }
@@ -164,13 +193,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        if (ev.action == MotionEvent.ACTION_DOWN) {
-            // Notify touch outside listener if user tapped outside a given view
-            if (mTouchOutsideView.visibility == View.VISIBLE) {
-                val viewRect = Rect()
-                mTouchOutsideView.getGlobalVisibleRect(viewRect)
-                if (!viewRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
-                    onTouchOutsideViewListener.onTouchOutside(mTouchOutsideView, ev, this)
+        if (ev.action == MotionEvent.ACTION_DOWN){
+            startClickTime = Calendar.getInstance().timeInMillis;
+        }
+        if(ev.action == MotionEvent.ACTION_UP) {
+            val clickDuration = Calendar.getInstance().getTimeInMillis() - startClickTime
+            if(clickDuration < 200) {
+                if (mTouchOutsideView.visibility == View.VISIBLE) {
+                    val viewRect = Rect()
+                    mTouchOutsideView.getGlobalVisibleRect(viewRect)
+                    if (!viewRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
+                        onTouchOutsideViewListener.onTouchOutside(mTouchOutsideView, ev, this)
+                    }
                 }
             }
         }
