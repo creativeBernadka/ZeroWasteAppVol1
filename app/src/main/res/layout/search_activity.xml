@@ -17,194 +17,211 @@
             android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
     />
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/linearLayout_first_place"
-            android:layout_margin="8dp"
-            android:visibility="gone">
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:srcCompat="@drawable/marker_search_icon"
-                android:id="@+id/imageView_first_place_type"
-                android:layout_weight="1"
-        />
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="8dp"
-        >
-            <TextView
-                    android:text="Nazwa pierwszego miejsca"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_first_place_name"
-                    android:textColor="@android:color/background_dark"
-            />
-            <TextView
-                    android:text="Adres pierwszego miejsca"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_first_place_address"
-                    android:textSize="12sp"
-            />
-        </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-            android:orientation="horizontal"
+    <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/linearLayout_second_place"
-            android:layout_margin="8dp"
-            android:visibility="gone">
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:srcCompat="@drawable/marker_search_icon"
-                android:id="@+id/imageView_second_place_type"
-                android:layout_weight="1"
-        />
+    >
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="8dp"
+                android:layout_height="wrap_content"
         >
-            <TextView
-                    android:text="Nazwa drugiego miejsca"
+            <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_second_place_name"
-                    android:textColor="@android:color/background_dark"
-            />
-            <TextView
-                    android:text="Adres drugiego miejsca"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_second_place_address"
-                    android:textSize="12sp"
-            />
-        </LinearLayout>
-    </LinearLayout>
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/linearLayout_first_place"
+                    android:layout_margin="8dp">
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:srcCompat="@drawable/marker_search_icon"
+                        android:id="@+id/imageView_first_place_type"
+                        android:layout_weight="1"
+                />
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="8dp"
+                >
+                    <TextView
+                            android:text="Nazwa pierwszego miejsca"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView_first_place_name"
+                            android:textColor="@android:color/background_dark"
+                    />
+                    <TextView
+                            android:text="Adres pierwszego miejsca"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView_first_place_address"
+                            android:textSize="12sp"
+                    />
+                </LinearLayout>
+            </LinearLayout>
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/linearLayout_third_place"
-            android:layout_margin="8dp"
-            android:visibility="gone">
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:srcCompat="@drawable/marker_search_icon"
-                android:id="@+id/imageView_third_place_type"
-                android:layout_weight="1"
-        />
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="8dp"
-        >
-            <TextView
-                    android:text="Nazwa trzeciego miejsca"
+            <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_third_place_name"
-                    android:textColor="@android:color/background_dark"
-            />
-            <TextView
-                    android:text="Adres trzeciego miejsca"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/linearLayout_second_place"
+                    android:layout_margin="8dp"
+                    android:visibility="gone">
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:srcCompat="@drawable/marker_search_icon"
+                        android:id="@+id/imageView_second_place_type"
+                        android:layout_weight="1"
+                />
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="8dp"
+                >
+                    <TextView
+                            android:text="Nazwa drugiego miejsca"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView_second_place_name"
+                            android:textColor="@android:color/background_dark"
+                    />
+                    <TextView
+                            android:text="Adres drugiego miejsca"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView_second_place_address"
+                            android:textSize="12sp"
+                    />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_third_place_address"
-                    android:textSize="12sp"
-            />
-        </LinearLayout>
-    </LinearLayout>
+                    android:id="@+id/linearLayout_third_place"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:visibility="gone" android:layout_marginTop="8dp" android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" android:layout_marginBottom="8dp">
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:srcCompat="@drawable/marker_search_icon"
+                        android:id="@+id/imageView_third_place_type"
+                        android:layout_weight="1"
+                />
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="8dp"
+                >
+                    <TextView
+                            android:text="Nazwa trzeciego miejsca"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView_third_place_name"
+                            android:textColor="@android:color/background_dark"
+                    />
+                    <TextView
+                            android:text="Adres trzeciego miejsca"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView_third_place_address"
+                            android:textSize="12sp"
+                    />
+                </LinearLayout>
+            </LinearLayout>
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/linearLayout_fourth_place"
-            android:layout_margin="8dp"
-            android:visibility="gone">
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:srcCompat="@drawable/marker_search_icon"
-                android:id="@+id/imageView_fourth_place_type"
-                android:layout_weight="1"
-        />
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="8dp"
-        >
-            <TextView
-                    android:text="Nazwa czwartego miejsca"
+            <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_fourth_place_name"
-                    android:textColor="@android:color/background_dark"
-            />
-            <TextView
-                    android:text="Adres czwartego miejsca"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_fourth_place_address"
-                    android:textSize="12sp"
-            />
-        </LinearLayout>
-    </LinearLayout>
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/linearLayout_fourth_place"
+                    android:visibility="gone" android:layout_marginTop="8dp" android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" android:layout_marginBottom="8dp">
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:srcCompat="@drawable/marker_search_icon"
+                        android:id="@+id/imageView_fourth_place_type"
+                        android:layout_weight="1"
+                />
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="8dp"
+                >
+                    <TextView
+                            android:text="Nazwa czwartego miejsca"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView_fourth_place_name"
+                            android:textColor="@android:color/background_dark"
+                    />
+                    <TextView
+                            android:text="Adres czwartego miejsca"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView_fourth_place_address"
+                            android:textSize="12sp"
+                    />
+                </LinearLayout>
+            </LinearLayout>
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/linearLayout_fifth_place"
-            android:layout_margin="8dp"
-            android:visibility="gone">
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:srcCompat="@drawable/marker_search_icon"
-                android:id="@+id/imageView_fifth_place_type"
-                android:layout_weight="1"
-        />
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="8dp"
-        >
-            <TextView
-                    android:text="Nazwa piątego miejsca"
+            <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_fifth_place_name"
-                    android:textColor="@android:color/background_dark"
-            />
-            <TextView
-                    android:text="Adres piątego miejsca"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_fifth_place_address"
-                    android:textSize="12sp"
-            />
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/linearLayout_fifth_place"
+                    android:visibility="gone"
+                    android:layout_margin="8dp"
+            >
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:srcCompat="@drawable/marker_search_icon"
+                        android:id="@+id/imageView_fifth_place_type"
+                        android:layout_weight="1"
+                />
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="8dp"
+                >
+                    <TextView
+                            android:text="Nazwa piątego miejsca"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView_fifth_place_name"
+                            android:textColor="@android:color/background_dark"
+                    />
+                    <TextView
+                            android:text="Adres piątego miejsca"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView_fifth_place_address"
+                            android:textSize="12sp"
+                    />
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

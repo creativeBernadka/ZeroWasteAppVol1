@@ -54,6 +54,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
     private var website: String? = null
     var latLng: LatLng? = null
     private var startClickTime = "0".toLong()
+    lateinit var currentLocation: LatLng
 
     @Inject lateinit var placesViewModel: PlacesViewModel
 
@@ -111,6 +112,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
 
         SearchPanel.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
+            if ( ::currentLocation.isInitialized ){
+                intent.putExtra("location", currentLocation)
+            }
             startActivity(intent)
         }
 
@@ -243,7 +247,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
 //        Zastanowic sie, czy nie zrobic lokalizacji na GPS lub jakiegos 'wybierz najlepszy lokalizator'
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val locationProvider: String = LocationManager.NETWORK_PROVIDER
-        var currentLocation: LatLng
         currentLocation = if (locationManager.getLastKnownLocation(locationProvider) == null){
             LatLng(49.835543, 19.076082)
         } else{

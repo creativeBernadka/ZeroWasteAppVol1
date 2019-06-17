@@ -70,7 +70,7 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
 
     override fun getFiveNearestPlaces(location: LatLng) {
         val places = allPlaces.value
-        var distanceMarkerMap: HashMap<Float, ShortPlace> = HashMap()
+        val distanceMarkerMap: HashMap<Float, ShortPlace> = HashMap()
         val startLocation = Location("start location")
         startLocation.latitude = location.latitude
         startLocation.longitude = location.longitude
