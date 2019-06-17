@@ -1,4 +1,4 @@
-package com.kotlin.zerowasteappvol1.UI
+package com.kotlin.zerowasteappvol1.activities
 
 import android.support.v7.widget.CardView
 import android.view.View

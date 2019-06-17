@@ -2,7 +2,8 @@ package com.kotlin.zerowasteappvol1.dagger
 
 import dagger.Component
 import android.app.Application
-import com.kotlin.zerowasteappvol1.UI.MapsActivity
+import com.kotlin.zerowasteappvol1.activities.MapsActivity
+import com.kotlin.zerowasteappvol1.activities.SearchActivity
 import dagger.BindsInstance
 import javax.inject.Singleton
 
@@ -11,6 +12,7 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun inject(target: MapsActivity)
+    fun inject(target: SearchActivity)
 
     @Component.Builder
     interface Builder {

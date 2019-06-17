@@ -1,4 +1,4 @@
-package com.kotlin.zerowasteappvol1.UI
+package com.kotlin.zerowasteappvol1.activities
 
 import android.content.Intent
 import android.os.Bundle

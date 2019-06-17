@@ -1,4 +1,4 @@
-package com.kotlin.zerowasteappvol1.UI
+package com.kotlin.zerowasteappvol1.activities
 
 import android.Manifest
 import android.arch.lifecycle.Observer
@@ -18,7 +18,6 @@ import android.support.v7.app.AppCompatActivity
 import android.util.DisplayMetrics
 import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -110,15 +109,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
             }
         })
 
-        SearchPanel.setOnEditorActionListener { _, actionId, _ ->
-            //            do czyszczenia SearchPanelu
-            when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> {
-                    SearchPanel.text.clear()
-                    true
-                }
-                else -> false
-            }
+        SearchPanel.setOnClickListener {
+            val intent = Intent(this, SearchActivity::class.java)
+            startActivity(intent)
         }
 
         button_call.setOnClickListener {

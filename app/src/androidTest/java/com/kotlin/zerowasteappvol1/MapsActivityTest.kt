@@ -2,28 +2,14 @@ package com.kotlin.zerowasteappvol1
 
 import android.support.test.InstrumentationRegistry.getInstrumentation
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions.*
-import android.support.test.espresso.assertion.ViewAssertions.doesNotExist
 import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.RootMatchers.isPlatformPopup
-import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import android.support.test.uiautomator.*
-import com.google.android.gms.maps.model.Marker
-import com.kotlin.zerowasteappvol1.UI.MapsActivity
+import com.kotlin.zerowasteappvol1.activities.MapsActivity
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
-import android.support.test.uiautomator.Until.newWindow
-import android.support.test.uiautomator.Until.findObject
-import android.support.test.uiautomator.Until.hasObject
-import java.util.regex.Pattern
-import android.support.test.uiautomator.Until.newWindow
-import android.support.test.uiautomator.Until.findObject
-import android.support.test.uiautomator.Until.hasObject
-import android.support.test.uiautomator.By
-import android.support.test.uiautomator.BySelector
 import android.util.Log
 import kotlinx.coroutines.delay
 
