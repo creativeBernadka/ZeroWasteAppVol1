@@ -15,6 +15,7 @@ interface PlacesViewModel {
     var placeDescription: MutableLiveData<PlaceDescriptionWithAddress>
     var placeImages: MutableLiveData<List<Drawable?>>
     var fiveNearestPlaces: MutableLiveData<List<ShortPlace>>
+    var fiveBestFittingPlaces: MutableLiveData<List<ShortPlace?>>
 
     fun getAllPlaces()
     fun getPlaceDescription(shortPlace: ShortPlace?, context: Context)

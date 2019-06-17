@@ -15,6 +15,7 @@ import com.kotlin.zerowasteappvol1.database.ShortPlace
 import com.kotlin.zerowasteappvol1.repository.PlaceDescriptionWithAddress
 import com.kotlin.zerowasteappvol1.repository.PlacesRepository
 import kotlinx.coroutines.*
+import me.xdrop.fuzzywuzzy.FuzzySearch
 import javax.inject.Inject
 
 class PlacesViewModelImpl @Inject constructor(application: Application, var repository: PlacesRepository,
@@ -25,6 +26,8 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
     override var placeDescription = MutableLiveData<PlaceDescriptionWithAddress>()
     override var placeImages = MutableLiveData<List<Drawable?>>()
     override var fiveNearestPlaces =  MutableLiveData<List<ShortPlace>>()
+    override var fiveBestFittingPlaces = MutableLiveData<List<ShortPlace?>>()
+
     init {
         scope.launch(Dispatchers.IO) {
             allPlaces.postValue(async{repository.getAllPlacesAsync()}.await())
@@ -49,7 +52,20 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
     }
 
     override fun getFiveBestFittingPlaces(name: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val places = allPlaces.value
+        var namesMarkerMap: HashMap<String, ShortPlace> = HashMap()
+
+        val placesNames = places?.map { place ->
+            namesMarkerMap[place.name] = place
+            place.name
+        }
+
+        val bestFiveWithResults = FuzzySearch.extractTop(name, placesNames, 5)
+        val bestFive = bestFiveWithResults.map { place ->
+            namesMarkerMap[place.string]
+        }
+
+        fiveBestFittingPlaces.postValue(bestFive)
     }
 
     override fun getFiveNearestPlaces(location: LatLng) {
