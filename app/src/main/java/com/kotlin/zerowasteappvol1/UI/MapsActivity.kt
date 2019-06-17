@@ -64,9 +64,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
         supportActionBar?.title = "Zero Waste App"
         (application as ZeroWasteApplication).appComponent.inject(this)
 
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        (supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment)
+            .getMapAsync(this)
 
         onTouchOutsideViewListener = OnTouchOutsideViewListener()
         setOnTouchOutsideViewListener(linearLayout_short_description, onTouchOutsideViewListener)
@@ -87,7 +86,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
             if(place != null) {
                 ratingBar.rating = place.rating!!.toFloat()
                 textView_type_of_place.text = place.typeOfPlace
-                textView_open_hours.text = place.startHour + " - " + place.endHour
+                textView_open_hours.text = "${place.startHour} - ${place.endHour}"
                 textView_address.text = place.address
                 if(place.phoneNumber != null){
                     phoneNumber = place.phoneNumber

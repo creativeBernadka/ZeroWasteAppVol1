@@ -49,19 +49,23 @@ class MapsActivityTest {
     @Test
     fun afterClickOnMarkerPopUpWindowOpens(){
 //        Marker musi byc w 'polu widzenia' w momencie wlaczenia aplikacji
-        runBlocking {
+
+        val marker =  runBlocking {
+//            val tagId = device.tryGet(3000)
             delay(3000)
             val device = UiDevice.getInstance(getInstrumentation())
+            Log.d("TU JEST DEVICE", "${device.isScreenOn}")
             delay(3000)
-            val marker = device.findObject(UiSelector().descriptionContains("Miejsce 1"))//className("com.google.android.gms.maps.model.Marker"))
-            Log.d("TU JEST MARKER", "${marker.className}, ${marker.packageName}, ${marker.contentDescription}," +
-                    "${marker.text}, $marker, ${marker.bounds}")//click()
-            marker.click()
+            device.findObject(UiSelector().descriptionContains("Miejsce 1"))
 
-            delay(3000)
 
         }
+
+        Log.d("TU JEST MARKER", "${marker.className}, ${marker.packageName}, ${marker.contentDescription}," +
+                "${marker.text}, $marker, ${marker.bounds}")
+        marker.click()
         onView(withId(R.id.linearLayout_short_description)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+
     }
 
 //    @Test

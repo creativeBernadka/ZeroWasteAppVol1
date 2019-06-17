@@ -52,7 +52,7 @@ abstract class PlacesRoomDatabase: RoomDatabase() {
             }
 
             fun populateDatabase(placesDao: PlacesDao){
-//
+
 //                var place = Place(1, "Miejsce 1",  49.835543, 19.076082, 5.0,
 //                    "sklep","123456789", "To jest miejsce 1", website = "https://developer.android.com")
 //                placesDao.insertPlace(place)
