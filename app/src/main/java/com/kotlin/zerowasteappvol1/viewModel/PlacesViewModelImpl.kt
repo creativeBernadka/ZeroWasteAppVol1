@@ -8,6 +8,7 @@ import android.arch.lifecycle.Transformations
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.location.Location
+import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 import com.kotlin.zerowasteappvol1.database.Place
 import com.kotlin.zerowasteappvol1.database.PlaceDescription
@@ -80,6 +81,7 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
             endLocation.latitude = place.latitude
             endLocation.longitude = place.longitude
             distanceMarkerMap[startLocation.distanceTo(endLocation)] = place
+            Log.d("TU JEST ODLEGLOSC", "${startLocation.distanceTo(endLocation)}, marker ${place.name}")
         }
 
         val sortedPlaces = distanceMarkerMap.toSortedMap().values
