@@ -1,6 +1,7 @@
 package com.kotlin.zerowasteappvol1.activities
 
 import android.arch.lifecycle.Observer
+import android.content.res.Resources
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -31,6 +32,8 @@ class SearchActivity: AppCompatActivity() {
         placesViewModel.getFiveNearestPlaces(
             intent.getParcelableExtra("location")
         )
+
+//        Resources.openRawResources()
 
         placesViewModel.fiveNearestPlaces.observe(this, Observer { places ->
             if(places != null && (!::fiveBestFittingPlaces.isInitialized || fiveBestFittingPlaces == null)){

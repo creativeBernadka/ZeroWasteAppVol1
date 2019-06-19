@@ -4,10 +4,12 @@ import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.*
 import android.content.Context
 import com.kotlin.zerowasteappvol1.application.ZeroWasteApplication
+import com.opencsv.CSVReader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import java.io.FileReader
+import java.io.File
 
 
 @Database(entities = [Place::class, OpeningHours::class, ImagesUrl::class], version = 4, exportSchema = false)
@@ -52,6 +54,26 @@ abstract class PlacesRoomDatabase: RoomDatabase() {
             }
 
             fun populateDatabase(placesDao: PlacesDao){
+//                Log.d("TU JEST DIRECTORY", "${this.getApplicationInfo().dataDir + File.separatorChar + "csvfile.csv"}")
+//                val reader = CSVReader(FileReader(File("/places.csv")))
+//                var nextLine: Array<String> = reader.readNext()
+//                while ( nextLine != null) {
+//                    placesDao.insertPlace(
+//                        Place(
+//                            nextLine[0].toInt(),
+//                            nextLine[1],
+//                            nextLine[2].toDouble(),
+//                            nextLine[3].toDouble(),
+//                            nextLine[4].toDouble(),
+//                            nextLine[5],
+//                            nextLine[6],
+//                            nextLine[7],
+//                            nextLine[8]
+//                        )
+//                    )
+//                    nextLine = reader.readNext()
+//                }
+
 
 //                var place = Place(1, "Miejsce 1",  49.835543, 19.076082, 5.0,
 //                    "sklep","123456789", "To jest miejsce 1", website = "https://developer.android.com")

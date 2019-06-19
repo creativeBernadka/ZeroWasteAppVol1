@@ -35,34 +35,62 @@ class MapsActivityTest {
     @Test
     fun afterClickOnMarkerPopUpWindowOpens(){
 //        Marker musi byc w 'polu widzenia' w momencie wlaczenia aplikacji
+        UiDevice
+            .getInstance(getInstrumentation())
+            .let {
+                it
+                    .findObject(
+                        UiSelector().descriptionContains("Miejsce 1")
+                    )
+                    .let {
+                        it.click()
+                    }
+            }
 
-        val marker =  runBlocking {
-//            val tagId = device.tryGet(3000)
-            delay(3000)
-            val device = UiDevice.getInstance(getInstrumentation())
-            Log.d("TU JEST DEVICE", "${device.isScreenOn}")
-            delay(3000)
-            device.findObject(UiSelector().descriptionContains("Miejsce 1"))
-
-
-        }
-
-        Log.d("TU JEST MARKER", "${marker.className}, ${marker.packageName}, ${marker.contentDescription}," +
-                "${marker.text}, $marker, ${marker.bounds}")
-        marker.click()
-        onView(withId(R.id.linearLayout_short_description)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-
+        onView(
+            withId(R.id.linearLayout_short_description)
+        )
+            .check(
+                matches(withEffectiveVisibility(Visibility.VISIBLE))
+            )
     }
 
-//    @Test
-//    fun popupWindowContainsPlaceInformation(){
-//        val device = UiDevice.getInstance(getInstrumentation())
-//        val marker = device.findObject(UiSelector().descriptionContains("Miejsce"))
-//        marker.click()
-//        onView(withText("Miejsce 1")).inRoot(isPlatformPopup()).check(matches(isDisplayed()))
-//        onView(withText("Orchidei 22H")).inRoot(isPlatformPopup()).check(matches(isDisplayed()))
-//        onView(withText("123456789")).inRoot(isPlatformPopup()).check(matches(isDisplayed()))
-//    }
+    @Test
+    fun popupWindowContainsPlaceInformation(){
+        UiDevice
+            .getInstance(getInstrumentation())
+            .let {
+                it
+                    .findObject(
+                        UiSelector().descriptionContains("Miejsce 1")
+                    )
+                    .let {
+                        it.click()
+                        runBlocking { delay(3000) }
+                    }
+            }
+
+        onView(
+            withId(R.id.textView_name)
+        )
+            .check(
+                matches(withEffectiveVisibility(Visibility.VISIBLE))
+            )
+
+        onView(
+            withId(R.id.textView_type_of_place)
+        )
+            .check(
+                matches(withEffectiveVisibility(Visibility.VISIBLE))
+            )
+
+        onView(
+            withId(R.id.textView_open_hours)
+        )
+            .check(
+                matches(withEffectiveVisibility(Visibility.VISIBLE))
+            )
+    }
 ////
 ////    @Test
 ////    fun popupWindowContainsPlaceAddress(){
