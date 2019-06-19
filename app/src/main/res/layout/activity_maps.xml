@@ -58,7 +58,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/cardView_carousel_images"
-                    map:cardCornerRadius="20dp" map:cardElevation="0dp" map:cardMaxElevation="0dp">
+                    map:cardCornerRadius="20dp" map:cardElevation="0dp" map:cardMaxElevation="0dp"
+                    map:cardBackgroundColor="@android:color/transparent">
                 <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                               android:orientation="horizontal" android:id="@+id/linearLayout_carousel_images"
                               android:background="@drawable/rounded_corners">

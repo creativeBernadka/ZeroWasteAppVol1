@@ -84,6 +84,7 @@ class SearchActivity: AppCompatActivity() {
 
     private fun addPlaces(places: List<ShortPlace?>){
         places.forEach{ place ->
+
             when(places.indexOf(place)){
                 0 -> {
                     linearLayout_first_place.visibility = View.VISIBLE
