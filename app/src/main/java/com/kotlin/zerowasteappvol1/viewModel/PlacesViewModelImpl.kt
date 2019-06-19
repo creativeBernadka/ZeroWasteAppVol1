@@ -98,7 +98,7 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
                 return@map addressMarkerMap[place.string]
             }
         }
-        
+
         fiveBestFittingPlaces.postValue(bestFive)
     }
 
@@ -123,13 +123,4 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
     }
 
 
-}
-
-class CompareObjects {
-
-    companion object : Comparator<ExtractedResult> {
-
-        override fun compare(a: ExtractedResult, b: ExtractedResult): Int = b.score - a.score
-
-    }
 }
