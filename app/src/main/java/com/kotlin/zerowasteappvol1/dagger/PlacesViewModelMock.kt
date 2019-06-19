@@ -13,15 +13,16 @@ import com.kotlin.zerowasteappvol1.database.ShortPlace
 import com.kotlin.zerowasteappvol1.repository.PlaceDescriptionWithAddress
 import com.kotlin.zerowasteappvol1.repository.loadImageFromWebOperations
 import com.kotlin.zerowasteappvol1.viewModel.PlacesViewModel
+import com.kotlin.zerowasteappvol1.viewModel.ShortPlaceWithAddress
 import javax.inject.Inject
 
 class PlacesViewModelMock @Inject constructor(application: Application)
     : AndroidViewModel(application), PlacesViewModel {
 
-    override var fiveNearestPlaces: MutableLiveData<List<ShortPlace>>
+    override var fiveNearestPlaces: MutableLiveData<List<ShortPlaceWithAddress>>
         get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
         set(value) {}
-    override var fiveBestFittingPlaces: MutableLiveData<List<ShortPlace?>>
+    override var fiveBestFittingPlaces: MutableLiveData<List<ShortPlaceWithAddress?>>
         get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
         set(value) {}
 
