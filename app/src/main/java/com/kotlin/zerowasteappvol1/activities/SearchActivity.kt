@@ -33,7 +33,6 @@ class SearchActivity: AppCompatActivity() {
             intent.getParcelableExtra("location")
         )
 
-//        Resources.openRawResources()
 
         placesViewModel.fiveNearestPlaces.observe(this, Observer { places ->
             if(places != null && (!::fiveBestFittingPlaces.isInitialized || fiveBestFittingPlaces == null)){

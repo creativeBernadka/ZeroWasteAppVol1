@@ -3,6 +3,7 @@ package com.kotlin.zerowasteappvol1.database
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.*
 import android.content.Context
+import android.util.Log
 import com.kotlin.zerowasteappvol1.application.ZeroWasteApplication
 import com.opencsv.CSVReader
 import kotlinx.coroutines.CoroutineScope
@@ -10,6 +11,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.FileReader
 import java.io.File
+import java.io.InputStreamReader
+import java.util.Collections.replaceAll
+import java.util.regex.Pattern
+import javax.inject.Inject
 
 
 @Database(entities = [Place::class, OpeningHours::class, ImagesUrl::class], version = 4, exportSchema = false)
@@ -17,6 +22,7 @@ import java.io.File
 abstract class PlacesRoomDatabase: RoomDatabase() {
 
     abstract fun placesDao(): PlacesDao
+
 
     companion object{
         @Volatile
@@ -33,7 +39,7 @@ abstract class PlacesRoomDatabase: RoomDatabase() {
                     context.applicationContext,
                     PlacesRoomDatabase::class.java,
                     "Places_database"
-                ).addCallback(PlacesDatabaseCallback(scope)).addMigrations(MIGRATION_1_2)
+                ).addCallback(PlacesDatabaseCallback(scope, context.applicationContext)).addMigrations(MIGRATION_1_2)
                     .addMigrations(MIGRATION_2_3).addMigrations(MIGRATION_3_4).build()
                 INSTANCE = instance
                 return instance
@@ -41,7 +47,8 @@ abstract class PlacesRoomDatabase: RoomDatabase() {
         }
 
         private class PlacesDatabaseCallback(
-            private val scope: CoroutineScope
+            private val scope: CoroutineScope,
+            val context: Context
         ) : RoomDatabase.Callback() {
 
             override fun onOpen(db: SupportSQLiteDatabase) {
@@ -54,98 +61,69 @@ abstract class PlacesRoomDatabase: RoomDatabase() {
             }
 
             fun populateDatabase(placesDao: PlacesDao){
-//                Log.d("TU JEST DIRECTORY", "${this.getApplicationInfo().dataDir + File.separatorChar + "csvfile.csv"}")
-//                val reader = CSVReader(FileReader(File("/places.csv")))
-//                var nextLine: Array<String> = reader.readNext()
-//                while ( nextLine != null) {
-//                    placesDao.insertPlace(
-//                        Place(
-//                            nextLine[0].toInt(),
-//                            nextLine[1],
-//                            nextLine[2].toDouble(),
-//                            nextLine[3].toDouble(),
-//                            nextLine[4].toDouble(),
-//                            nextLine[5],
-//                            nextLine[6],
-//                            nextLine[7],
-//                            nextLine[8]
-//                        )
-//                    )
-//                    nextLine = reader.readNext()
-//                }
 
+//                populatePlaces(placesDao)
+//                populateHours(placesDao)
+//                populateImages(placesDao)
+            }
 
-//                var place = Place(1, "Miejsce 1",  49.835543, 19.076082, 5.0,
-//                    "sklep","123456789", "To jest miejsce 1", website = "https://developer.android.com")
-//                placesDao.insertPlace(place)
-//                place = Place(2, "Miejsce 2", 49.83455, 19.077633, 2.5,
-//                    "restauracja","456789123", "To jest miejsce 2", website = "http://sklepbezpudla.pl")
-//                placesDao.insertPlace(place)
-//                place = Place(3, "Miejsce 3",  49.834240, 19.079626, 3.0,
-//                    "sklep","789123456", "To jest miejsce 3", website = "http://eloquentjavascript.net")
-//                placesDao.insertPlace(place)
-//
-//                var openingHours = OpeningHours(1,1, 1, "8:00", "15:00")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(2,1, 2, "8:05", "15:05")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(3,1, 3, "8:10", "15:10")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(4,1, 4, "8:15", "15:15")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(5,1, 5, "8:20", "15:20")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(6,1, 6, "8:25", "15:25")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(7,1, 7, "8:30", "15:30")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(8, 2, 1, "9:00", "16:00")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(9, 2, 2, "9:05", "16:05")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(10, 2, 3, "9:10", "16:10")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(11, 2, 4, "9:15", "16:15")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(12, 2, 5, "9:20", "16:20")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(13, 2, 6, "9:25", "16:25")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(14, 2, 7, "9:30", "16:30")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(15, 3, 1, "10:00", "17:00")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(16, 3, 2, "10:05", "17:05")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(17, 3, 3, "10:10", "17:10")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(18, 3, 4, "10:15", "17:15")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(19, 3, 5, "10:20", "17:20")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(20, 3, 6, "10:25", "17:25")
-//                placesDao.insertHour(openingHours)
-//                openingHours = OpeningHours(21, 3, 7, "10:30", "17:30")
-//                placesDao.insertHour(openingHours)
-//
-//                var imageUrl = ImagesUrl(1, 1, "https://bit.ly/2WbBDkJ")
-//                placesDao.insertImage(imageUrl)
-//                imageUrl = ImagesUrl(2, 2, "https://bit.ly/2WbBDkJ")
-//                placesDao.insertImage(imageUrl)
-//                imageUrl = ImagesUrl(3, 2, "https://bit.ly/2WbBDkJ")
-//                placesDao.insertImage(imageUrl)
-//                imageUrl = ImagesUrl(4, 2, "https://bit.ly/2WbBDkJ")
-//                placesDao.insertImage(imageUrl)
-//                imageUrl = ImagesUrl(5, 3, "https://bit.ly/2WbBDkJ")
-//                placesDao.insertImage(imageUrl)
-//                imageUrl = ImagesUrl(6, 3, "https://bit.ly/2WbBDkJ")
-//                placesDao.insertImage(imageUrl)
-//                imageUrl = ImagesUrl(7, 3, "https://bit.ly/2WbBDkJ")
-//                placesDao.insertImage(imageUrl)
-//                imageUrl = ImagesUrl(8, 3, "https://bit.ly/2WbBDkJ")
-//                placesDao.insertImage(imageUrl)
-//                imageUrl = ImagesUrl(9, 3, "https://bit.ly/2WbBDkJ")
-//                placesDao.insertImage(imageUrl)
+            private fun populatePlaces(placesDao: PlacesDao){
+                val csvStream = context.assets.open("places.csv")
+                val csvStreamReader = InputStreamReader(csvStream)
+                val reader = CSVReader(csvStreamReader)
+                var nextLine: Array<String>? = reader.readNext()
+                while ( nextLine != null) {
+                    placesDao.insertPlace(
+                        Place(
+                            nextLine[0].replace(Regex("[^ -~]+"), "").toInt(),
+                            nextLine[1],
+                            nextLine[2].toDouble(),
+                            nextLine[3].toDouble(),
+                            nextLine[4].toDouble(),
+                            nextLine[5],
+                            nextLine[6],
+                            nextLine[7],
+                            nextLine[8]
+                        )
+                    )
+                    nextLine = reader.readNext()
+                }
+            }
+
+            private fun populateHours(placesDao: PlacesDao){
+                val csvStream = context.assets.open("opening_hours.csv")
+                val csvStreamReader = InputStreamReader(csvStream)
+                val reader = CSVReader(csvStreamReader)
+                var nextLine: Array<String>? = reader.readNext()
+                while ( nextLine != null) {
+                    placesDao.insertHour(
+                        OpeningHours(
+                            nextLine[0].replace(Regex("[^ -~]+"), "").toInt(),
+                            nextLine[1].replace(Regex("[^ -~]+"), "").toInt(),
+                            nextLine[2].replace(Regex("[^ -~]+"), "").toInt(),
+                            nextLine[3],
+                            nextLine[4]
+                        )
+                    )
+                    nextLine = reader.readNext()
+                }
+            }
+
+            private fun populateImages(placesDao: PlacesDao){
+                val csvStream = context.assets.open("images_url.csv")
+                val csvStreamReader = InputStreamReader(csvStream)
+                val reader = CSVReader(csvStreamReader)
+                var nextLine: Array<String>? = reader.readNext()
+                while ( nextLine != null) {
+                    placesDao.insertImage(
+                        ImagesUrl(
+                            nextLine[0].replace(Regex("[^ -~]+"), "").toInt(),
+                            nextLine[1].replace(Regex("[^ -~]+"), "").toInt(),
+                            nextLine[2]
+                        )
+                    )
+                    nextLine = reader.readNext()
+                }
             }
         }
     }
