@@ -29,6 +29,7 @@ class SearchActivity: AppCompatActivity() {
 
         (application as ZeroWasteApplication).appComponent.inject(this)
 
+        progressBar_search_activity.visibility = View.VISIBLE
         placesViewModel.getFiveNearestPlaces(
             intent.getParcelableExtra("location")
         )
@@ -36,12 +37,14 @@ class SearchActivity: AppCompatActivity() {
 
         placesViewModel.fiveNearestPlaces.observe(this, Observer { places ->
             if(places != null && (!::fiveBestFittingPlaces.isInitialized || fiveBestFittingPlaces == null)){
+                progressBar_search_activity.visibility = View.GONE
                 addPlaces(places)
             }
         })
 
         placesViewModel.fiveBestFittingPlaces.observe(this, Observer { places ->
             if(places != null){
+                progressBar_search_activity.visibility = View.GONE
                 fiveBestFittingPlaces = places
                 addPlaces(places)
             }
@@ -50,6 +53,7 @@ class SearchActivity: AppCompatActivity() {
         editText_search_panel.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {
+                progressBar_search_activity.visibility = View.VISIBLE
                 placesViewModel.getFiveBestFittingPlaces(s.toString())
                 cleanSearch()
             }
