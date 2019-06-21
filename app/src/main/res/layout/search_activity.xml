@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
@@ -23,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/progressBar_search_activity" android:layout_marginTop="16dp" android:visibility="gone"/>
+
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +41,7 @@
                     android:layout_weight="1"
                     android:id="@+id/linearLayout_first_place"
                     android:layout_margin="8dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
             >
                 <ImageView
                         android:layout_width="wrap_content"
@@ -47,13 +49,16 @@
                         tools:srcCompat="@drawable/marker_search_icon"
                         android:id="@+id/imageView_first_place_type"
                         android:layout_weight="1"
+                        app:srcCompat="@drawable/marker_search_icon"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
                 />
                 <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_margin="8dp"
+                        android:layout_weight="9"
                 >
                     <TextView
                             android:text="Nazwa pierwszego miejsca"
@@ -80,18 +85,23 @@
                     android:id="@+id/linearLayout_second_place"
                     android:layout_margin="8dp"
                     android:visibility="gone">
+
                 <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:srcCompat="@drawable/marker_search_icon"
                         android:id="@+id/imageView_second_place_type"
                         android:layout_weight="1"
+                        app:srcCompat="@drawable/marker_search_icon"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
                 />
+
                 <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="9"
                         android:layout_margin="8dp"
                 >
                     <TextView
@@ -110,6 +120,7 @@
                     />
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -117,19 +128,25 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:visibility="gone" android:layout_marginTop="8dp" android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp" android:layout_marginBottom="8dp">
+                    android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"
+            >
+
                 <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:srcCompat="@drawable/marker_search_icon"
                         android:id="@+id/imageView_third_place_type"
                         android:layout_weight="1"
+                        app:srcCompat="@drawable/marker_search_icon"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
                 />
+
                 <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="9"
                         android:layout_margin="8dp"
                 >
                     <TextView
@@ -147,6 +164,7 @@
                             android:textSize="12sp"
                     />
                 </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -163,12 +181,15 @@
                         tools:srcCompat="@drawable/marker_search_icon"
                         android:id="@+id/imageView_fourth_place_type"
                         android:layout_weight="1"
+                        app:srcCompat="@drawable/marker_search_icon"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
                 />
                 <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="9"
                         android:layout_margin="8dp"
                 >
                     <TextView
@@ -203,12 +224,15 @@
                         tools:srcCompat="@drawable/marker_search_icon"
                         android:id="@+id/imageView_fifth_place_type"
                         android:layout_weight="1"
+                        app:srcCompat="@drawable/marker_search_icon"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
                 />
                 <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="9"
                         android:layout_margin="8dp"
                 >
                     <TextView
