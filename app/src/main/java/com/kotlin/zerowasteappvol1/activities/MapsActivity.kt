@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.location.Location
@@ -24,9 +26,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.kotlin.zerowasteappvol1.R
 import com.kotlin.zerowasteappvol1.application.ZeroWasteApplication
 import com.kotlin.zerowasteappvol1.database.ShortPlace
@@ -176,9 +176,41 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
 
     }
 
+    private fun bitmapDescriptorFromVector (context: Context, vectorResId: Int): BitmapDescriptor {
+        val vectorDrawable = ContextCompat.getDrawable(context, vectorResId)
+
+        vectorDrawable?.setBounds(
+            0,
+            0,
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight
+        )
+        val bitmap = Bitmap.createBitmap(
+            vectorDrawable!!.intrinsicWidth,
+            vectorDrawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+
+        vectorDrawable.draw(canvas)
+
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
+}
+
     private fun addMarkersToMap(){
         for (point in points){
-            val marker = mMap.addMarker(MarkerOptions().position(LatLng(point.latitude, point.longitude)).title(point.name))
+            val markerIcon = when (point.typeOfPlace){
+                "sklep" -> R.drawable.ic_marker_icon_yellow
+                "restauracja" -> R.drawable.ic_marker_icon_green
+                "punkt naprawczy" -> R.drawable.ic_marker_icon_blue
+                else -> R.drawable.ic_marker_icon_plain
+            }
+            val marker = mMap.addMarker(
+                MarkerOptions()
+                    .position(LatLng(point.latitude, point.longitude))
+                    .title(point.name)
+                    .icon(bitmapDescriptorFromVector(this, markerIcon))
+            )
             eventMarkerMap[marker] = point
         }
     }

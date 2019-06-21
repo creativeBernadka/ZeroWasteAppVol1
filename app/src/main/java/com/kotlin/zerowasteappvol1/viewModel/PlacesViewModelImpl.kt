@@ -33,9 +33,7 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
     override var fiveBestFittingPlaces = MutableLiveData<List<ShortPlaceWithAddress?>>()
 
     init {
-        scope.launch(Dispatchers.IO) {
-            allPlaces.postValue(async{repository.getAllPlacesAsync()}.await())
-        }
+        getAllPlaces()
     }
 
     override fun getAllPlaces(){
