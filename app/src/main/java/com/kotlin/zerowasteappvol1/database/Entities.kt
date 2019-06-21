@@ -45,7 +45,8 @@ data class ImagesUrl(
 data class ShortPlace(
     val name: String,
     val latitude: Double,
-    val longitude: Double
+    val longitude: Double,
+    val typeOfPlace: String?
 ){
     val coordinates: LatLng
         get() = LatLng(latitude, longitude)

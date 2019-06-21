@@ -17,7 +17,7 @@ interface PlacesDao {
     @Insert
     fun insertImage(imagesUrl: ImagesUrl)
 
-    @Query("SELECT name, latitude, longitude FROM places")
+    @Query("SELECT name, latitude, longitude, type_of_place FROM places")
     fun getAllPlaces(): List<ShortPlace>
 
     @Query("SELECT places.name, places.rating, places.type_of_place, places.phone_number, places.website, " +
