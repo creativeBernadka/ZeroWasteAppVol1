@@ -73,9 +73,13 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
                 addressMarkerMap[address] = place
             }
             address
-        }
+        }?.filter { place -> place != null }
 
-        val bestFiveWithRespectToAddressWithResults = FuzzySearch.extractTop(name, placesAddresses, 5)
+        var bestFiveWithRespectToAddressWithResults = listOf<ExtractedResult>()
+
+        if (!placesAddresses.isNullOrEmpty()){
+            bestFiveWithRespectToAddressWithResults = FuzzySearch.extractTop(name, placesAddresses, 5)
+        }
 
         val bestFiveWithResults = bestFiveWithRespectToAddressWithResults.union(bestFiveWithRespectToNameWithResults)
 
@@ -129,6 +133,11 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
             catch(e:Exception){
                 null
             }
-        return addresses!!.map{item -> item.getAddressLine(0)?.toString()}[0]
+        val address = addresses?.map{item -> item.getAddressLine(0)?.toString()}
+        return if (address != null){
+            address[0]
+        } else {
+            null
+        }
     }
 }

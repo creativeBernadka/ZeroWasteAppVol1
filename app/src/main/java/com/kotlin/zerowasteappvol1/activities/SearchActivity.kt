@@ -89,27 +89,27 @@ class SearchActivity: AppCompatActivity() {
                 0 -> {
                     linearLayout_first_place.visibility = View.VISIBLE
                     textView_first_place_name.text = place?.name
-                    textView_first_place_address.text = place?.address
+                    if (place?.address != null) textView_first_place_address.text = place.address
                 }
                 1 -> {
                     linearLayout_second_place.visibility = View.VISIBLE
                     textView_second_place_name.text = place?.name
-                    textView_second_place_address.text = place?.address
+                    if (place?.address != null) textView_second_place_address.text = place.address
                 }
                 2 -> {
                     linearLayout_third_place.visibility = View.VISIBLE
                     textView_third_place_name.text = place?.name
-                    textView_third_place_address.text = place?.address
+                    if (place?.address != null) textView_third_place_address.text = place.address
                 }
                 3 -> {
                     linearLayout_fourth_place.visibility = View.VISIBLE
                     textView_fourth_place_name.text = place?.name
-                    textView_fourth_place_address.text = place?.address
+                    if (place?.address != null) textView_fourth_place_address.text = place.address
                 }
                 4 -> {
                     linearLayout_fifth_place.visibility = View.VISIBLE
                     textView_fifth_place_name.text = place?.name
-                    textView_fifth_place_address.text = place?.address
+                    if (place?.address != null) textView_fifth_place_address.text = place.address
                 }
             }
         }
