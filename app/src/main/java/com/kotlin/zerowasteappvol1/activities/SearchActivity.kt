@@ -29,6 +29,8 @@ class SearchActivity: AppCompatActivity() {
 
         (application as ZeroWasteApplication).appComponent.inject(this)
 
+        CreateListeners().createListenersForSearchActivity(this, placesViewModel)
+
         progressBar_search_activity.visibility = View.VISIBLE
         placesViewModel.getFiveNearestPlaces(
             intent.getParcelableExtra("location")
@@ -50,18 +52,18 @@ class SearchActivity: AppCompatActivity() {
             }
         })
 
-        editText_search_panel.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {
-                progressBar_search_activity.visibility = View.VISIBLE
-                placesViewModel.getFiveBestFittingPlaces(s.toString())
-                cleanSearch()
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        })
+//        editText_search_panel.addTextChangedListener(object : TextWatcher {
+//
+//            override fun afterTextChanged(s: Editable) {
+//                progressBar_search_activity.visibility = View.VISIBLE
+//                placesViewModel.getFiveBestFittingPlaces(s.toString())
+//                cleanSearch()
+//            }
+//
+//            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+//
+//            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+//        })
 //        SearchPanel.setOnEditorActionListener { _, actionId, _ ->
 //            //            do czyszczenia SearchPanelu
 //            when (actionId) {
