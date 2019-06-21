@@ -14,6 +14,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
+import android.R.id.edit
+import android.content.SharedPreferences.Editor
+import android.content.SharedPreferences
+import com.google.gson.Gson
+
 
 class OnMarkerClickListener(
     private val eventMarkerMap: HashMap<Marker, ShortPlace>,
@@ -26,8 +31,16 @@ class OnMarkerClickListener(
     override fun onMarkerClick(marker: Marker?): Boolean {
 
         marker?.setIcon(BitmapDescriptorFactory.defaultMarker())
-
         val place: ShortPlace? = eventMarkerMap[marker]
+
+        val pref = activity.getSharedPreferences("MyPreferences", 0)
+        val editor = pref.edit()
+
+        editor.remove("shortPlace")
+        val shortPlaceJson = Gson().toJson(place)
+        editor.putString("shortPlace", shortPlaceJson)
+        editor.apply()
+
 
         activity.latLng = place?.coordinates
         activity.findViewById<RatingBar>(R.id.ratingBar).visibility = View.GONE

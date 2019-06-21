@@ -176,7 +176,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
 
     }
 
-    private fun bitmapDescriptorFromVector (context: Context, vectorResId: Int): BitmapDescriptor {
+    fun bitmapDescriptorFromVector (context: Context, vectorResId: Int): BitmapDescriptor {
         val vectorDrawable = ContextCompat.getDrawable(context, vectorResId)
 
         vectorDrawable?.setBounds(
@@ -231,7 +231,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
                     val viewRect = Rect()
                     mTouchOutsideView.getGlobalVisibleRect(viewRect)
                     if (!viewRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
-                        onTouchOutsideViewListener.onTouchOutside(mTouchOutsideView, ev, this)
+                        onTouchOutsideViewListener.onTouchOutside(mTouchOutsideView, ev, this, eventMarkerMap)
                     }
                 }
             }
