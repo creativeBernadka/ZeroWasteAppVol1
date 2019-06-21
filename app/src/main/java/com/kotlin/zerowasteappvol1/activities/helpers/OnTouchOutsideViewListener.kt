@@ -1,4 +1,4 @@
-package com.kotlin.zerowasteappvol1.activities
+package com.kotlin.zerowasteappvol1.activities.helpers
 
 import android.view.MotionEvent
 import android.view.View
@@ -6,6 +6,7 @@ import android.widget.LinearLayout
 import com.google.android.gms.maps.model.Marker
 import com.kotlin.zerowasteappvol1.R
 import com.google.gson.Gson
+import com.kotlin.zerowasteappvol1.activities.MapsActivity
 import com.kotlin.zerowasteappvol1.database.ShortPlace
 
 

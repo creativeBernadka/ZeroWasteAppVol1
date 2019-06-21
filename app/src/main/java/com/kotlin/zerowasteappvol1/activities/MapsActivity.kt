@@ -28,6 +28,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.kotlin.zerowasteappvol1.R
+import com.kotlin.zerowasteappvol1.activities.helpers.OnMarkerClickListener
+import com.kotlin.zerowasteappvol1.activities.helpers.OnTouchOutsideViewListener
 import com.kotlin.zerowasteappvol1.application.ZeroWasteApplication
 import com.kotlin.zerowasteappvol1.database.ShortPlace
 import com.kotlin.zerowasteappvol1.viewModel.PlacesViewModel
@@ -168,7 +170,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
         else{
             setMapToCurrentLocation(mMap)
         }
-        mMap.setOnMarkerClickListener(OnMarkerClickListener(eventMarkerMap, placesViewModel, this))
+        mMap.setOnMarkerClickListener(
+            OnMarkerClickListener(
+                eventMarkerMap,
+                placesViewModel,
+                this
+            )
+        )
 
         if(::points.isInitialized){
             addMarkersToMap()

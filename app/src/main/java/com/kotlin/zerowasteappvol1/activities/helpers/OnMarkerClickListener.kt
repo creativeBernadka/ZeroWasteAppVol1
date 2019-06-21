@@ -1,4 +1,4 @@
-package com.kotlin.zerowasteappvol1.activities
+package com.kotlin.zerowasteappvol1.activities.helpers
 
 import android.support.v7.widget.CardView
 import android.view.View
@@ -14,16 +14,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
-import android.R.id.edit
-import android.content.SharedPreferences.Editor
-import android.content.SharedPreferences
 import com.google.gson.Gson
+import com.kotlin.zerowasteappvol1.activities.MapsActivity
 
 
 class OnMarkerClickListener(
     private val eventMarkerMap: HashMap<Marker, ShortPlace>,
     private val placesViewModel: PlacesViewModel,
-    private val activity: MapsActivity):
+    private val activity: MapsActivity
+):
     CoroutineScope, GoogleMap.OnMarkerClickListener {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
