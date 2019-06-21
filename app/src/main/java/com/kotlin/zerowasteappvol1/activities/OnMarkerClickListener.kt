@@ -4,6 +4,7 @@ import android.support.v7.widget.CardView
 import android.view.View
 import android.widget.*
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 import com.kotlin.zerowasteappvol1.R
 import com.kotlin.zerowasteappvol1.database.ShortPlace
@@ -23,6 +24,9 @@ class OnMarkerClickListener(
         get() = Dispatchers.Main
 
     override fun onMarkerClick(marker: Marker?): Boolean {
+
+        marker?.setIcon(BitmapDescriptorFactory.defaultMarker())
+
         val place: ShortPlace? = eventMarkerMap[marker]
 
         activity.latLng = place?.coordinates
