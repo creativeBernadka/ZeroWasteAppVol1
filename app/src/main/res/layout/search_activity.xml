@@ -41,7 +41,7 @@
                     android:layout_weight="1"
                     android:id="@+id/linearLayout_first_place"
                     android:layout_margin="8dp"
-                    android:visibility="visible"
+                    android:visibility="gone"
             >
                 <ImageView
                         android:layout_width="wrap_content"
@@ -68,7 +68,6 @@
                             android:textColor="@android:color/background_dark"
                     />
                     <TextView
-                            android:text="Adres pierwszego miejsca"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/textView_first_place_address"
@@ -112,7 +111,6 @@
                             android:textColor="@android:color/background_dark"
                     />
                     <TextView
-                            android:text="Adres drugiego miejsca"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/textView_second_place_address"
@@ -157,7 +155,6 @@
                             android:textColor="@android:color/background_dark"
                     />
                     <TextView
-                            android:text="Adres trzeciego miejsca"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/textView_third_place_address"
@@ -200,7 +197,6 @@
                             android:textColor="@android:color/background_dark"
                     />
                     <TextView
-                            android:text="Adres czwartego miejsca"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/textView_fourth_place_address"
@@ -243,7 +239,6 @@
                             android:textColor="@android:color/background_dark"
                     />
                     <TextView
-                            android:text="Adres piątego miejsca"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/textView_fifth_place_address"
