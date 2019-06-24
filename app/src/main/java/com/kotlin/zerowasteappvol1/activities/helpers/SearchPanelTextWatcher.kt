@@ -14,7 +14,7 @@ class SearchPanelTextWatcher (private val activity: SearchActivity, val viewMode
     override fun afterTextChanged(s: Editable?) {
         val progressBar = activity.findViewById<ProgressBar>(R.id.progressBar_search_activity)
         progressBar.visibility = View.VISIBLE
-        viewModel.getFiveBestFittingPlaces(s.toString())
+        viewModel.getFiveBestFittingPlaces(s.toString(), activity)
         SearchResultsOperations(activity).cleanSearch()
     }
 

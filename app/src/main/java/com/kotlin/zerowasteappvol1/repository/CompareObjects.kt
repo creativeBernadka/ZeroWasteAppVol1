@@ -1,4 +1,4 @@
-package com.kotlin.zerowasteappvol1.viewModel
+package com.kotlin.zerowasteappvol1.repository
 
 import me.xdrop.fuzzywuzzy.model.ExtractedResult
 import java.util.Comparator

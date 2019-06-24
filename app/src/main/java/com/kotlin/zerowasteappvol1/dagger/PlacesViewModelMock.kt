@@ -8,12 +8,11 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import com.google.android.gms.maps.model.LatLng
 import com.kotlin.zerowasteappvol1.database.Place
-import com.kotlin.zerowasteappvol1.database.PlaceDescription
 import com.kotlin.zerowasteappvol1.database.ShortPlace
 import com.kotlin.zerowasteappvol1.repository.PlaceDescriptionWithAddress
 import com.kotlin.zerowasteappvol1.repository.loadImageFromWebOperations
 import com.kotlin.zerowasteappvol1.viewModel.PlacesViewModel
-import com.kotlin.zerowasteappvol1.viewModel.ShortPlaceWithAddress
+import com.kotlin.zerowasteappvol1.repository.ShortPlaceWithAddress
 import javax.inject.Inject
 
 class PlacesViewModelMock @Inject constructor(application: Application)
@@ -30,7 +29,7 @@ class PlacesViewModelMock @Inject constructor(application: Application)
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getFiveBestFittingPlaces(name: String) {
+    override fun getFiveBestFittingPlaces(name: String, context: Context) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

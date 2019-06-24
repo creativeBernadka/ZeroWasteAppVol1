@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable
 import android.location.Address
 import android.support.annotation.WorkerThread
 import com.kotlin.zerowasteappvol1.database.Place
-import com.kotlin.zerowasteappvol1.database.PlaceDescription
 import com.kotlin.zerowasteappvol1.database.PlacesDao
 import com.kotlin.zerowasteappvol1.database.ShortPlace
 import kotlinx.coroutines.delay
@@ -14,9 +13,9 @@ import java.util.*
 import javax.inject.Inject
 import android.location.Geocoder
 import android.location.Location
-import android.util.Log
 import com.google.android.gms.maps.model.LatLng
-import com.kotlin.zerowasteappvol1.viewModel.ShortPlaceWithAddress
+import me.xdrop.fuzzywuzzy.FuzzySearch
+import me.xdrop.fuzzywuzzy.model.ExtractedResult
 
 
 class PlacesRepositoryImpl @Inject constructor(private val placesDao: PlacesDao):
@@ -114,12 +113,56 @@ class PlacesRepositoryImpl @Inject constructor(private val placesDao: PlacesDao)
 
         val sortedPlaces = distanceMarkerMap.toSortedMap().values
 
-        val sortedPlacesWithAddress = sortedPlaces.take(5).map {place ->
+        return sortedPlaces.take(5).map { place ->
             val address = getAddress(place, context)
             ShortPlaceWithAddress(place.name, address)
         }
+    }
 
-        return sortedPlacesWithAddress
+    @WorkerThread
+    override suspend fun getFiveBestFittingPlacesAsync(name: String, context: Context): List<ShortPlaceWithAddress?> {
+        val places = placesDao.getAllPlaces()
+        val namesMarkerMap: HashMap<String, ShortPlace> = HashMap()
+        val addressMarkerMap: HashMap<String, ShortPlace> = HashMap()
+
+        val placesNames = places.map { place ->
+            namesMarkerMap[place.name] = place
+            place.name
+        }
+
+        val bestFiveWithRespectToNameWithResults = FuzzySearch.extractTop(name, placesNames, 5)
+
+        val placesAddresses = places.map { place ->
+            val address = getAddress(place, context)
+            if (address != null){
+                addressMarkerMap[address] = place
+            }
+            address
+        }.filter { place -> place != null }
+
+        var bestFiveWithRespectToAddressWithResults = listOf<ExtractedResult>()
+
+        if (!placesAddresses.isNullOrEmpty()){
+            bestFiveWithRespectToAddressWithResults = FuzzySearch.extractTop(name, placesAddresses, 5)
+        }
+
+        val bestFiveWithResults = bestFiveWithRespectToAddressWithResults.union(bestFiveWithRespectToNameWithResults)
+
+        val bestFiveSorted = bestFiveWithResults.sortedWith(CompareObjects)
+
+        return bestFiveSorted.map { place ->
+            if( place.string in namesMarkerMap.keys){
+                val shortPlace = namesMarkerMap[place.string]
+                return@map ShortPlaceWithAddress(
+                    shortPlace!!.name,
+                    getAddress(shortPlace, context)
+                )
+            }
+            else{
+                val shortPlace = addressMarkerMap[place.string]
+                return@map ShortPlaceWithAddress(shortPlace!!.name, place.string)
+            }
+        }
     }
 
     private fun getAddress(place: ShortPlace, context: Context): String? {
