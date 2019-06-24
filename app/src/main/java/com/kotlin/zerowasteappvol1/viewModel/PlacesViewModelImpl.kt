@@ -52,12 +52,9 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
         }
     }
 
-
     override fun getFiveNearestPlaces(location: LatLng, context: Context) {
         scope.launch(Dispatchers.IO) {
             fiveNearestPlaces.postValue(async { repository.getFiveNearestPlacesAsync(location, context) }.await())
         }
     }
-
-
 }

@@ -1,6 +1,8 @@
 package com.kotlin.zerowasteappvol1.activities.helpers
 
+import android.graphics.drawable.Drawable
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.kotlin.zerowasteappvol1.R
@@ -17,6 +19,12 @@ class SearchResultsOperations(private val activity: SearchActivity) {
         val linearLayoutFourthPlace = activity.findViewById<LinearLayout>(R.id.linearLayout_fourth_place)
         val linearLayoutFifthPlace = activity.findViewById<LinearLayout>(R.id.linearLayout_fifth_place)
 
+        val imageViewFirstPlace = activity.findViewById<ImageView>(R.id.imageView_first_place_type)
+        val imageViewSecondPlace = activity.findViewById<ImageView>(R.id.imageView_second_place_type)
+        val imageViewThirdPlace = activity.findViewById<ImageView>(R.id.imageView_third_place_type)
+        val imageViewFourthPlace = activity.findViewById<ImageView>(R.id.imageView_fourth_place_type)
+        val imageViewFifthPlace = activity.findViewById<ImageView>(R.id.imageView_fifth_place_type)
+
         val textViewFirstPlaceName = activity.findViewById<TextView>(R.id.textView_first_place_name)
         val textViewSecondPlaceName = activity.findViewById<TextView>(R.id.textView_second_place_name)
         val textViewThirdPlaceName = activity.findViewById<TextView>(R.id.textView_third_place_name)
@@ -30,31 +38,37 @@ class SearchResultsOperations(private val activity: SearchActivity) {
         val textViewFifthPlaceAddress = activity.findViewById<TextView>(R.id.textView_fifth_place_address)
 
         places.forEach { place ->
+            val placeIcon = getMarkerIcon(place!!.typeOfPlace)
             when (places.indexOf(place)) {
                 0 -> {
                     linearLayoutFirstPlace.visibility = View.VISIBLE
-                    textViewFirstPlaceName.text = place?.name
-                    if (place?.address != null) textViewFirstPlaceAddress.text = place.address
+                    imageViewFirstPlace.setImageResource(placeIcon)
+                    textViewFirstPlaceName.text = place.name
+                    if (place.address != null) textViewFirstPlaceAddress.text = place.address
                 }
                 1 -> {
                     linearLayoutSecondPlace.visibility = View.VISIBLE
-                    textViewSecondPlaceName.text = place?.name
-                    if (place?.address != null) textViewSecondPlaceAddress.text = place.address
+                    imageViewSecondPlace.setImageResource(placeIcon)
+                    textViewSecondPlaceName.text = place.name
+                    if (place.address != null) textViewSecondPlaceAddress.text = place.address
                 }
                 2 -> {
                     linearLayoutThirdPlace.visibility = View.VISIBLE
-                    textViewThirdPlaceName.text = place?.name
-                    if (place?.address != null) textViewThirdPlaceAddress.text = place.address
+                    imageViewThirdPlace.setImageResource(placeIcon)
+                    textViewThirdPlaceName.text = place.name
+                    if (place.address != null) textViewThirdPlaceAddress.text = place.address
                 }
                 3 -> {
                     linearLayoutFourthPlace.visibility = View.VISIBLE
-                    textViewFourthPlaceName.text = place?.name
-                    if (place?.address != null) textViewFourthPlaceAddress.text = place.address
+                    imageViewFourthPlace.setImageResource(placeIcon)
+                    textViewFourthPlaceName.text = place.name
+                    if (place.address != null) textViewFourthPlaceAddress.text = place.address
                 }
                 4 -> {
                     linearLayoutFifthPlace.visibility = View.VISIBLE
-                    textViewFifthPlaceName.text = place?.name
-                    if (place?.address != null) textViewFifthPlaceAddress.text = place.address
+                    imageViewFifthPlace.setImageResource(placeIcon)
+                    textViewFifthPlaceName.text = place.name
+                    if (place.address != null) textViewFifthPlaceAddress.text = place.address
                 }
             }
         }

@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.*
 import com.kotlin.zerowasteappvol1.R
 import com.kotlin.zerowasteappvol1.activities.helpers.OnMarkerClickListener
 import com.kotlin.zerowasteappvol1.activities.helpers.OnTouchOutsideViewListener
+import com.kotlin.zerowasteappvol1.activities.helpers.getMarkerIcon
 import com.kotlin.zerowasteappvol1.application.ZeroWasteApplication
 import com.kotlin.zerowasteappvol1.database.ShortPlace
 import com.kotlin.zerowasteappvol1.viewModel.PlacesViewModel
@@ -207,12 +208,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
 
     private fun addMarkersToMap(){
         for (point in points){
-            val markerIcon = when (point.typeOfPlace){
-                "sklep" -> R.drawable.ic_marker_icon_yellow
-                "restauracja" -> R.drawable.ic_marker_icon_green
-                "punkt naprawczy" -> R.drawable.ic_marker_icon_blue
-                else -> R.drawable.ic_marker_icon_plain
-            }
+            val markerIcon = getMarkerIcon(point.typeOfPlace)
             val marker = mMap.addMarker(
                 MarkerOptions()
                     .position(LatLng(point.latitude, point.longitude))

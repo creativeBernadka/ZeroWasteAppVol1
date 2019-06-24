@@ -22,12 +22,7 @@ class OnTouchOutsideViewListener{
         val gson = Gson()
         val place: ShortPlace = gson.fromJson(shortPlaceJson, ShortPlace::class.java)
 
-        val markerIcon = when (place.typeOfPlace){
-            "sklep" -> R.drawable.ic_marker_icon_yellow
-            "restauracja" -> R.drawable.ic_marker_icon_green
-            "punkt naprawczy" -> R.drawable.ic_marker_icon_blue
-            else -> R.drawable.ic_marker_icon_plain
-        }
+        val markerIcon = getMarkerIcon(place.typeOfPlace)
 
         val markers = markerMap.filter { element -> element.value == place }
         val marker: Marker = markers.keys.first()
