@@ -20,6 +20,6 @@ interface PlacesViewModel {
     fun getAllPlaces()
     fun getPlaceDescription(shortPlace: ShortPlace?, context: Context)
     fun getPlaceDetails(shortPlace: ShortPlace): LiveData<Place>
-    fun getFiveNearestPlaces(location: LatLng)
+    fun getFiveNearestPlaces(location: LatLng, context: Context)
     fun getFiveBestFittingPlaces(name: String)
 }

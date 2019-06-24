@@ -54,88 +54,55 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
     }
 
     override fun getFiveBestFittingPlaces(name: String) {
-        val places = allPlaces.value
-        val namesMarkerMap: HashMap<String, ShortPlace> = HashMap()
-        val addressMarkerMap: HashMap<String, ShortPlace> = HashMap()
-
-        val placesNames = places?.map { place ->
-            namesMarkerMap[place.name] = place
-            place.name
-        }
-
-        val bestFiveWithRespectToNameWithResults = FuzzySearch.extractTop(name, placesNames, 5)
-
-        val placesAddresses = places?.map { place ->
-            val address = getAddress(place)
-            if (address != null){
-                addressMarkerMap[address] = place
-            }
-            address
-        }?.filter { place -> place != null }
-
-        var bestFiveWithRespectToAddressWithResults = listOf<ExtractedResult>()
-
-        if (!placesAddresses.isNullOrEmpty()){
-            bestFiveWithRespectToAddressWithResults = FuzzySearch.extractTop(name, placesAddresses, 5)
-        }
-
-        val bestFiveWithResults = bestFiveWithRespectToAddressWithResults.union(bestFiveWithRespectToNameWithResults)
-
-        val bestFiveSorted = bestFiveWithResults.sortedWith(CompareObjects)
-
-        val bestFive: List<ShortPlaceWithAddress?> = bestFiveSorted.map { place ->
-            if( place.string in namesMarkerMap.keys){
-                val shortPlace = namesMarkerMap[place.string]
-                return@map ShortPlaceWithAddress(shortPlace!!.name, getAddress(shortPlace))
-            }
-            else{
-                val shortPlace = addressMarkerMap[place.string]
-                return@map ShortPlaceWithAddress(shortPlace!!.name, getAddress(shortPlace))
-            }
-        }
-
-        fiveBestFittingPlaces.postValue(bestFive)
+//        val places = allPlaces.value
+//        val namesMarkerMap: HashMap<String, ShortPlace> = HashMap()
+//        val addressMarkerMap: HashMap<String, ShortPlace> = HashMap()
+//
+//        val placesNames = places?.map { place ->
+//            namesMarkerMap[place.name] = place
+//            place.name
+//        }
+//
+//        val bestFiveWithRespectToNameWithResults = FuzzySearch.extractTop(name, placesNames, 5)
+//
+//        val placesAddresses = places?.map { place ->
+//            val address = getAddress(place)
+//            if (address != null){
+//                addressMarkerMap[address] = place
+//            }
+//            address
+//        }?.filter { place -> place != null }
+//
+//        var bestFiveWithRespectToAddressWithResults = listOf<ExtractedResult>()
+//
+//        if (!placesAddresses.isNullOrEmpty()){
+//            bestFiveWithRespectToAddressWithResults = FuzzySearch.extractTop(name, placesAddresses, 5)
+//        }
+//
+//        val bestFiveWithResults = bestFiveWithRespectToAddressWithResults.union(bestFiveWithRespectToNameWithResults)
+//
+//        val bestFiveSorted = bestFiveWithResults.sortedWith(CompareObjects)
+//
+//        val bestFive: List<ShortPlaceWithAddress?> = bestFiveSorted.map { place ->
+//            if( place.string in namesMarkerMap.keys){
+//                val shortPlace = namesMarkerMap[place.string]
+//                return@map ShortPlaceWithAddress(shortPlace!!.name, getAddress(shortPlace))
+//            }
+//            else{
+//                val shortPlace = addressMarkerMap[place.string]
+//                return@map ShortPlaceWithAddress(shortPlace!!.name, getAddress(shortPlace))
+//            }
+//        }
+//
+//        fiveBestFittingPlaces.postValue(bestFive)
     }
 
 
-    override fun getFiveNearestPlaces(location: LatLng) {
-        val places = allPlaces.value
-        val distanceMarkerMap: HashMap<Float, ShortPlace> = HashMap()
-        val startLocation = Location("start location")
-        startLocation.latitude = location.latitude
-        startLocation.longitude = location.longitude
-
-        places?.forEach{ place ->
-            val endLocation = Location("end location")
-            endLocation.latitude = place.latitude
-            endLocation.longitude = place.longitude
-            distanceMarkerMap[startLocation.distanceTo(endLocation)] = place
-        }
-
-        val sortedPlaces = distanceMarkerMap.toSortedMap().values
-
-        val sortedPlacesWithAddress = sortedPlaces.take(5).map {place ->
-            val address = getAddress(place)
-            ShortPlaceWithAddress(place.name, address)
-        }
-
-        fiveNearestPlaces.postValue(sortedPlacesWithAddress)
-    }
-
-    private fun getAddress(place: ShortPlace): String? {
-        val geocoder = Geocoder(getApplication(), Locale.getDefault())
-        val addresses: List<Address>? =
-            try{
-                geocoder.getFromLocation(place.latitude, place.longitude, 1)
-            }
-            catch(e:Exception){
-                null
-            }
-        val address = addresses?.map{item -> item.getAddressLine(0)?.toString()}
-        return if (address != null){
-            address[0]
-        } else {
-            null
+    override fun getFiveNearestPlaces(location: LatLng, context: Context) {
+        scope.launch(Dispatchers.IO) {
+            fiveNearestPlaces.postValue(async { repository.getFiveNearestPlacesAsync(location, context) }.await())
         }
     }
+
+
 }

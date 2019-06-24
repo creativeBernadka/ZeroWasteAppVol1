@@ -30,7 +30,8 @@ class SearchActivity: AppCompatActivity() {
 
         progressBar_search_activity.visibility = View.VISIBLE
         placesViewModel.getFiveNearestPlaces(
-            intent.getParcelableExtra("location")
+            intent.getParcelableExtra("location"),
+            this
         )
     }
 }

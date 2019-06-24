@@ -26,7 +26,7 @@ class PlacesViewModelMock @Inject constructor(application: Application)
         get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
         set(value) {}
 
-    override fun getFiveNearestPlaces(location: LatLng) {
+    override fun getFiveNearestPlaces(location: LatLng, context: Context) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
