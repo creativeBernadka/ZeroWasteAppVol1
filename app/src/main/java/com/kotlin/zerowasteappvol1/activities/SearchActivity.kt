@@ -23,6 +23,8 @@ class SearchActivity: AppCompatActivity() {
 
         (application as ZeroWasteApplication).appComponent.inject(this)
 
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
         CreateListeners()
             .createListenersForSearchActivity(this, placesViewModel)
         CreateObservers()

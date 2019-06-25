@@ -21,10 +21,13 @@ import me.xdrop.fuzzywuzzy.model.ExtractedResult
 class PlacesRepositoryImpl @Inject constructor(private val placesDao: PlacesDao):
     PlacesRepository {
 
+    lateinit var allPlaces: List<ShortPlace>
+
     @WorkerThread
     override suspend fun getAllPlacesAsync(): List<ShortPlace>{
         delay(2000)
-        return placesDao.getAllPlaces()
+        allPlaces = placesDao.getAllPlaces()
+        return allPlaces
     }
 
     @WorkerThread
@@ -98,7 +101,9 @@ class PlacesRepositoryImpl @Inject constructor(private val placesDao: PlacesDao)
 
     @WorkerThread
     override suspend fun getFiveNearestPlacesAsync(location: LatLng, context: Context): List<ShortPlaceWithAddress> {
-        val places = placesDao.getAllPlaces()
+        val places =
+            if (::allPlaces.isInitialized) allPlaces
+            else placesDao.getAllPlaces()
         val distanceMarkerMap: HashMap<Float, ShortPlace> = HashMap()
         val startLocation = Location("start location")
         startLocation.latitude = location.latitude
@@ -121,7 +126,9 @@ class PlacesRepositoryImpl @Inject constructor(private val placesDao: PlacesDao)
 
     @WorkerThread
     override suspend fun getFiveBestFittingPlacesAsync(name: String, context: Context): List<ShortPlaceWithAddress?> {
-        val places = placesDao.getAllPlaces()
+        val places =
+            if (::allPlaces.isInitialized) allPlaces
+            else placesDao.getAllPlaces()
         val namesMarkerMap: HashMap<String, ShortPlace> = HashMap()
         val addressMarkerMap: HashMap<String, ShortPlace> = HashMap()
 
