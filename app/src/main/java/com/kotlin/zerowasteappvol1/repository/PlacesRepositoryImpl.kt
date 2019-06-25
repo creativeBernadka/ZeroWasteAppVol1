@@ -186,9 +186,12 @@ class PlacesRepositoryImpl @Inject constructor(private val placesDao: PlacesDao)
             catch(e:Exception){
                 null
             }
-        val address = addresses?.map{item -> item.getAddressLine(0)?.toString()}
+        val address = addresses?.map{
+                item -> item.getAddressLine(0)?.toString()
+        }
         return if (address != null){
-            address[0]
+            val commaIndex = address[0]!!.indexOf(",")
+            address[0]?.subSequence(0, commaIndex).toString()
         } else {
             null
         }
