@@ -27,6 +27,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.gson.Gson
 import com.kotlin.zerowasteappvol1.R
 import com.kotlin.zerowasteappvol1.activities.helpers.OnMarkerClickListener
 import com.kotlin.zerowasteappvol1.activities.helpers.OnTouchOutsideViewListener
@@ -155,6 +156,47 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
                 startActivity(webIntent)
             }
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        val pref = this.getSharedPreferences("MyPreferences", 0)
+
+        val whichWasClicked = pref.getInt("whichOneWasClicked", 255)
+        val editor = pref.edit()
+        editor.remove("whichOneWasClicked")
+        editor.apply()
+        if (whichWasClicked != 255){
+            val gson = Gson()
+            val placeJson = when(whichWasClicked){
+                1 -> pref.getString("firstPlace", "")
+                2 -> pref.getString("secondPlace", "")
+                3 -> pref.getString("thirdPlace", "")
+                4 -> pref.getString("fourthPlace", "")
+                5 -> pref.getString("fifthPlace", "")
+                else -> ""
+            }
+            val place: ShortPlace = gson.fromJson(placeJson, ShortPlace::class.java)
+            val markers = eventMarkerMap.filter {
+                    element ->
+                element.value == place
+            }
+            val marker: Marker = markers.keys.first()
+            OnMarkerClickListener(
+                eventMarkerMap,
+                placesViewModel,
+                this
+            ).onMarkerClick(marker)
+            with(mMap) {
+                moveCamera(
+                    CameraUpdateFactory
+                        .newLatLngZoom(place.coordinates,15f)
+                )
+            }
+        }
+
+
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
