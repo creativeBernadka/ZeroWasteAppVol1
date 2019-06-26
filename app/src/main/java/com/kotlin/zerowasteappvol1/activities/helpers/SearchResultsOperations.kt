@@ -51,7 +51,7 @@ class SearchResultsOperations(private val activity: SearchActivity) {
                     place.coordinates.longitude,
                     place.typeOfPlace
                 )
-            )            
+            )
             when (places.indexOf(place)) {
                 0 -> {
                     linearLayoutFirstPlace.visibility = View.VISIBLE
