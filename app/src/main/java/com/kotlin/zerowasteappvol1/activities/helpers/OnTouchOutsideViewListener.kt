@@ -16,7 +16,6 @@ class OnTouchOutsideViewListener{
 
         val pref = activity.getSharedPreferences("MyPreferences", 0)
 
-        val markerJson = pref.getString("marker", "")
         val shortPlaceJson = pref.getString("shortPlace", "")
 
         val gson = Gson()
@@ -24,7 +23,10 @@ class OnTouchOutsideViewListener{
 
         val markerIcon = getMarkerIcon(place.typeOfPlace)
 
-        val markers = markerMap.filter { element -> element.value == place }
+        val markers = markerMap.filter {
+                element ->
+            element.value == place
+        }
         val marker: Marker = markers.keys.first()
         marker.setIcon(activity.bitmapDescriptorFromVector(activity, markerIcon))
 

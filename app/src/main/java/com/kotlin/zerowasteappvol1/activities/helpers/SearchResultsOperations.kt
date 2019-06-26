@@ -5,8 +5,10 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.google.gson.Gson
 import com.kotlin.zerowasteappvol1.R
 import com.kotlin.zerowasteappvol1.activities.SearchActivity
+import com.kotlin.zerowasteappvol1.database.ShortPlace
 import com.kotlin.zerowasteappvol1.repository.ShortPlaceWithAddress
 
 class SearchResultsOperations(private val activity: SearchActivity) {
@@ -37,40 +39,62 @@ class SearchResultsOperations(private val activity: SearchActivity) {
         val textViewFourthPlaceAddress = activity.findViewById<TextView>(R.id.textView_fourth_place_address)
         val textViewFifthPlaceAddress = activity.findViewById<TextView>(R.id.textView_fifth_place_address)
 
+        val pref = activity.getSharedPreferences("MyPreferences", 0)
+        val editor = pref.edit()
+
         places.forEach { place ->
             val placeIcon = getMarkerIcon(place!!.typeOfPlace)
+            val placeJson = Gson().toJson(
+                ShortPlace(
+                    place.name,
+                    place.coordinates.latitude,
+                    place.coordinates.longitude,
+                    place.typeOfPlace
+                )
+            )            
             when (places.indexOf(place)) {
                 0 -> {
                     linearLayoutFirstPlace.visibility = View.VISIBLE
                     imageViewFirstPlace.setImageResource(placeIcon)
                     textViewFirstPlaceName.text = place.name
                     if (place.address != null) textViewFirstPlaceAddress.text = place.address
+                    editor.remove("firstPlace")
+                    editor.putString("firstPlace", placeJson)
                 }
                 1 -> {
                     linearLayoutSecondPlace.visibility = View.VISIBLE
                     imageViewSecondPlace.setImageResource(placeIcon)
                     textViewSecondPlaceName.text = place.name
                     if (place.address != null) textViewSecondPlaceAddress.text = place.address
+                    editor.remove("secondPlace")
+                    editor.putString("secondPlace", placeJson)
                 }
                 2 -> {
                     linearLayoutThirdPlace.visibility = View.VISIBLE
                     imageViewThirdPlace.setImageResource(placeIcon)
                     textViewThirdPlaceName.text = place.name
                     if (place.address != null) textViewThirdPlaceAddress.text = place.address
+                    editor.remove("thirdPlace")
+                    editor.putString("thirdPlace", placeJson)
                 }
                 3 -> {
                     linearLayoutFourthPlace.visibility = View.VISIBLE
                     imageViewFourthPlace.setImageResource(placeIcon)
                     textViewFourthPlaceName.text = place.name
                     if (place.address != null) textViewFourthPlaceAddress.text = place.address
+                    editor.remove("fourthPlace")
+                    editor.putString("fourthPlace", placeJson)
                 }
                 4 -> {
                     linearLayoutFifthPlace.visibility = View.VISIBLE
                     imageViewFifthPlace.setImageResource(placeIcon)
                     textViewFifthPlaceName.text = place.name
                     if (place.address != null) textViewFifthPlaceAddress.text = place.address
+                    editor.remove("fifthPlace")
+                    editor.putString("fifthPlace", placeJson)
                 }
             }
+            editor.apply()
         }
     }
 

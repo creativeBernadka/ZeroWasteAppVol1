@@ -8,6 +8,11 @@ import com.kotlin.zerowasteappvol1.viewModel.PlacesViewModel
 class CreateListeners {
 
     fun createListenersForSearchActivity(activity: SearchActivity, viewModel: PlacesViewModel){
+        createListenerForSearchPanel(activity, viewModel)
+        createListenerForSearchResults(activity)
+    }
+
+    private fun createListenerForSearchPanel(activity: SearchActivity, viewModel: PlacesViewModel){
         val searchPanel = activity.findViewById<EditText>(R.id.editText_search_panel)
 
         searchPanel.addTextChangedListener(
@@ -16,6 +21,9 @@ class CreateListeners {
                 viewModel
             )
         )
+    }
+
+    private fun createListenerForSearchResults(activity: SearchActivity){
 
     }
 }

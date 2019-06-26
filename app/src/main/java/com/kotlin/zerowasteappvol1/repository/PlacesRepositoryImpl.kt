@@ -120,7 +120,7 @@ class PlacesRepositoryImpl @Inject constructor(private val placesDao: PlacesDao)
 
         return sortedPlaces.take(5).map { place ->
             val address = getAddress(place, context)
-            ShortPlaceWithAddress(place.name, address, place.typeOfPlace)
+            ShortPlaceWithAddress(place.name, place.coordinates, address, place.typeOfPlace)
         }
     }
 
@@ -162,16 +162,18 @@ class PlacesRepositoryImpl @Inject constructor(private val placesDao: PlacesDao)
                 val shortPlace = namesMarkerMap[place.string]
                 return@map ShortPlaceWithAddress(
                     shortPlace!!.name,
+                    shortPlace.coordinates,
                     getAddress(shortPlace, context),
-                    shortPlace!!.typeOfPlace
+                    shortPlace.typeOfPlace
                 )
             }
             else{
                 val shortPlace = addressMarkerMap[place.string]
                 return@map ShortPlaceWithAddress(
                     shortPlace!!.name,
+                    shortPlace.coordinates,
                     place.string,
-                    shortPlace!!.typeOfPlace
+                    shortPlace.typeOfPlace
                 )
             }
         }
