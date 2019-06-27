@@ -49,11 +49,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
     private val REQUEST_PERMISSION_CODE: Int = 123
     private val INITIAL_ITEMS_COUNT = 3.5f
     lateinit var points: List<ShortPlace>
-    private var eventMarkerMap: HashMap<Marker, ShortPlace> = HashMap()
+    var eventMarkerMap: HashMap<Marker, ShortPlace> = HashMap()
     private lateinit var mTouchOutsideView: View
     private lateinit var onTouchOutsideViewListener: OnTouchOutsideViewListener
-    private var phoneNumber: String? = null
-    private var website: String? = null
+    var phoneNumber: String? = null
+    var website: String? = null
     var latLng: LatLng? = null
     private var startClickTime = "0".toLong()
     lateinit var currentLocation: LatLng
@@ -73,29 +73,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
 
         progressBarMarkers.visibility = View.VISIBLE
 
-
-
-        placesViewModel.placeDescription.observe(this, Observer { place ->
-            if(place != null) {
-                ratingBar.rating = place.rating!!.toFloat()
-                textView_type_of_place.text = place.typeOfPlace
-                textView_open_hours.text = "${place.startHour} - ${place.endHour}"
-                textView_address.text = place.address
-                if(place.phoneNumber != null){
-                    phoneNumber = place.phoneNumber
-                    button_call.visibility = View.VISIBLE
-                }
-                if(place.website != null){
-                    website = place.website
-                    button_website.visibility = View.VISIBLE
-                }
-                progressBar_description.visibility = View.GONE
-                ratingBar.visibility = View.VISIBLE
-                textView_type_of_place.visibility = View.VISIBLE
-                textView_open_hours.visibility = View.VISIBLE
-                textView_address.visibility = View.VISIBLE
-            }
-        })
 
         placesViewModel.placeImages.observe(this, Observer { images ->
             if(images != null){
@@ -171,10 +148,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
                 element.value == place
             }
             val marker: Marker = markers.keys.first()
-            OnMarkerClickListener(
-                eventMarkerMap,
-                placesViewModel,
-                this
+            MapOperations(
+                mMap,
+                this,
+                placesViewModel
             ).onMarkerClick(marker)
             with(mMap) {
                 moveCamera(
@@ -183,8 +160,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
                 )
             }
         }
-
-
 
     }
 
@@ -202,18 +177,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
         else{
             setMapToCurrentLocation(mMap)
         }
+        val mapOperator = MapOperations(mMap, this, placesViewModel)
         mMap.setOnMarkerClickListener(
-            OnMarkerClickListener(
-                eventMarkerMap,
-                placesViewModel,
-                this
-            )
+            mapOperator
         )
 
-        CreateObservers().createObserversForMapsActivity(this, placesViewModel)
+        CreateObservers().createObserversForMapsActivity(this, placesViewModel, mapOperator)
 
         if(::points.isInitialized){
-            MapOperations(mMap).addMarkersToMap(this, points)
+            mapOperator.addMarkersToMap(points)
         }
 
     }

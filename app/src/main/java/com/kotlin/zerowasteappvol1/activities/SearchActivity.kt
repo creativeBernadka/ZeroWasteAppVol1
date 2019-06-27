@@ -26,7 +26,7 @@ class SearchActivity: AppCompatActivity() {
         CreateListeners()
             .createListenersForSearchActivity(this, placesViewModel)
         CreateObservers()
-            .createObserversForSearchActivtiy(this, placesViewModel)
+            .createObserversForSearchActivity(this, placesViewModel)
 
         progressBar_search_activity.visibility = View.VISIBLE
         placesViewModel.getFiveNearestPlaces(
