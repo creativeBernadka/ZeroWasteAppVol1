@@ -49,9 +49,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
     lateinit var points: List<ShortPlace>
     private val REQUEST_PERMISSION_CODE: Int = 123
     var eventMarkerMap: HashMap<Marker, ShortPlace> = HashMap()
-    var phoneNumber: String? = null
-    var website: String? = null
-    var latLng: LatLng? = null
     private var startClickTime = "0".toLong()
     private lateinit var mapOperator: MapOperations
 
@@ -69,18 +66,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
         progressBarMarkers.visibility = View.VISIBLE
 
         CreateListeners().createListenersForMapsActivity(this)
-
-
-        button_website.setOnClickListener {
-            val uri = "$website"
-            val webIntent: Intent = Uri.parse(uri).let { webpage ->
-                Intent(Intent.ACTION_VIEW, webpage)
-            }
-            val activities: List<ResolveInfo> = packageManager.queryIntentActivities(webIntent, 0)
-            if (activities.isNotEmpty()){
-                startActivity(webIntent)
-            }
-        }
     }
 
     override fun onRestart() {
@@ -170,6 +155,4 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
             }
         }
     }
-
-
 }

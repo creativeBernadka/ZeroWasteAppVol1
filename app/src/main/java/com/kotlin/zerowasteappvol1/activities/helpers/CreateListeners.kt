@@ -42,6 +42,7 @@ class CreateListeners {
     private fun createShortDescriptionListeners(activity: MapsActivity){
         createCallButtonListener(activity)
         createNavigateButtonListener(activity)
+        createWebsiteButtonListener(activity)
     }
 
     private fun createCallButtonListener(activity: MapsActivity){
@@ -74,6 +75,21 @@ class CreateListeners {
             val activities: List<ResolveInfo> = activity.packageManager.queryIntentActivities(navigationIntent, 0)
             if (activities.isNotEmpty()){
                 activity.startActivity(navigationIntent)
+            }
+        }
+    }
+
+    private fun createWebsiteButtonListener(activity: MapsActivity){
+        val buttonWebsite = activity.findViewById<Button>(R.id.button_website)
+        buttonWebsite.setOnClickListener {
+            val website = getFromSharedPreferences(activity, "website")
+            val uri = "$website"
+            val webIntent: Intent = Uri.parse(uri).let { webpage ->
+                Intent(Intent.ACTION_VIEW, webpage)
+            }
+            val activities: List<ResolveInfo> = activity.packageManager.queryIntentActivities(webIntent, 0)
+            if (activities.isNotEmpty()){
+                activity.startActivity(webIntent)
             }
         }
     }
