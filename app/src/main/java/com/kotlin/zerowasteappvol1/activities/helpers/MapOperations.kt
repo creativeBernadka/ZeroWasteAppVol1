@@ -1,8 +1,16 @@
 package com.kotlin.zerowasteappvol1.activities.helpers
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.view.View
 import android.widget.*
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -29,7 +37,41 @@ class MapOperations(
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
+    private val REQUEST_PERMISSION_CODE: Int = 123
     private var eventMarkerMap: HashMap<Marker, ShortPlace> = HashMap()
+    lateinit var currentLocation: LatLng
+
+
+    fun setUpMap(){
+        map.setPadding(0, 70, 0, 0)
+
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(
+                activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_PERMISSION_CODE)
+        }
+        else{
+            setMapToCurrentLocation(map)
+        }
+
+        map.setOnMarkerClickListener(this)
+    }
+
+    fun setMapToCurrentLocation(googleMap: GoogleMap){
+        val locationManager = activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationProvider: String = LocationManager.NETWORK_PROVIDER
+        currentLocation = if (locationManager.getLastKnownLocation(locationProvider) == null){
+            LatLng(49.835543, 19.076082)
+        } else{
+            val lastKnownLocation: Location = locationManager.getLastKnownLocation(locationProvider)
+            LatLng(lastKnownLocation.latitude, lastKnownLocation.longitude)
+        }
+        with(googleMap){
+            moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
+            googleMap.isMyLocationEnabled = true
+        }
+    }
 
     fun addMarkersToMap(points: List<ShortPlace>){
 

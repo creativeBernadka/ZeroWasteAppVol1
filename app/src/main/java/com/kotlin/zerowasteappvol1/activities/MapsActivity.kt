@@ -46,9 +46,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
     lateinit var mMap: GoogleMap
-    private val REQUEST_PERMISSION_CODE: Int = 123
-
     lateinit var points: List<ShortPlace>
+    private val REQUEST_PERMISSION_CODE: Int = 123
     var eventMarkerMap: HashMap<Marker, ShortPlace> = HashMap()
     private lateinit var mTouchOutsideView: View
     private lateinit var onTouchOutsideViewListener: OnTouchOutsideViewListener
@@ -57,6 +56,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
     var latLng: LatLng? = null
     private var startClickTime = "0".toLong()
     lateinit var currentLocation: LatLng
+    private lateinit var mapOperator: MapOperations
 
     @Inject lateinit var placesViewModel: PlacesViewModel
 
@@ -159,22 +159,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
-        mMap.setPadding(0, 70, 0, 0)
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(
-                this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_PERMISSION_CODE)
-        }
-        else{
-            setMapToCurrentLocation(mMap)
-        }
-        val mapOperator = MapOperations(mMap, this, placesViewModel)
-        mMap.setOnMarkerClickListener(
-            mapOperator
-        )
+        mapOperator = MapOperations(mMap, this, placesViewModel)
+        mapOperator.setUpMap()
 
         CreateObservers().createObserversForMapsActivity(this, placesViewModel, mapOperator)
 
@@ -212,7 +198,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
         when(requestCode){
             REQUEST_PERMISSION_CODE -> {
                 if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    setMapToCurrentLocation(mMap)
+                    mapOperator.setMapToCurrentLocation(mMap)
                 }
                 else{
                     val defaultLocation = LatLng(52.114339, 19.423672)
@@ -224,21 +210,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
         }
     }
 
-    private fun setMapToCurrentLocation(googleMap: GoogleMap){
-//        Zastanowic sie, czy nie zrobic lokalizacji na GPS lub jakiegos 'wybierz najlepszy lokalizator'
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val locationProvider: String = LocationManager.NETWORK_PROVIDER
-        currentLocation = if (locationManager.getLastKnownLocation(locationProvider) == null){
-            LatLng(49.835543, 19.076082)
-        } else{
-            val lastKnownLocation: Location = locationManager.getLastKnownLocation(locationProvider)
-            LatLng(lastKnownLocation.latitude, lastKnownLocation.longitude)
-        }
 
-//        var currentLocation = LatLng(49.835543, 19.076082)
-        with(googleMap){
-            moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
-            googleMap.isMyLocationEnabled = true
-        }
-    }
 }
