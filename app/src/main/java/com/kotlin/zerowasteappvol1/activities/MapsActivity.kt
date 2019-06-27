@@ -71,20 +71,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
         CreateListeners().createListenersForMapsActivity(this)
 
 
-
-        button_navigation.setOnClickListener {
-            val uri = "https://www.google.com/maps/dir/?api=1" +
-                    "&destination=${latLng!!.latitude},${latLng!!.longitude}" +
-                    "&travelmode=walking"
-            val navigationIntent: Intent = Uri.parse(uri).let { location ->
-                Intent(Intent.ACTION_VIEW, location)
-            }
-            val activities: List<ResolveInfo> = packageManager.queryIntentActivities(navigationIntent, 0)
-            if (activities.isNotEmpty()){
-                startActivity(navigationIntent)
-            }
-        }
-
         button_website.setOnClickListener {
             val uri = "$website"
             val webIntent: Intent = Uri.parse(uri).let { webpage ->

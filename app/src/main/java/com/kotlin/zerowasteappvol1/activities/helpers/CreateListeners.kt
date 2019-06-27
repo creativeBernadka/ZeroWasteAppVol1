@@ -41,6 +41,7 @@ class CreateListeners {
 
     private fun createShortDescriptionListeners(activity: MapsActivity){
         createCallButtonListener(activity)
+        createNavigateButtonListener(activity)
     }
 
     private fun createCallButtonListener(activity: MapsActivity){
@@ -57,7 +58,25 @@ class CreateListeners {
             }
         }
     }
-    
+
+    private fun createNavigateButtonListener(activity: MapsActivity){
+        val buttonNavigation = activity.findViewById<Button>(R.id.button_navigation)
+
+        buttonNavigation.setOnClickListener {
+            val coordinatesJson = getFromSharedPreferences(activity, "coordinates")
+            val latLng: LatLng = Gson().fromJson(coordinatesJson, LatLng::class.java)
+            val uri = "https://www.google.com/maps/dir/?api=1" +
+                    "&destination=${latLng.latitude},${latLng.longitude}" +
+                    "&travelmode=walking"
+            val navigationIntent: Intent = Uri.parse(uri).let { location ->
+                Intent(Intent.ACTION_VIEW, location)
+            }
+            val activities: List<ResolveInfo> = activity.packageManager.queryIntentActivities(navigationIntent, 0)
+            if (activities.isNotEmpty()){
+                activity.startActivity(navigationIntent)
+            }
+        }
+    }
 
     fun createListenersForSearchActivity(activity: SearchActivity, viewModel: PlacesViewModel){
         createSearchPanelListener(activity, viewModel)

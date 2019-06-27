@@ -110,10 +110,10 @@ class MapOperations(
         editor.remove("shortPlace")
         val shortPlaceJson = Gson().toJson(place)
         editor.putString("shortPlace", shortPlaceJson)
+        val coordinatesJson = Gson().toJson(place?.coordinates)
+        editor.putString("coordinates", coordinatesJson)
         editor.apply()
 
-
-        activity.latLng = place?.coordinates
         activity.findViewById<RatingBar>(R.id.ratingBar).visibility = View.GONE
         activity.findViewById<TextView>(R.id.textView_type_of_place).visibility = View.GONE
         activity.findViewById<TextView>(R.id.textView_open_hours).visibility = View.GONE
@@ -136,8 +136,7 @@ class MapOperations(
 
         val shortPlaceJson = pref.getString("shortPlace", "")
 
-        val gson = Gson()
-        val place: ShortPlace = gson.fromJson(shortPlaceJson, ShortPlace::class.java)
+        val place: ShortPlace = Gson().fromJson(shortPlaceJson, ShortPlace::class.java)
 
         val markerIcon = getMarkerIcon(place.typeOfPlace)
 
