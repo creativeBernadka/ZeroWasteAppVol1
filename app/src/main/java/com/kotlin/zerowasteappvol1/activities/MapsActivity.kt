@@ -87,16 +87,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
                 else -> ""
             }
             val place: ShortPlace = gson.fromJson(placeJson, ShortPlace::class.java)
-            val markers = eventMarkerMap.filter {
+            val markers = mapOperator.markerMap.filter {
                     element ->
                 element.value == place
             }
             val marker: Marker = markers.keys.first()
-            MapOperations(
-                mMap,
-                this,
-                placesViewModel
-            ).onMarkerClick(marker)
+            mapOperator.onMarkerClick(marker)
             with(mMap) {
                 moveCamera(
                     CameraUpdateFactory

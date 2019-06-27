@@ -39,7 +39,7 @@ class MapOperations(
         get() = Dispatchers.Main
 
     private val REQUEST_PERMISSION_CODE: Int = 123
-    private var markerMap: HashMap<Marker, ShortPlace> = HashMap()
+    var markerMap: HashMap<Marker, ShortPlace> = HashMap()
     lateinit var currentLocation: LatLng
 
 
