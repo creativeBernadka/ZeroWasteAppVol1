@@ -53,6 +53,7 @@ class MapOperations(
         }
         else{
             setMapToCurrentLocation(map)
+            map.isMyLocationEnabled = true
         }
 
         map.setOnMarkerClickListener(this)
@@ -69,8 +70,18 @@ class MapOperations(
         }
         with(googleMap){
             moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
-            googleMap.isMyLocationEnabled = true
         }
+
+        putOnSharedPreferences(currentLocation)
+    }
+
+    private fun putOnSharedPreferences(location: LatLng){
+        val locationJson = Gson().toJson(location)
+        val pref = activity.getSharedPreferences("MyPreferences", 0)
+        val editor = pref.edit()
+        editor.remove("currentLocation")
+        editor.putString("currentLocation", locationJson)
+        editor.apply()
     }
 
     fun addMarkersToMap(points: List<ShortPlace>){

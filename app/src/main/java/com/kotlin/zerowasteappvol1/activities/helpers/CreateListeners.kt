@@ -1,12 +1,39 @@
 package com.kotlin.zerowasteappvol1.activities.helpers
 
+import android.content.Intent
+import android.support.v4.content.ContextCompat.startActivity
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.TextView
+import com.google.android.gms.maps.model.LatLng
+import com.google.gson.Gson
 import com.kotlin.zerowasteappvol1.R
+import com.kotlin.zerowasteappvol1.activities.MapsActivity
 import com.kotlin.zerowasteappvol1.activities.SearchActivity
 import com.kotlin.zerowasteappvol1.viewModel.PlacesViewModel
+import kotlinx.android.synthetic.main.activity_maps.*
 
 class CreateListeners {
+
+    fun createListenersForMapsActivity(activity: MapsActivity){
+        val searchPanel = activity.findViewById<TextView>(R.id.SearchPanel)
+
+        searchPanel.setOnClickListener {
+            val intent = Intent(activity, SearchActivity::class.java)
+
+            val pref = activity.getSharedPreferences("MyPreferences", 0)
+
+            val locationJson = pref.getString("currentLocation", "")
+
+            val gson = Gson()
+            val location: LatLng = gson.fromJson(locationJson, LatLng::class.java)
+
+            if (location != null){
+                intent.putExtra("location", location)
+            }
+            activity.startActivity(intent)
+        }
+    }
 
     fun createListenersForSearchActivity(activity: SearchActivity, viewModel: PlacesViewModel){
         createListenerForSearchPanel(activity, viewModel)

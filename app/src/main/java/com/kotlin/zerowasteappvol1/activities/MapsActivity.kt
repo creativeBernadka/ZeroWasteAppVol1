@@ -73,14 +73,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
 
         progressBarMarkers.visibility = View.VISIBLE
 
-
-        SearchPanel.setOnClickListener {
-            val intent = Intent(this, SearchActivity::class.java)
-            if ( ::currentLocation.isInitialized ){
-                intent.putExtra("location", currentLocation)
-            }
-            startActivity(intent)
-        }
+        CreateListeners().createListenersForMapsActivity(this)
 
         button_call.setOnClickListener {
             val uri = "tel:$phoneNumber"
