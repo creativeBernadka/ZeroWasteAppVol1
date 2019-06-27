@@ -1,7 +1,9 @@
 package com.kotlin.zerowasteappvol1.activities.helpers
 
 import android.content.Intent
-import android.support.v4.content.ContextCompat.startActivity
+import android.content.pm.ResolveInfo
+import android.net.Uri
+import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -33,14 +35,36 @@ class CreateListeners {
             }
             activity.startActivity(intent)
         }
+
+        createShortDescriptionListeners(activity)
     }
+
+    private fun createShortDescriptionListeners(activity: MapsActivity){
+        createCallButtonListener(activity)
+    }
+
+    private fun createCallButtonListener(activity: MapsActivity){
+        val buttonCall = activity.findViewById<Button>(R.id.button_call)
+        buttonCall.setOnClickListener {
+            val phoneNumber = getFromSharedPreferences(activity, "phoneNumber")
+            val uri = "tel:$phoneNumber"
+            val callIntent: Intent = Uri.parse(uri).let { number ->
+                Intent(Intent.ACTION_DIAL, number)
+            }
+            val activities: List<ResolveInfo> = activity.packageManager.queryIntentActivities(callIntent, 0)
+            if (activities.isNotEmpty()){
+                activity.startActivity(callIntent)
+            }
+        }
+    }
+    
 
     fun createListenersForSearchActivity(activity: SearchActivity, viewModel: PlacesViewModel){
-        createListenerForSearchPanel(activity, viewModel)
-        createListenerForSearchResults(activity)
+        createSearchPanelListener(activity, viewModel)
+        createSearchResultsListener(activity)
     }
 
-    private fun createListenerForSearchPanel(activity: SearchActivity, viewModel: PlacesViewModel){
+    private fun createSearchPanelListener(activity: SearchActivity, viewModel: PlacesViewModel){
         val searchPanel = activity.findViewById<EditText>(R.id.editText_search_panel)
 
         searchPanel.addTextChangedListener(
@@ -51,7 +75,7 @@ class CreateListeners {
         )
     }
 
-    private fun createListenerForSearchResults(activity: SearchActivity){
+    private fun createSearchResultsListener(activity: SearchActivity){
         val firstResult = activity.findViewById<LinearLayout>(R.id.linearLayout_first_place)
 
         firstResult.setOnClickListener {
@@ -90,5 +114,10 @@ class CreateListeners {
         editor.remove("whichOneWasClicked")
         editor.putInt("whichOneWasClicked", whichWasClicked)
         editor.apply()
+    }
+
+    private fun getFromSharedPreferences(activity: MapsActivity, key: String): String?{
+        val pref = activity.getSharedPreferences("MyPreferences", 0)
+        return pref.getString(key, "")
     }
 }

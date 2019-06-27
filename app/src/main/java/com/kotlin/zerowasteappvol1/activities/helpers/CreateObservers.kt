@@ -70,11 +70,13 @@ class CreateObservers {
                 textViewOpenHours.text = "${place.startHour} - ${place.endHour}"
                 textViewAddress.text = place.address
                 if(place.phoneNumber != null){
-                    activity.phoneNumber = place.phoneNumber
+                    val phoneNumber = place.phoneNumber
+                    putOnSharedPreferences(activity, "phoneNumber", phoneNumber)
                     buttonCall.visibility = View.VISIBLE
                 }
                 if(place.website != null){
-                    activity.website = place.website
+                    val website = place.website
+                    putOnSharedPreferences(activity, "website", website)
                     buttonWebsite.visibility = View.VISIBLE
                 }
                 progressBarDescription.visibility = View.GONE
@@ -94,5 +96,13 @@ class CreateObservers {
                 descriptionOperator.displayImages(images)
             }
         })
+    }
+
+    private fun putOnSharedPreferences(activity: MapsActivity, key: String, value: String?){
+        val pref = activity.getSharedPreferences("MyPreferences", 0)
+        val editor = pref.edit()
+        editor.remove(key)
+        editor.putString(key, value)
+        editor.apply()
     }
 }

@@ -70,16 +70,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
 
         CreateListeners().createListenersForMapsActivity(this)
 
-        button_call.setOnClickListener {
-            val uri = "tel:$phoneNumber"
-            val callIntent: Intent = Uri.parse(uri).let { number ->
-                Intent(Intent.ACTION_DIAL, number)
-            }
-            val activities: List<ResolveInfo> = packageManager.queryIntentActivities(callIntent, 0)
-            if (activities.isNotEmpty()){
-                startActivity(callIntent)
-            }
-        }
+
 
         button_navigation.setOnClickListener {
             val uri = "https://www.google.com/maps/dir/?api=1" +
