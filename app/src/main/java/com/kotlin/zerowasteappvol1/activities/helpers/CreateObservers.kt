@@ -1,13 +1,11 @@
 package com.kotlin.zerowasteappvol1.activities.helpers
 
 import android.arch.lifecycle.Observer
-import android.media.Rating
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.RatingBar
 import android.widget.TextView
-import com.google.android.gms.maps.GoogleMap
 import com.kotlin.zerowasteappvol1.R
 import com.kotlin.zerowasteappvol1.activities.MapsActivity
 import com.kotlin.zerowasteappvol1.activities.SearchActivity
@@ -19,18 +17,9 @@ class CreateObservers {
     private lateinit var fiveBestFittingPlaces: List<ShortPlaceWithAddress?>
 
     fun createObserversForMapsActivity(activity: MapsActivity, viewModel: PlacesViewModel, mapOperator: MapOperations){
-        val progressBar = activity.findViewById<ProgressBar>(R.id.progressBarMarkers)
-
-        viewModel.allPlaces.observe(activity, Observer { places ->
-            if(places != null){
-                activity.points = places
-                mapOperator.addMarkersToMap(places)
-                progressBar.visibility = View.GONE
-            }
-        })
-
-
+        createAllPlacesObserver(activity, viewModel, mapOperator)
         createPlaceDescriptionObserver(activity, viewModel)
+        createPlaceImageObserver(activity, viewModel)
     }
 
     fun createObserversForSearchActivity(activity: SearchActivity, viewModel: PlacesViewModel){
@@ -49,6 +38,18 @@ class CreateObservers {
                 progressBar.visibility = View.GONE
                 fiveBestFittingPlaces = places
                 searchResultsOperator.addPlaces(places)
+            }
+        })
+    }
+
+    private fun createAllPlacesObserver(activity: MapsActivity, viewModel: PlacesViewModel, mapOperator: MapOperations){
+        val progressBar = activity.findViewById<ProgressBar>(R.id.progressBarMarkers)
+
+        viewModel.allPlaces.observe(activity, Observer { places ->
+            if(places != null){
+                activity.points = places
+                mapOperator.addMarkersToMap(places)
+                progressBar.visibility = View.GONE
             }
         })
     }
@@ -81,6 +82,16 @@ class CreateObservers {
                 textViewTypeOfPlace.visibility = View.VISIBLE
                 textViewOpenHours.visibility = View.VISIBLE
                 textViewAddress.visibility = View.VISIBLE
+            }
+        })
+    }
+
+    private fun createPlaceImageObserver(activity: MapsActivity, viewModel: PlacesViewModel){
+        val descriptionOperator = DescriptionOperations(activity)
+
+        viewModel.placeImages.observe(activity, Observer { images ->
+            if(images != null){
+                descriptionOperator.displayImages(images)
             }
         })
     }

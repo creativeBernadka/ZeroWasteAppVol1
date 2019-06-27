@@ -47,7 +47,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
         get() = Dispatchers.Main
     lateinit var mMap: GoogleMap
     private val REQUEST_PERMISSION_CODE: Int = 123
-    private val INITIAL_ITEMS_COUNT = 3.5f
+
     lateinit var points: List<ShortPlace>
     var eventMarkerMap: HashMap<Marker, ShortPlace> = HashMap()
     private lateinit var mTouchOutsideView: View
@@ -73,12 +73,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
 
         progressBarMarkers.visibility = View.VISIBLE
 
-
-        placesViewModel.placeImages.observe(this, Observer { images ->
-            if(images != null){
-                displayImages(images)
-            }
-        })
 
         SearchPanel.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
@@ -212,26 +206,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
             }
         }
         return super.dispatchTouchEvent(ev)
-    }
-
-    private fun displayImages(imagesList: List<Drawable?>){
-        val displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-        val imageWidth = (displayMetrics.widthPixels / INITIAL_ITEMS_COUNT).toInt()
-        var imageItem: ImageView
-        var countNulls = 0
-        imagesList.map {item ->
-            imageItem = ImageView(this)
-            if(item == null) countNulls += 1
-            else{
-                imageItem.setImageDrawable(item)
-                val linearLayout = LinearLayout.LayoutParams(imageWidth, imageWidth)
-                linearLayout.rightMargin = 2
-                imageItem.layoutParams = linearLayout
-                linearLayout_carousel_images.addView(imageItem)
-            }
-        }
-        if (countNulls != imagesList.size) cardView_carousel_images.visibility = View.VISIBLE
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
