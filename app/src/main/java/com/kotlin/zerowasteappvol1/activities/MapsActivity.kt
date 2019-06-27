@@ -49,13 +49,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
     lateinit var points: List<ShortPlace>
     private val REQUEST_PERMISSION_CODE: Int = 123
     var eventMarkerMap: HashMap<Marker, ShortPlace> = HashMap()
-    private lateinit var mTouchOutsideView: View
-    private lateinit var onTouchOutsideViewListener: OnTouchOutsideViewListener
     var phoneNumber: String? = null
     var website: String? = null
     var latLng: LatLng? = null
     private var startClickTime = "0".toLong()
-    lateinit var currentLocation: LatLng
     private lateinit var mapOperator: MapOperations
 
     @Inject lateinit var placesViewModel: PlacesViewModel
@@ -68,8 +65,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
 
         (supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment)
             .getMapAsync(this)
-
-        setOnTouchOutsideViewListener(linearLayout_short_description, OnTouchOutsideViewListener())
 
         progressBarMarkers.visibility = View.VISIBLE
 
@@ -163,23 +158,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
 
     }
 
-    private fun setOnTouchOutsideViewListener(view: View, onTouchOutsideViewListener: OnTouchOutsideViewListener) {
-        mTouchOutsideView = view
-        this.onTouchOutsideViewListener = onTouchOutsideViewListener
-    }
-
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         if (ev.action == MotionEvent.ACTION_DOWN){
             startClickTime = Calendar.getInstance().timeInMillis;
         }
         if(ev.action == MotionEvent.ACTION_UP) {
-            val clickDuration = Calendar.getInstance().getTimeInMillis() - startClickTime
+            val clickDuration = Calendar.getInstance().timeInMillis - startClickTime
             if(clickDuration < 200) {
-                if (mTouchOutsideView.visibility == View.VISIBLE) {
+                val touchOutsideView = linearLayout_short_description
+                if (touchOutsideView.visibility == View.VISIBLE) {
                     val viewRect = Rect()
-                    mTouchOutsideView.getGlobalVisibleRect(viewRect)
+                    touchOutsideView.getGlobalVisibleRect(viewRect)
                     if (!viewRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
-                        onTouchOutsideViewListener.onTouchOutside(mTouchOutsideView, ev, this, eventMarkerMap)
+                        mapOperator.onTouchOutside(touchOutsideView, ev)
                     }
                 }
             }

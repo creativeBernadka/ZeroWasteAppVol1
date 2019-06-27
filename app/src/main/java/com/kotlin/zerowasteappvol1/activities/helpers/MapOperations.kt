@@ -8,6 +8,7 @@ import android.location.LocationManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
+import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -38,7 +39,7 @@ class MapOperations(
         get() = Dispatchers.Main
 
     private val REQUEST_PERMISSION_CODE: Int = 123
-    private var eventMarkerMap: HashMap<Marker, ShortPlace> = HashMap()
+    private var markerMap: HashMap<Marker, ShortPlace> = HashMap()
     lateinit var currentLocation: LatLng
 
 
@@ -94,14 +95,14 @@ class MapOperations(
                     .title(point.name)
                     .icon(bitmapDescriptorFromVector(activity, markerIcon))
             )
-            eventMarkerMap[marker] = point
+            markerMap[marker] = point
         }
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
 
         marker?.setIcon(BitmapDescriptorFactory.defaultMarker())
-        val place: ShortPlace? = eventMarkerMap[marker]
+        val place: ShortPlace? = markerMap[marker]
 
         val pref = activity.getSharedPreferences("MyPreferences", 0)
         val editor = pref.edit()
@@ -127,5 +128,27 @@ class MapOperations(
             viewModel.getPlaceDescription(place, activity)
         }
         return true //musi byc true, zeby nie pokazywalo infoWindow
+    }
+
+    fun onTouchOutside(view: View, event: MotionEvent) {
+
+        val pref = activity.getSharedPreferences("MyPreferences", 0)
+
+        val shortPlaceJson = pref.getString("shortPlace", "")
+
+        val gson = Gson()
+        val place: ShortPlace = gson.fromJson(shortPlaceJson, ShortPlace::class.java)
+
+        val markerIcon = getMarkerIcon(place.typeOfPlace)
+
+        val markers = markerMap.filter {
+                element ->
+            element.value == place
+        }
+        val marker: Marker = markers.keys.first()
+        marker.setIcon(bitmapDescriptorFromVector(activity, markerIcon))
+
+        activity.findViewById<LinearLayout>(R.id.linearLayout_carousel_images).removeAllViews()
+        view.visibility = View.GONE
     }
 }
