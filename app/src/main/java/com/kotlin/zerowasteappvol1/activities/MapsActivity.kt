@@ -29,9 +29,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.gson.Gson
 import com.kotlin.zerowasteappvol1.R
-import com.kotlin.zerowasteappvol1.activities.helpers.OnMarkerClickListener
-import com.kotlin.zerowasteappvol1.activities.helpers.OnTouchOutsideViewListener
-import com.kotlin.zerowasteappvol1.activities.helpers.getMarkerIcon
+import com.kotlin.zerowasteappvol1.activities.helpers.*
 import com.kotlin.zerowasteappvol1.application.ZeroWasteApplication
 import com.kotlin.zerowasteappvol1.database.ShortPlace
 import com.kotlin.zerowasteappvol1.viewModel.PlacesViewModel
@@ -47,10 +45,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
-    private lateinit var mMap: GoogleMap
+    lateinit var mMap: GoogleMap
     private val REQUEST_PERMISSION_CODE: Int = 123
     private val INITIAL_ITEMS_COUNT = 3.5f
-    private lateinit var points: List<ShortPlace>
+    lateinit var points: List<ShortPlace>
     private var eventMarkerMap: HashMap<Marker, ShortPlace> = HashMap()
     private lateinit var mTouchOutsideView: View
     private lateinit var onTouchOutsideViewListener: OnTouchOutsideViewListener
@@ -71,20 +69,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
         (supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment)
             .getMapAsync(this)
 
-        onTouchOutsideViewListener = OnTouchOutsideViewListener()
-        setOnTouchOutsideViewListener(linearLayout_short_description, onTouchOutsideViewListener)
+        setOnTouchOutsideViewListener(linearLayout_short_description, OnTouchOutsideViewListener())
 
         progressBarMarkers.visibility = View.VISIBLE
 
-        placesViewModel.allPlaces.observe(this, Observer { places ->
-            if(places != null){
-                points = places
-                if (::mMap.isInitialized){
-                    addMarkersToMap()
-                    progressBarMarkers.visibility = View.GONE
-                }
-            }
-        })
+
 
         placesViewModel.placeDescription.observe(this, Observer { place ->
             if(place != null) {
@@ -221,44 +210,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
             )
         )
 
+        CreateObservers().createObserversForMapsActivity(this, placesViewModel)
+
         if(::points.isInitialized){
-            addMarkersToMap()
+            MapOperations(mMap).addMarkersToMap(this, points)
         }
 
-    }
-
-    fun bitmapDescriptorFromVector (context: Context, vectorResId: Int): BitmapDescriptor {
-        val vectorDrawable = ContextCompat.getDrawable(context, vectorResId)
-
-        vectorDrawable?.setBounds(
-            0,
-            0,
-            vectorDrawable.intrinsicWidth,
-            vectorDrawable.intrinsicHeight
-        )
-        val bitmap = Bitmap.createBitmap(
-            vectorDrawable!!.intrinsicWidth,
-            vectorDrawable.intrinsicHeight,
-            Bitmap.Config.ARGB_8888
-        )
-        val canvas = Canvas(bitmap)
-
-        vectorDrawable.draw(canvas)
-
-        return BitmapDescriptorFactory.fromBitmap(bitmap)
-}
-
-    private fun addMarkersToMap(){
-        for (point in points){
-            val markerIcon = getMarkerIcon(point.typeOfPlace)
-            val marker = mMap.addMarker(
-                MarkerOptions()
-                    .position(LatLng(point.latitude, point.longitude))
-                    .title(point.name)
-                    .icon(bitmapDescriptorFromVector(this, markerIcon))
-            )
-            eventMarkerMap[marker] = point
-        }
     }
 
     private fun setOnTouchOutsideViewListener(view: View, onTouchOutsideViewListener: OnTouchOutsideViewListener) {

@@ -28,7 +28,7 @@ class OnTouchOutsideViewListener{
             element.value == place
         }
         val marker: Marker = markers.keys.first()
-        marker.setIcon(activity.bitmapDescriptorFromVector(activity, markerIcon))
+        marker.setIcon(bitmapDescriptorFromVector(activity, markerIcon))
 
         activity.findViewById<LinearLayout>(R.id.linearLayout_carousel_images).removeAllViews()
         view.visibility = View.GONE
