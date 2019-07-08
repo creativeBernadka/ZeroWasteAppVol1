@@ -69,6 +69,7 @@ class MapOperations(
             val lastKnownLocation: Location = locationManager.getLastKnownLocation(locationProvider)
             LatLng(lastKnownLocation.latitude, lastKnownLocation.longitude)
         }
+//        currentLocation = LatLng(49.835543, 19.076082)
         with(googleMap){
             moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
         }

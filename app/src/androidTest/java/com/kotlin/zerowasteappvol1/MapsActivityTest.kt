@@ -44,6 +44,7 @@ class MapsActivityTest {
                     )
                     .let {
                         it.click()
+                        runBlocking { delay(3000) }
                     }
             }
 

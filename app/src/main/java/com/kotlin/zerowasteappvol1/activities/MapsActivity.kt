@@ -48,7 +48,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
     lateinit var mMap: GoogleMap
     lateinit var points: List<ShortPlace>
     private val REQUEST_PERMISSION_CODE: Int = 123
-    var eventMarkerMap: HashMap<Marker, ShortPlace> = HashMap()
     private var startClickTime = "0".toLong()
     private lateinit var mapOperator: MapOperations
 
