@@ -2,6 +2,9 @@
 # Created by https://www.gitignore.io/api/node,kotlin,webstorm,androidstudio
 # Edit at https://www.gitignore.io/?templates=node,kotlin,webstorm,androidstudio
 
+MySQL/set_client.sql
+backend/config.js
+
 ### Kotlin ###
 # Compiled class file
 *.class
