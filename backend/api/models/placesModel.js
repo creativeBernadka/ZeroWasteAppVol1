@@ -7,11 +7,10 @@ let connection = mysql.createConnection({
     password: config.database.password,
     database: config.database.database
 });
+
 connection.connect(function(err) {
     if (err) throw err;
     console.log("Connected! Jupi jej!");
 });
 
 module.exports = connection;
-
-// connection.end();
