@@ -4,7 +4,7 @@ const port = process.env.NODE_PORT || 3000;
 
 const server = http
     .createServer(app)
-    .listen({   // dajemy port w {} zeby byl traktowany jako obiekt
+    .listen({
         port
     }, () => {
         console.log("Node server started at", port)
