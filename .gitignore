@@ -4,6 +4,7 @@
 
 MySQL/set_client.sql
 backend/config.js
+nodejs-server/config.js
 
 ### Kotlin ###
 # Compiled class file
