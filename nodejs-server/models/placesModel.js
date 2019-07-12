@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const config = require('../../config');
+const config = require('../config');
 
 let connection = mysql.createConnection({
     host: config.database.host,
@@ -7,9 +7,8 @@ let connection = mysql.createConnection({
     password: config.database.password,
     database: config.database.database
 });
-
 connection.connect(function(err) {
-    if (err) throw err;
+    if (err)throw err;
     console.log("Connected! Jupi jej!");
 });
 

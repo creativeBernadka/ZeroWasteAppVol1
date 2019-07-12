@@ -1,25 +1,14 @@
 'use strict';
 
-var utils = require('../utils/writer.js');
-var Default = require('../service/DefaultService');
+const utils = require('../utils/writer.js');
+const Default = require('../service/DefaultServices');
 
 module.exports.getAllPlaces = function getAllPlaces (req, res, next) {
-  Default.getAllPlaces()
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
+  Default.getAllPlaces(req, res);
 };
 
 module.exports.getPlaceDescriptionById = function getPlaceDescriptionById (req, res, next) {
-  var placeId = req.swagger.params['placeId'].value;
-  Default.getPlaceDescriptionById(placeId)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
+  const placeId = req.swagger.params['placeId'].value;
+  Default.getPlaceDescriptionById(req, res, placeId);
+  console.log("TUTAJ 4");
 };
