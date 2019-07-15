@@ -46,6 +46,7 @@ class SearchResultsOperations(private val activity: SearchActivity) {
             val placeIcon = getMarkerIcon(place!!.typeOfPlace)
             val placeJson = Gson().toJson(
                 ShortPlace(
+                    place.id,
                     place.name,
                     place.coordinates.latitude,
                     place.coordinates.longitude,

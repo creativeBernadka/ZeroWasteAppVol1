@@ -40,16 +40,16 @@ class PlacesViewModelMock @Inject constructor(application: Application)
 
     init {
 
-        allPlaces.postValue(listOf(ShortPlace("Miejsce 1",  49.835543, 19.076082, "sklep"),
-            ShortPlace("Miejsce 2", 49.83455, 19.077633, "restauracja"),
-            ShortPlace("Miejsce 3",  49.834240, 19.079626, "punkt naprawczy")))
+        allPlaces.postValue(listOf(ShortPlace(1, "Miejsce 1",  49.835543, 19.076082, "sklep"),
+            ShortPlace(2, "Miejsce 2", 49.83455, 19.077633, "restauracja"),
+            ShortPlace(3, "Miejsce 3",  49.834240, 19.079626, "punkt naprawczy")))
 
     }
 
     override fun getAllPlaces(){
-        allPlaces.postValue(listOf(ShortPlace("Miejsce 1",  49.835543, 19.076082, "sklep"),
-            ShortPlace("Miejsce 2", 49.83455, 19.077633, "restauracja"),
-            ShortPlace("Miejsce 3",  49.834240, 19.079626, "punkt naprawczy")))
+        allPlaces.postValue(listOf(ShortPlace(1, "Miejsce 1",  49.835543, 19.076082, "sklep"),
+            ShortPlace(2, "Miejsce 2", 49.83455, 19.077633, "restauracja"),
+            ShortPlace(3, "Miejsce 3",  49.834240, 19.079626, "punkt naprawczy")))
     }
 
     override fun getPlaceDescription(shortPlace: ShortPlace?, context: Context){

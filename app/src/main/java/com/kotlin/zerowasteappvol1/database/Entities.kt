@@ -6,7 +6,7 @@ import com.google.android.gms.maps.model.LatLng
 
 @Entity(tableName = "places")
 data class Place(
-    @PrimaryKey val id: Int,
+    @ColumnInfo(name = "id") @PrimaryKey val id: Int,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "latitude") val latitude: Double,
     @ColumnInfo(name = "longitude") val longitude: Double,
@@ -43,6 +43,7 @@ data class ImagesUrl(
 )
 
 data class ShortPlace(
+    val id: Int,
     val name: String,
     val latitude: Double,
     val longitude: Double,
