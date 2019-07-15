@@ -1,4 +1,5 @@
 const util = require('util');
+const {extend} = require('underscore');
 const dbConnection = require("../models/placesModel");
 const query = util.promisify(dbConnection.query).bind(dbConnection);
 
@@ -28,8 +29,9 @@ exports.getAllPlaces = function(req, res) {
  * returns PlaceWithDescription
  **/
 exports.getPlaceDescriptionById = async function(req, res, placeId) {
-
     let description = {};
+    let images = {};
+
     try{
         description = await query(
             'SELECT places.place_name, places.rating, places.type_of_place, places.phone_number, places.website, ' +
@@ -43,21 +45,19 @@ exports.getPlaceDescriptionById = async function(req, res, placeId) {
         throw err
     }
 
+    try{
+        images = await query(
+            'SELECT images_url.url FROM images_url INNER JOIN places ON places.places_id = images_url.place_id ' +
+            'WHERE places.places_id = ?',
+            [placeId]
+        );
+    }
+    catch (err) {
+        throw err
+    }
+    const imagesString = JSON.stringify({"images": images});
+    images = JSON.parse(imagesString);
     return res.json({
-        description
+        description: extend(description[0], images)
     })
-
-    // dbConnection.query(
-    //     'SELECT images_url.url FROM images_url INNER JOIN places ON places.places_id = images_url.place_id ' +
-    //     'WHERE places.places_id = ?',
-    //     [placeId],
-    //     function (err, rows) {
-    //         if (err) throw err;
-    //         return res.json({
-    //             images: rows
-    //         })
-    //     }
-    // );
-    //
-    // console.log("WYNIK 2", result);
 };

@@ -17,6 +17,7 @@
     "js-yaml": "^3.3.0",
     "mysql": "^2.17.1",
     "nodemon": "^1.19.1",
-    "swagger-tools": "^0.10.4"
+    "swagger-tools": "^0.10.4",
+    "underscore": "^1.9.1"
   }
 }
