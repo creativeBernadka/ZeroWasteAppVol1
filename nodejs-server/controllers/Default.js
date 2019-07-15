@@ -10,5 +10,4 @@ module.exports.getAllPlaces = function getAllPlaces (req, res, next) {
 module.exports.getPlaceDescriptionById = function getPlaceDescriptionById (req, res, next) {
   const placeId = req.swagger.params['placeId'].value;
   Default.getPlaceDescriptionById(req, res, placeId);
-  console.log("TUTAJ 4");
 };
