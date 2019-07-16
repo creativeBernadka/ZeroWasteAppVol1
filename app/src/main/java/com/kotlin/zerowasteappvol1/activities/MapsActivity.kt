@@ -31,7 +31,7 @@ import com.google.gson.Gson
 import com.kotlin.zerowasteappvol1.R
 import com.kotlin.zerowasteappvol1.activities.helpers.*
 import com.kotlin.zerowasteappvol1.application.ZeroWasteApplication
-import com.kotlin.zerowasteappvol1.database.ShortPlace
+import com.kotlin.zerowasteappvol1.models.ShortPlace
 import com.kotlin.zerowasteappvol1.viewModel.PlacesViewModel
 import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.coroutines.CoroutineScope

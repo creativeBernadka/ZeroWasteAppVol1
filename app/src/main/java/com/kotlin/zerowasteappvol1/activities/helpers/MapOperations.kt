@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
 import com.kotlin.zerowasteappvol1.R
 import com.kotlin.zerowasteappvol1.activities.MapsActivity
-import com.kotlin.zerowasteappvol1.database.ShortPlace
+import com.kotlin.zerowasteappvol1.models.ShortPlace
 import com.kotlin.zerowasteappvol1.viewModel.PlacesViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -89,11 +89,11 @@ class MapOperations(
     fun addMarkersToMap(points: List<ShortPlace>){
 
         points.forEach{ point ->
-            val markerIcon = getMarkerIcon(point.typeOfPlace)
+            val markerIcon = getMarkerIcon(point.type_of_place)
             val marker = map.addMarker(
                 MarkerOptions()
                     .position(LatLng(point.latitude, point.longitude))
-                    .title(point.name)
+                    .title(point.place_name)
                     .icon(bitmapDescriptorFromVector(activity, markerIcon))
             )
             markerMap[marker] = point
@@ -124,7 +124,7 @@ class MapOperations(
         activity.findViewById<Button>(R.id.button_website).visibility = View.GONE
         activity.findViewById<LinearLayout>(R.id.linearLayout_short_description).visibility = View.VISIBLE
         activity.findViewById<ProgressBar>(R.id.progressBar_description).visibility = View.VISIBLE
-        activity.findViewById<TextView>(R.id.textView_name).text = place?.name
+        activity.findViewById<TextView>(R.id.textView_name).text = place?.place_name
         launch {
             viewModel.getPlaceDescription(place, activity)
         }
@@ -139,7 +139,7 @@ class MapOperations(
 
         val place: ShortPlace = Gson().fromJson(shortPlaceJson, ShortPlace::class.java)
 
-        val markerIcon = getMarkerIcon(place.typeOfPlace)
+        val markerIcon = getMarkerIcon(place.type_of_place)
 
         val markers = markerMap.filter {
                 element ->

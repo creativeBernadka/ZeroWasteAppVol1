@@ -8,7 +8,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import com.google.android.gms.maps.model.LatLng
 import com.kotlin.zerowasteappvol1.database.Place
-import com.kotlin.zerowasteappvol1.database.ShortPlace
+import com.kotlin.zerowasteappvol1.models.ShortPlace
 import com.kotlin.zerowasteappvol1.repository.PlaceDescriptionWithAddress
 import com.kotlin.zerowasteappvol1.repository.PlacesRepository
 import com.kotlin.zerowasteappvol1.repository.ShortPlaceWithAddress

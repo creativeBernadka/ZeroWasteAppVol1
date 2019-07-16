@@ -27,9 +27,9 @@ class MapsActivityTest {
 
 //    @Test
 //    fun searchPanelClearsAfterEnter(){
-//        onView(withId(R.id.SearchPanel)).perform(typeText("HELLO"),
+//        onView(withId(R.places_id.SearchPanel)).perform(typeText("HELLO"),
 //            pressImeActionButton(), closeSoftKeyboard())
-//        onView(withId(R.id.SearchPanel)).check(matches(withText("")))
+//        onView(withId(R.places_id.SearchPanel)).check(matches(withText("")))
 //    }
 
     @Test
@@ -115,7 +115,7 @@ class MapsActivityTest {
 //        val device = UiDevice.getInstance(getInstrumentation())
 //        val marker = device.findObject(UiSelector().descriptionContains("Miejsce 1"))
 //        marker.click()
-//        onView(withId(R.id.closeButton)).inRoot(isPlatformPopup()).perform(click()).check(doesNotExist())
+//        onView(withId(R.places_id.closeButton)).inRoot(isPlatformPopup()).perform(click()).check(doesNotExist())
 //    }
 //
 //    @Test

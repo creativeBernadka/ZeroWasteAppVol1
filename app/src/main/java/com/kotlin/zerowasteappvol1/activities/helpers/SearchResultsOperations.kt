@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.google.gson.Gson
 import com.kotlin.zerowasteappvol1.R
 import com.kotlin.zerowasteappvol1.activities.SearchActivity
-import com.kotlin.zerowasteappvol1.database.ShortPlace
+import com.kotlin.zerowasteappvol1.models.ShortPlace
 import com.kotlin.zerowasteappvol1.repository.ShortPlaceWithAddress
 
 class SearchResultsOperations(private val activity: SearchActivity) {

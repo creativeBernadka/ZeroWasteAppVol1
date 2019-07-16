@@ -6,8 +6,8 @@ import com.google.android.gms.maps.model.LatLng
 
 @Entity(tableName = "places")
 data class Place(
-    @ColumnInfo(name = "id") @PrimaryKey val id: Int,
-    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "places_id") @PrimaryKey val id: Int,
+    @ColumnInfo(name = "place_name") val name: String,
     @ColumnInfo(name = "latitude") val latitude: Double,
     @ColumnInfo(name = "longitude") val longitude: Double,
     @ColumnInfo(name = "rating") val rating: Double?,
@@ -22,7 +22,7 @@ data class Place(
 
 @Entity(
     tableName = "opening_hours",
-    foreignKeys = [ForeignKey(entity = Place::class, parentColumns = ["id"], childColumns = ["placeId"])]
+    foreignKeys = [ForeignKey(entity = Place::class, parentColumns = ["places_id"], childColumns = ["placeId"])]
 )
 data class OpeningHours(
     @PrimaryKey val id: Int, //dodac autoincrement
@@ -34,7 +34,7 @@ data class OpeningHours(
 
 @Entity (
     tableName = "images_url",
-    foreignKeys = [ForeignKey(entity = Place::class, parentColumns = ["id"], childColumns = ["placeId"])]
+    foreignKeys = [ForeignKey(entity = Place::class, parentColumns = ["places_id"], childColumns = ["placeId"])]
 )
 data class ImagesUrl(
     @PrimaryKey val id: Int,
@@ -42,16 +42,16 @@ data class ImagesUrl(
     val url: String
 )
 
-data class ShortPlace(
-    val id: Int,
-    val name: String,
-    val latitude: Double,
-    val longitude: Double,
-    @ColumnInfo(name = "type_of_place") val typeOfPlace: String?
-){
-    val coordinates: LatLng
-        get() = LatLng(latitude, longitude)
-}
+//data class ShortPlace(
+//    val places_id: Int,
+//    val place_name: String,
+//    val latitude: Double,
+//    val longitude: Double,
+//    @ColumnInfo(name = "type_of_place") val type_of_place: String?
+//){
+//    val coordinates: LatLng
+//        get() = LatLng(latitude, longitude)
+//}
 
 data class PlaceDescription(
     val name: String,

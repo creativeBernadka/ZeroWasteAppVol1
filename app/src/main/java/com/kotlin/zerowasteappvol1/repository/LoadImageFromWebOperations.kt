@@ -7,7 +7,7 @@ import java.net.URL
 fun loadImageFromWebOperations(url: String): Drawable? {
     return try {
         val `is` = URL(url).content as InputStream
-        Drawable.createFromStream(`is`, "src name")
+        Drawable.createFromStream(`is`, "src place_name")
     } catch (e: Exception) {
         null
     }

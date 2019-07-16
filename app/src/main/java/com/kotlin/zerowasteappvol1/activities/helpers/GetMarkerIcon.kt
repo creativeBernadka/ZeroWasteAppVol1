@@ -1,7 +1,6 @@
 package com.kotlin.zerowasteappvol1.activities.helpers
 
 import com.kotlin.zerowasteappvol1.R
-import com.kotlin.zerowasteappvol1.database.ShortPlace
 
 fun getMarkerIcon (typeOfPlace: String?): Int{
     return when (typeOfPlace){

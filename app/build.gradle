@@ -76,7 +76,10 @@ dependencies {
 //    CSV reading
     implementation 'com.opencsv:opencsv:3.9'
 
-//    converting to JSON
-    implementation 'com.google.code.gson:gson:2.8.2'
+//    converting JSON
+    implementation 'com.google.code.gson:gson:2.8.5'
 
+//    Retrofit - connections with API
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
 }

@@ -8,7 +8,7 @@ import dagger.BindsInstance
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ViewModelModule::class, RepositoryModule::class, DatabaseModule::class, ScopeModule::class])
+@Component(modules = [ViewModelModule::class, RepositoryModule::class, ScopeModule::class])
 interface AppComponent {
 
     fun inject(target: MapsActivity)

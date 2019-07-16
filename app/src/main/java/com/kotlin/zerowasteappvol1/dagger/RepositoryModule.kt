@@ -1,6 +1,5 @@
 package com.kotlin.zerowasteappvol1.dagger
 
-import com.kotlin.zerowasteappvol1.database.PlacesDao
 import com.kotlin.zerowasteappvol1.repository.PlacesRepository
 import com.kotlin.zerowasteappvol1.repository.PlacesRepositoryImpl
 import dagger.Module
@@ -12,6 +11,6 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun providePlacesRepository(placesDao: PlacesDao): PlacesRepository =
-        PlacesRepositoryImpl(placesDao)
+    fun providePlacesRepository(): PlacesRepository =
+        PlacesRepositoryImpl()
 }
