@@ -37,7 +37,7 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
 
     override fun getPlaceDescription(shortPlace: ShortPlace?, context: Context){
         scope.launch(Dispatchers.IO) {
-            placeDescription.postValue(async{repository.getMarkerDescriptionAsync(shortPlace, context)}.await())
+            placeDescription.postValue(async{repository.getMarkerDescriptionAsync(shortPlace!!.places_id, context)}.await())
             placeImages.postValue(async { repository.getMarkerImagesAsync(shortPlace) }.await())
         }
     }

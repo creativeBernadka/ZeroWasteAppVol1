@@ -10,7 +10,7 @@ import com.kotlin.zerowasteappvol1.models.ShortPlace
 interface PlacesRepository {
 
     suspend fun getAllPlacesAsync(): List<ShortPlace>
-    suspend fun getMarkerDescriptionAsync(shortPlace: ShortPlace?, context: Context): PlaceDescriptionWithAddress?
+    suspend fun getMarkerDescriptionAsync(shortPlaceID: Int, context: Context): PlaceDescriptionWithAddress?
     suspend fun getMarkerImagesAsync(shortPlace: ShortPlace?): List<Drawable?>
     suspend fun getMarkerDetailsAsync(shortPlace: ShortPlace): LiveData<Place>
     suspend fun getFiveNearestPlacesAsync(location: LatLng, context: Context): List<ShortPlaceWithAddress>

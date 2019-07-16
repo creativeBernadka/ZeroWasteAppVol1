@@ -39,7 +39,6 @@ class PlacesRepositoryImpl:
 
     @WorkerThread
     override suspend fun getAllPlacesAsync(): List<ShortPlace>{
-//        delay(2000)
         val service = RetrofitFactory.makeRetrofitService()
         val places = service.getAllPlaces()
         allPlaces = places.places
