@@ -37,6 +37,10 @@ paths:
         required: true
         type: "integer"
         format: "int64"
+      - name: "dayOfWeek"
+        in: "query"
+        description: "Number representing day of week (where 1 is Monday and 7 Sunday) to get opening hours for this specific day."
+        type: "integer"
       responses:
         200:
           description: "successful operation"

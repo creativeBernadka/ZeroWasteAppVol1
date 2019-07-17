@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="191e7cd3-b102-4e49-96f1-4a9424391730" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/activities/helpers/CreateObservers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/activities/helpers/CreateObservers.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/activities/helpers/SearchResultsOperations.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/activities/helpers/SearchResultsOperations.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/dagger/PlacesViewModelMock.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/dagger/PlacesViewModelMock.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/repository/PlaceDescriptionWithAddress.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/models/PlaceDescriptionWithAddress.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/repository/PlacesRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/repository/PlacesRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/repository/PlacesRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/repository/PlacesRepositoryImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/repository/ShortPlaceWithAddress.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/models/ShortPlaceWithAddress.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/viewModel/PlacesViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/viewModel/PlacesViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/viewModel/PlacesViewModelImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/com/kotlin/zerowasteappvol1/viewModel/PlacesViewModelImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/DefaultServices.js" beforeDir="false" afterPath="$PROJECT_DIR$/service/DefaultServices.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/swagger.yaml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,10 +16,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/Default.js">
+        <entry file="file://$PROJECT_DIR$/controllers/Controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="53" selection-start-line="11" selection-start-column="53" selection-end-line="11" selection-end-column="53" />
+            <state>
+              <caret selection-end-line="2" />
             </state>
           </provider>
         </entry>
@@ -36,20 +27,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/service/DefaultServices.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="47" column="8" lean-forward="true" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="8" />
+            <state relative-caret-position="17">
+              <caret line="30" column="66" lean-forward="true" selection-start-line="30" selection-start-column="66" selection-end-line="30" selection-end-column="66" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="323">
-                <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
-              </first_editor>
-              <second_editor />
+        <entry file="file://$PROJECT_DIR$/api/swagger.yaml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="41" column="21" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -57,8 +45,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="2" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="2" />
+            <state>
+              <caret lean-forward="true" selection-end-line="2" />
             </state>
           </provider>
         </entry>
@@ -98,6 +86,8 @@
         <option value="$PROJECT_DIR$/models/placesModel.js" />
         <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/service/DefaultServices.js" />
+        <option value="$PROJECT_DIR$/controllers/Controller.js" />
+        <option value="$PROJECT_DIR$/api/swagger.yaml" />
       </list>
     </option>
   </component>
@@ -119,6 +109,16 @@
             <path>
               <item name="nodejs-server" type="b2602c69:ProjectViewProjectNode" />
               <item name="nodejs-server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="nodejs-server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="nodejs-server" type="462c0819:PsiDirectoryNode" />
+              <item name=".swagger-codegen" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="nodejs-server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="nodejs-server" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="nodejs-server" type="b2602c69:ProjectViewProjectNode" />
@@ -190,10 +190,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13676000" />
+    <option name="totallyTimeSpent" value="13785000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49756098" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -236,17 +237,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/Default.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="53" selection-start-line="11" selection-start-column="53" selection-end-line="11" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="2" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="2" />
+        <state>
+          <caret lean-forward="true" selection-end-line="2" />
         </state>
       </provider>
     </entry>
@@ -273,8 +267,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/service/DefaultServices.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="47" column="8" lean-forward="true" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="8" />
+        <state relative-caret-position="17">
+          <caret line="30" column="66" lean-forward="true" selection-start-line="30" selection-start-column="66" selection-end-line="30" selection-end-column="66" />
         </state>
       </provider>
     </entry>
@@ -285,6 +279,20 @@
             <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
           </first_editor>
           <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/Controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/swagger.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="41" column="21" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="21" />
         </state>
       </provider>
     </entry>

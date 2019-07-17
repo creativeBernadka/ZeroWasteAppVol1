@@ -9,5 +9,6 @@ module.exports.getAllPlaces = function getAllPlaces (req, res, next) {
 
 module.exports.getPlaceDescriptionById = function getPlaceDescriptionById (req, res, next) {
   const placeId = req.swagger.params['placeId'].value;
-  Controller.getPlaceDescriptionById(req, res, placeId);
+  const dayOfWeek = req.swagger.params['dayOfWeek'].value;
+  Controller.getPlaceDescriptionById(req, res, placeId, dayOfWeek);
 };
