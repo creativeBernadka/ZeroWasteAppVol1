@@ -1,6 +1,5 @@
 package com.kotlin.zerowasteappvol1.activities.helpers
 
-import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -9,7 +8,7 @@ import com.google.gson.Gson
 import com.kotlin.zerowasteappvol1.R
 import com.kotlin.zerowasteappvol1.activities.SearchActivity
 import com.kotlin.zerowasteappvol1.models.ShortPlace
-import com.kotlin.zerowasteappvol1.repository.ShortPlaceWithAddress
+import com.kotlin.zerowasteappvol1.models.ShortPlaceWithAddress
 
 class SearchResultsOperations(private val activity: SearchActivity) {
 

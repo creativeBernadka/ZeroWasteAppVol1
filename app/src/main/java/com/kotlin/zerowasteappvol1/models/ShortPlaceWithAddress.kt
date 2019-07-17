@@ -1,4 +1,4 @@
-package com.kotlin.zerowasteappvol1.repository
+package com.kotlin.zerowasteappvol1.models
 
 import com.google.android.gms.maps.model.LatLng
 

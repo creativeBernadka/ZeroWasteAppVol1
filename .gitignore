@@ -5,7 +5,7 @@
 MySQL/set_client.sql
 backend/config.js
 nodejs-server/config.js
-
+app/src/main/res/values/google_maps_api_value.xml
 ### Kotlin ###
 # Compiled class file
 *.class

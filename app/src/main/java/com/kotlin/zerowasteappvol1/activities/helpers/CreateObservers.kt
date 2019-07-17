@@ -10,7 +10,7 @@ import com.kotlin.zerowasteappvol1.R
 import com.kotlin.zerowasteappvol1.activities.MapsActivity
 import com.kotlin.zerowasteappvol1.activities.SearchActivity
 import com.kotlin.zerowasteappvol1.viewModel.PlacesViewModel
-import com.kotlin.zerowasteappvol1.repository.ShortPlaceWithAddress
+import com.kotlin.zerowasteappvol1.models.ShortPlaceWithAddress
 
 class CreateObservers {
 

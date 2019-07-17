@@ -28,7 +28,7 @@ exports.getAllPlaces = function(req, res) {
  * placeId Long ID of place to return
  * returns PlaceWithDescription
  **/
-exports.getPlaceDescriptionById = async function(req, res, placeId) {
+exports.getPlaceDescriptionById = async function(req, res, placeId, dayOfWeek) {
     let description = {};
     let images = {};
 
@@ -37,8 +37,8 @@ exports.getPlaceDescriptionById = async function(req, res, placeId) {
             'SELECT places.place_name, places.rating, places.type_of_place, places.phone_number, places.website, ' +
             'opening_hours.start_hour, opening_hours.end_hour, opening_hours.day_of_week ' +
             'FROM places INNER JOIN opening_hours ON places.places_id = opening_hours.place_id ' +
-            'WHERE places.places_id = ? LIMIT 1',
-            [placeId]
+            'WHERE places.places_id = ? AND opening_hours.day_of_week = ? LIMIT 1',
+            [placeId, dayOfWeek]
         );
     }
     catch (err) {

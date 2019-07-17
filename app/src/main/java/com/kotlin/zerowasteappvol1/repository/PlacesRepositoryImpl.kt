@@ -6,16 +6,13 @@ import android.graphics.drawable.Drawable
 import android.location.Address
 import android.support.annotation.WorkerThread
 import com.kotlin.zerowasteappvol1.database.Place
-import kotlinx.coroutines.delay
 import java.util.*
-import javax.inject.Inject
 import android.location.Geocoder
-import android.location.Location
 import com.google.android.gms.maps.model.LatLng
+import com.kotlin.zerowasteappvol1.models.PlaceDescriptionWithAddress
 import com.kotlin.zerowasteappvol1.models.ShortPlace
+import com.kotlin.zerowasteappvol1.models.ShortPlaceWithAddress
 import com.kotlin.zerowasteappvol1.repository.retrofit.RetrofitService
-import me.xdrop.fuzzywuzzy.FuzzySearch
-import me.xdrop.fuzzywuzzy.model.ExtractedResult
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -46,24 +43,20 @@ class PlacesRepositoryImpl:
     }
 
     @WorkerThread
-    override suspend fun getMarkerDescriptionAsync(shortPlace: ShortPlace?, context: Context)
+    override suspend fun getMarkerDescriptionAsync(shortPlaceID: Int, context: Context)
             : PlaceDescriptionWithAddress?{
-//        delay(500)
-//
-//        val name = shortPlace!!.place_name
-//        val coordinates = shortPlace.coordinates
-//        val calendar = Calendar.getInstance()
-//        val dayOfWeek =
-//            when (calendar.get(Calendar.DAY_OF_WEEK)){
-//                Calendar.MONDAY -> 1
-//                Calendar.TUESDAY -> 2
-//                Calendar.WEDNESDAY -> 3
-//                Calendar.THURSDAY -> 4
-//                Calendar.FRIDAY -> 5
-//                Calendar.SATURDAY -> 6
-//                Calendar.SUNDAY -> 7
-//                else -> 1
-//            }
+        val calendar = Calendar.getInstance()
+        val dayOfWeek =
+            when (calendar.get(Calendar.DAY_OF_WEEK)){
+                Calendar.MONDAY -> 1
+                Calendar.TUESDAY -> 2
+                Calendar.WEDNESDAY -> 3
+                Calendar.THURSDAY -> 4
+                Calendar.FRIDAY -> 5
+                Calendar.SATURDAY -> 6
+                Calendar.SUNDAY -> 7
+                else -> 1
+            }
 //
 //        val markerDescription = placesDao.getMarkerDescription(name, coordinates.latitude, coordinates.longitude, dayOfWeek)
 //        val placeDescriptionWithAddress = PlaceDescriptionWithAddress(name)

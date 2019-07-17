@@ -9,10 +9,10 @@ import android.graphics.drawable.Drawable
 import com.google.android.gms.maps.model.LatLng
 import com.kotlin.zerowasteappvol1.database.Place
 import com.kotlin.zerowasteappvol1.models.ShortPlace
-import com.kotlin.zerowasteappvol1.repository.PlaceDescriptionWithAddress
+import com.kotlin.zerowasteappvol1.models.PlaceDescriptionWithAddress
 import com.kotlin.zerowasteappvol1.repository.loadImageFromWebOperations
 import com.kotlin.zerowasteappvol1.viewModel.PlacesViewModel
-import com.kotlin.zerowasteappvol1.repository.ShortPlaceWithAddress
+import com.kotlin.zerowasteappvol1.models.ShortPlaceWithAddress
 import javax.inject.Inject
 
 class PlacesViewModelMock @Inject constructor(application: Application)
