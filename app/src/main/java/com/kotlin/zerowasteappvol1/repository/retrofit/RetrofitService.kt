@@ -1,9 +1,11 @@
 package com.kotlin.zerowasteappvol1.repository.retrofit
 
+import com.kotlin.zerowasteappvol1.models.Description
 import com.kotlin.zerowasteappvol1.models.ListOfShortPlaces
 import com.kotlin.zerowasteappvol1.models.PlaceDescription
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface RetrofitService {
 
@@ -11,5 +13,5 @@ interface RetrofitService {
     suspend fun getAllPlaces(): ListOfShortPlaces
 
     @GET("places/{places_id}")
-    suspend fun getPlaceDescription(@Path("places_id") id: String): PlaceDescription
+    suspend fun getPlaceDescription(@Path("places_id") id: Int, @Query("dayOfWeek") dayOfWeek: Int): Description
 }

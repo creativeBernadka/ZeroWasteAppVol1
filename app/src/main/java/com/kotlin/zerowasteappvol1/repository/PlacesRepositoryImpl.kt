@@ -9,9 +9,7 @@ import com.kotlin.zerowasteappvol1.database.Place
 import java.util.*
 import android.location.Geocoder
 import com.google.android.gms.maps.model.LatLng
-import com.kotlin.zerowasteappvol1.models.PlaceDescriptionWithAddress
-import com.kotlin.zerowasteappvol1.models.ShortPlace
-import com.kotlin.zerowasteappvol1.models.ShortPlaceWithAddress
+import com.kotlin.zerowasteappvol1.models.*
 import com.kotlin.zerowasteappvol1.repository.retrofit.RetrofitService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -23,7 +21,7 @@ class PlacesRepositoryImpl:
     lateinit var allPlaces: List<ShortPlace>
 
     object RetrofitFactory {
-        private const val ip = "192.168.1.198"
+        private const val ip = "192.168.1.127"
         private const val BASE_URL = "http://$ip:3000/"
 
         fun makeRetrofitService(): RetrofitService {
@@ -44,7 +42,7 @@ class PlacesRepositoryImpl:
 
     @WorkerThread
     override suspend fun getMarkerDescriptionAsync(shortPlaceID: Int, context: Context)
-            : PlaceDescriptionWithAddress?{
+            : DescriptionX{
         val calendar = Calendar.getInstance()
         val dayOfWeek =
             when (calendar.get(Calendar.DAY_OF_WEEK)){
@@ -57,6 +55,10 @@ class PlacesRepositoryImpl:
                 Calendar.SUNDAY -> 7
                 else -> 1
             }
+
+        val service = RetrofitFactory.makeRetrofitService()
+        val places = service.getPlaceDescription(shortPlaceID, dayOfWeek)
+        return places.description
 //
 //        val markerDescription = placesDao.getMarkerDescription(name, coordinates.latitude, coordinates.longitude, dayOfWeek)
 //        val placeDescriptionWithAddress = PlaceDescriptionWithAddress(name)
@@ -90,7 +92,10 @@ class PlacesRepositoryImpl:
     }
 
     @WorkerThread
-    override suspend fun getMarkerImagesAsync(shortPlace: ShortPlace?): List<Drawable?>{
+    override suspend fun getMarkerImagesAsync(urls: List<Image>): List<Drawable?>{
+        return urls.map { item ->
+            loadImageFromWebOperations(item.url)
+        }
 //        delay(500)
 //        val name = shortPlace!!.place_name
 //        val coordinates = shortPlace.coordinates

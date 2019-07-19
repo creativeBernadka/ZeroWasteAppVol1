@@ -37,8 +37,17 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
 
     override fun getPlaceDescription(shortPlace: ShortPlace?, context: Context){
         scope.launch(Dispatchers.IO) {
-            placeDescription.postValue(async{repository.getMarkerDescriptionAsync(shortPlace!!.places_id, context)}.await())
-            placeImages.postValue(async { repository.getMarkerImagesAsync(shortPlace) }.await())
+            val descriptionJSON = async{repository.getMarkerDescriptionAsync(shortPlace!!.places_id, context)}.await()
+            val place = PlaceDescriptionWithAddress(descriptionJSON.place_name)
+            place.rating = descriptionJSON.rating
+            place.typeOfPlace = descriptionJSON.type_of_place
+            place.startHour = descriptionJSON.start_hour
+            place.endHour = descriptionJSON.end_hour
+            place.address = "Powstańców Sląskich 3"
+            place.phoneNumber = descriptionJSON.phone_number
+            place.website = descriptionJSON.website
+            placeDescription.postValue(place)
+            placeImages.postValue(async { repository.getMarkerImagesAsync(descriptionJSON.images) }.await())
         }
     }
 
