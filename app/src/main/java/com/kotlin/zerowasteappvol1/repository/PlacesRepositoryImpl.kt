@@ -58,28 +58,27 @@ class PlacesRepositoryImpl:
 
         val service = RetrofitFactory.makeRetrofitService()
         val places = service.getPlaceDescription(shortPlaceID, dayOfWeek)
+        val coordinates = LatLng(places.description.latitude, places.description.longitude)
+        val geocoder = Geocoder(context, Locale.getDefault())
+        var addresses: List<Address>? = listOf()
+        try{
+             addresses =
+                geocoder.getFromLocation(coordinates.latitude, coordinates.longitude, 1)
+        }
+        catch(e:Exception){
+            e.printStackTrace()
+        }
+        places.description.address =
+            if (addresses != null){
+                addresses.map{item -> item.getAddressLine(0)?.toString()}[0]
+            }
+            else{
+                null
+            }
 
+        places.description.start_hour = places.description.start_hour.dropLast(3)
+        places.description.end_hour = places.description.end_hour.dropLast(3)
         return places.description
-
-//        val geocoder = Geocoder(context, Locale.getDefault())
-//        val addresses: List<Address>? =
-//            try{
-//                geocoder.getFromLocation(coordinates.latitude, coordinates.longitude, 1)
-//            }
-//            catch(e:Exception){
-//                null
-//            }
-//
-//        placeDescriptionWithAddress.address =
-//            if (addresses != null){
-//                addresses.map{item -> item.getAddressLine(0)?.toString()}[0]
-//            }
-//            else{
-//                null
-//            }
-//
-//        return placeDescriptionWithAddress
-        TODO()
     }
 
     @WorkerThread

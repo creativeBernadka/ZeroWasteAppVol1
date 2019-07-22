@@ -7,10 +7,10 @@ data class PlaceDescriptionWithImages(
     val rating: Double,
     val type_of_place: String,
     val day_of_week: Int,
-    val start_hour: String,
-    val end_hour: String,
+    var start_hour: String,
+    var end_hour: String,
     val images: List<Image>,
     val phone_number: String,
     val website: String,
-    val address: String
+    var address: String?
 )
