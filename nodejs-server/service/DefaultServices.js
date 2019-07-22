@@ -34,7 +34,8 @@ exports.getPlaceDescriptionById = async function(req, res, placeId, dayOfWeek) {
 
     try{
         description = await query(
-            'SELECT places.place_name, places.rating, places.type_of_place, places.phone_number, places.website, ' +
+            'SELECT places.place_name, places.latitude, places.longitude, places.rating, places.type_of_place,' +
+            ' places.phone_number, places.website, ' +
             'opening_hours.start_hour, opening_hours.end_hour, opening_hours.day_of_week ' +
             'FROM places INNER JOIN opening_hours ON places.places_id = opening_hours.place_id ' +
             'WHERE places.places_id = ? AND opening_hours.day_of_week = ? LIMIT 1',
