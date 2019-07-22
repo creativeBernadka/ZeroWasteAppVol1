@@ -2,7 +2,6 @@ package com.kotlin.zerowasteappvol1.repository.retrofit
 
 import com.kotlin.zerowasteappvol1.models.Description
 import com.kotlin.zerowasteappvol1.models.ListOfShortPlaces
-import com.kotlin.zerowasteappvol1.models.PlaceDescription
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

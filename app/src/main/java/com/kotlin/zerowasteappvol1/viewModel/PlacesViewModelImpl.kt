@@ -9,9 +9,10 @@ import android.graphics.drawable.Drawable
 import com.google.android.gms.maps.model.LatLng
 import com.kotlin.zerowasteappvol1.database.Place
 import com.kotlin.zerowasteappvol1.models.ShortPlace
-import com.kotlin.zerowasteappvol1.models.PlaceDescriptionWithAddress
+import com.kotlin.zerowasteappvol1.models.PlaceDescription
 import com.kotlin.zerowasteappvol1.repository.PlacesRepository
 import com.kotlin.zerowasteappvol1.models.ShortPlaceWithAddress
+import com.kotlin.zerowasteappvol1.viewModel.helpers.createPlaceDescriptionObject
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -20,7 +21,7 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
     : AndroidViewModel(application), PlacesViewModel {
 
     override var allPlaces =  MutableLiveData<List<ShortPlace>>()
-    override var placeDescription = MutableLiveData<PlaceDescriptionWithAddress>()
+    override var placeDescription = MutableLiveData<PlaceDescription>()
     override var placeImages = MutableLiveData<List<Drawable?>>()
     override var fiveNearestPlaces =  MutableLiveData<List<ShortPlaceWithAddress>>()
     override var fiveBestFittingPlaces = MutableLiveData<List<ShortPlaceWithAddress?>>()
@@ -38,14 +39,7 @@ class PlacesViewModelImpl @Inject constructor(application: Application, var repo
     override fun getPlaceDescription(shortPlace: ShortPlace?, context: Context){
         scope.launch(Dispatchers.IO) {
             val descriptionJSON = async{repository.getMarkerDescriptionAsync(shortPlace!!.places_id, context)}.await()
-            val place = PlaceDescriptionWithAddress(descriptionJSON.place_name)
-            place.rating = descriptionJSON.rating
-            place.typeOfPlace = descriptionJSON.type_of_place
-            place.startHour = descriptionJSON.start_hour
-            place.endHour = descriptionJSON.end_hour
-            place.address = descriptionJSON.address
-            place.phoneNumber = descriptionJSON.phone_number
-            place.website = descriptionJSON.website
+            val place = createPlaceDescriptionObject(descriptionJSON)
             placeDescription.postValue(place)
             placeImages.postValue(async { repository.getMarkerImagesAsync(descriptionJSON.images) }.await())
         }

@@ -1,12 +1,12 @@
 package com.kotlin.zerowasteappvol1.models
 
-data class PlaceDescription(
-    val name: String,
-    val rating: Double?,
-    val typeOfPlace: String?,
-    val phoneNumber: String?,
-    val website: String?,
-    val startHour: String,
-    val endHour: String,
-    val dayOfWeek: Int
-)
+
+data class PlaceDescription(var name: String) {
+    var rating: Double? = null
+    var typeOfPlace: String? = null
+    var startHour: String? = null
+    var endHour: String? = null
+    var address: String? = null
+    var phoneNumber: String? = null
+    var website: String? = null
+}

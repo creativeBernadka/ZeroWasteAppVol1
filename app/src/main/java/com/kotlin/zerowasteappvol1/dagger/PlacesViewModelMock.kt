@@ -9,7 +9,7 @@ import android.graphics.drawable.Drawable
 import com.google.android.gms.maps.model.LatLng
 import com.kotlin.zerowasteappvol1.database.Place
 import com.kotlin.zerowasteappvol1.models.ShortPlace
-import com.kotlin.zerowasteappvol1.models.PlaceDescriptionWithAddress
+import com.kotlin.zerowasteappvol1.models.PlaceDescription
 import com.kotlin.zerowasteappvol1.repository.loadImageFromWebOperations
 import com.kotlin.zerowasteappvol1.viewModel.PlacesViewModel
 import com.kotlin.zerowasteappvol1.models.ShortPlaceWithAddress
@@ -35,7 +35,7 @@ class PlacesViewModelMock @Inject constructor(application: Application)
 
 
     override var allPlaces =  MutableLiveData<List<ShortPlace>>()
-    override var placeDescription = MutableLiveData<PlaceDescriptionWithAddress>()
+    override var placeDescription = MutableLiveData<PlaceDescription>()
     override var placeImages = MutableLiveData<List<Drawable?>>()
 
     init {
@@ -53,7 +53,7 @@ class PlacesViewModelMock @Inject constructor(application: Application)
     }
 
     override fun getPlaceDescription(shortPlace: ShortPlace?, context: Context){
-        val place = PlaceDescriptionWithAddress("Miejsce 1")
+        val place = PlaceDescription("Miejsce 1")
         place.rating = 5.0
         place.typeOfPlace = "sklep"
         place.phoneNumber = "123456789"

@@ -7,12 +7,12 @@ import android.graphics.drawable.Drawable
 import com.google.android.gms.maps.model.LatLng
 import com.kotlin.zerowasteappvol1.database.Place
 import com.kotlin.zerowasteappvol1.models.ShortPlace
-import com.kotlin.zerowasteappvol1.models.PlaceDescriptionWithAddress
+import com.kotlin.zerowasteappvol1.models.PlaceDescription
 import com.kotlin.zerowasteappvol1.models.ShortPlaceWithAddress
 
 interface PlacesViewModel {
     var allPlaces: MutableLiveData<List<ShortPlace>>
-    var placeDescription: MutableLiveData<PlaceDescriptionWithAddress>
+    var placeDescription: MutableLiveData<PlaceDescription>
     var placeImages: MutableLiveData<List<Drawable?>>
     var fiveNearestPlaces: MutableLiveData<List<ShortPlaceWithAddress>>
     var fiveBestFittingPlaces: MutableLiveData<List<ShortPlaceWithAddress?>>
