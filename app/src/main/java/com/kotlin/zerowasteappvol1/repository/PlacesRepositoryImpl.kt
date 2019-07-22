@@ -42,7 +42,7 @@ class PlacesRepositoryImpl:
 
     @WorkerThread
     override suspend fun getMarkerDescriptionAsync(shortPlaceID: Int, context: Context)
-            : DescriptionX{
+            : PlaceDescriptionWithImages{
         val calendar = Calendar.getInstance()
         val dayOfWeek =
             when (calendar.get(Calendar.DAY_OF_WEEK)){
@@ -58,18 +58,9 @@ class PlacesRepositoryImpl:
 
         val service = RetrofitFactory.makeRetrofitService()
         val places = service.getPlaceDescription(shortPlaceID, dayOfWeek)
+
         return places.description
-//
-//        val markerDescription = placesDao.getMarkerDescription(name, coordinates.latitude, coordinates.longitude, dayOfWeek)
-//        val placeDescriptionWithAddress = PlaceDescriptionWithAddress(name)
-//
-//        placeDescriptionWithAddress.rating = markerDescription.rating
-//        placeDescriptionWithAddress.typeOfPlace = markerDescription.typeOfPlace
-//        placeDescriptionWithAddress.startHour = markerDescription.startHour
-//        placeDescriptionWithAddress.endHour = markerDescription.endHour
-//        placeDescriptionWithAddress.phoneNumber = markerDescription.phoneNumber
-//        placeDescriptionWithAddress.website = markerDescription.website
-//
+
 //        val geocoder = Geocoder(context, Locale.getDefault())
 //        val addresses: List<Address>? =
 //            try{
@@ -96,14 +87,6 @@ class PlacesRepositoryImpl:
         return urls.map { item ->
             loadImageFromWebOperations(item.url)
         }
-//        delay(500)
-//        val name = shortPlace!!.place_name
-//        val coordinates = shortPlace.coordinates
-//        val urls = placesDao.getMarkerImages(name, coordinates.latitude, coordinates.longitude)
-//        return urls.map { item ->
-//            loadImageFromWebOperations(item)
-//        }
-        TODO()
     }
 
     @WorkerThread
