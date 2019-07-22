@@ -21,7 +21,7 @@ class PlacesRepositoryImpl:
     lateinit var allPlaces: List<ShortPlace>
 
     object RetrofitFactory {
-        private const val ip = "192.168.1.127"
+        private const val ip = "192.168.1.198"
         private const val BASE_URL = "http://$ip:3000/"
 
         fun makeRetrofitService(): RetrofitService {

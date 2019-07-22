@@ -13,5 +13,5 @@ interface RetrofitService {
     suspend fun getAllPlaces(): ListOfShortPlaces
 
     @GET("places/{places_id}")
-    suspend fun getPlaceDescription(@Path("places_id") id: Int, @Query("dayOfWeek") dayOfWeek: Int): Description
+    suspend fun getPlaceDescription(@Path("places_id") id: Int, @Query("dayOfWeek") dayOfWeek: Int = 1): Description
 }
