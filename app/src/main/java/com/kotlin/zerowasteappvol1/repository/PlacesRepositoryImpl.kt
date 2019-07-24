@@ -8,9 +8,12 @@ import android.support.annotation.WorkerThread
 import com.kotlin.zerowasteappvol1.database.Place
 import java.util.*
 import android.location.Geocoder
+import android.location.Location
 import com.google.android.gms.maps.model.LatLng
 import com.kotlin.zerowasteappvol1.models.*
 import com.kotlin.zerowasteappvol1.repository.retrofit.RetrofitService
+import me.xdrop.fuzzywuzzy.FuzzySearch
+import me.xdrop.fuzzywuzzy.model.ExtractedResult
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -99,86 +102,93 @@ class PlacesRepositoryImpl:
 
     @WorkerThread
     override suspend fun getFiveNearestPlacesAsync(location: LatLng, context: Context): List<ShortPlaceWithAddress> {
-//        val places =
-//            if (::allPlaces.isInitialized) allPlaces
-//            else placesDao.getAllPlaces()
-//        val distanceMarkerMap: HashMap<Float, ShortPlace> = HashMap()
-//        val startLocation = Location("start location")
-//        startLocation.latitude = location.latitude
-//        startLocation.longitude = location.longitude
-//
-//        places.forEach{ place ->
-//            val endLocation = Location("end location")
-//            endLocation.latitude = place.latitude
-//            endLocation.longitude = place.longitude
-//            distanceMarkerMap[startLocation.distanceTo(endLocation)] = place
-//        }
-//
-//        val sortedPlaces = distanceMarkerMap.toSortedMap().values
-//
-//        return sortedPlaces.take(5).map { place ->
-//            val address = getAddress(place, context)
-//            ShortPlaceWithAddress(place.places_id, place.place_name, place.coordinates, address, place.type_of_place)
-//        }
-        TODO()
+        val places =
+            if (::allPlaces.isInitialized) allPlaces
+            else{
+                val service = RetrofitFactory.makeRetrofitService()
+                val places = service.getAllPlaces()
+                places.places
+            }
+        val distanceMarkerMap: HashMap<Float, ShortPlace> = HashMap()
+        val startLocation = Location("start location")
+        startLocation.latitude = location.latitude
+        startLocation.longitude = location.longitude
+
+        places.forEach{ place ->
+            val endLocation = Location("end location")
+            endLocation.latitude = place.latitude
+            endLocation.longitude = place.longitude
+            distanceMarkerMap[startLocation.distanceTo(endLocation)] = place
+        }
+
+        val sortedPlaces = distanceMarkerMap.toSortedMap().values
+
+        return sortedPlaces.take(5).map { place ->
+            val address = getAddress(place, context)
+            ShortPlaceWithAddress(place.places_id, place.place_name, place.coordinates, address, place.type_of_place)
+        }
+
     }
 
     @WorkerThread
     override suspend fun getFiveBestFittingPlacesAsync(name: String, context: Context): List<ShortPlaceWithAddress?> {
-//        val places =
-//            if (::allPlaces.isInitialized) allPlaces
-//            else placesDao.getAllPlaces()
-//        val namesMarkerMap: HashMap<String, ShortPlace> = HashMap()
-//        val addressMarkerMap: HashMap<String, ShortPlace> = HashMap()
-//
-//        val placesNames = places.map { place ->
-//            namesMarkerMap[place.place_name] = place
-//            place.place_name
-//        }
-//
-//        val bestFiveWithRespectToNameWithResults = FuzzySearch.extractTop(name, placesNames, 5)
-//
-//        val placesAddresses = places.map { place ->
-//            val address = getAddress(place, context)
-//            if (address != null){
-//                addressMarkerMap[address] = place
-//            }
-//            address
-//        }.filter { place -> place != null }
-//
-//        var bestFiveWithRespectToAddressWithResults = listOf<ExtractedResult>()
-//
-//        if (!placesAddresses.isNullOrEmpty()){
-//            bestFiveWithRespectToAddressWithResults = FuzzySearch.extractTop(name, placesAddresses, 5)
-//        }
-//
-//        val bestFiveWithResults = bestFiveWithRespectToAddressWithResults.union(bestFiveWithRespectToNameWithResults)
-//
-//        val bestFiveSorted = bestFiveWithResults.sortedWith(CompareObjects)
-//
-//        return bestFiveSorted.map { place ->
-//            if( place.string in namesMarkerMap.keys){
-//                val shortPlace = namesMarkerMap[place.string]
-//                return@map ShortPlaceWithAddress(
-//                    shortPlace!!.places_id,
-//                    shortPlace.place_name,
-//                    shortPlace.coordinates,
-//                    getAddress(shortPlace, context),
-//                    shortPlace.type_of_place
-//                )
-//            }
-//            else{
-//                val shortPlace = addressMarkerMap[place.string]
-//                return@map ShortPlaceWithAddress(
-//                    shortPlace!!.places_id,
-//                    shortPlace.place_name,
-//                    shortPlace.coordinates,
-//                    place.string,
-//                    shortPlace.type_of_place
-//                )
-//            }
-//        }
-        TODO()
+        val places =
+            if (::allPlaces.isInitialized) allPlaces
+            else{
+                val service = RetrofitFactory.makeRetrofitService()
+                val places = service.getAllPlaces()
+                places.places
+            }
+        val namesMarkerMap: HashMap<String, ShortPlace> = HashMap()
+        val addressMarkerMap: HashMap<String, ShortPlace> = HashMap()
+
+        val placesNames = places.map { place ->
+            namesMarkerMap[place.place_name] = place
+            place.place_name
+        }
+
+        val bestFiveWithRespectToNameWithResults = FuzzySearch.extractTop(name, placesNames, 5)
+
+        val placesAddresses = places.map { place ->
+            val address = getAddress(place, context)
+            if (address != null){
+                addressMarkerMap[address] = place
+            }
+            address
+        }.filter { place -> place != null }
+
+        var bestFiveWithRespectToAddressWithResults = listOf<ExtractedResult>()
+
+        if (!placesAddresses.isNullOrEmpty()){
+            bestFiveWithRespectToAddressWithResults = FuzzySearch.extractTop(name, placesAddresses, 5)
+        }
+
+        val bestFiveWithResults = bestFiveWithRespectToAddressWithResults.union(bestFiveWithRespectToNameWithResults)
+
+        val bestFiveSorted = bestFiveWithResults.sortedWith(CompareObjects)
+
+        return bestFiveSorted.map { place ->
+            if( place.string in namesMarkerMap.keys){
+                val shortPlace = namesMarkerMap[place.string]
+                return@map ShortPlaceWithAddress(
+                    shortPlace!!.places_id,
+                    shortPlace.place_name,
+                    shortPlace.coordinates,
+                    getAddress(shortPlace, context),
+                    shortPlace.type_of_place
+                )
+            }
+            else{
+                val shortPlace = addressMarkerMap[place.string]
+                return@map ShortPlaceWithAddress(
+                    shortPlace!!.places_id,
+                    shortPlace.place_name,
+                    shortPlace.coordinates,
+                    place.string,
+                    shortPlace.type_of_place
+                )
+            }
+        }
     }
 
     private fun getAddress(place: ShortPlace, context: Context): String? {
