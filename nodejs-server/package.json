@@ -7,10 +7,11 @@
     "start": "npx nodemon server.js"
   },
   "keywords": [
-    "swagger"
+    "swagger",
+    "heroku"
   ],
-  "license": "Unlicense",
-  "private": true,
+  "author": "Bernadetta Fryczkowska",
+  "license": "MIT",
   "dependencies": {
     "connect": "^3.2.0",
     "express": "^4.17.1",
@@ -19,5 +20,8 @@
     "nodemon": "^1.19.1",
     "swagger-tools": "^0.10.4",
     "underscore": "^1.9.1"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }
