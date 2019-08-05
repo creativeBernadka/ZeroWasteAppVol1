@@ -50,12 +50,25 @@ class CreateListeners {
                 override fun onAvailable(network: Network) {
                     activity.onNetworkChange(true)
                 }
-
+                override fun onLost(network: Network?) {
+                    super.onLost(network)
+                    activity.onNetworkChange(false)
+                }
                 override fun onUnavailable() {
                     super.onUnavailable()
                     activity.onNetworkChange(false)
                 }
             })
+
+            val activeNetwork = cm.activeNetworkInfo
+            val isConnected = activeNetwork != null && activeNetwork.isConnected
+
+            if (isConnected) {
+                activity.onNetworkChange(true)
+            }
+            else {
+                activity.onNetworkChange(false)
+            }
         }
         else {
             val networkChangeReceiver = NetworkChangeReceiver()

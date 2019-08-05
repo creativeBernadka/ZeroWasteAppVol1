@@ -27,6 +27,8 @@ import com.kotlin.zerowasteappvol1.activities.helpers.*
 import android.net.Network
 import android.content.Context
 import android.content.IntentFilter
+import android.widget.TextView
+import android.widget.Toast
 
 
 class MapsActivity :
@@ -148,9 +150,20 @@ class MapsActivity :
         isNetworkConnected = isConnected
         if (isConnected){
             if (!::points.isInitialized) placesViewModel.getAllPlaces()
+            runOnUiThread {
+                textView_lack_of_internet_connection.visibility = View.GONE
+            }
         }
         else{
+            runOnUiThread {
+                val textViewLackOfInternet = findViewById<TextView>(R.id.textView_lack_of_internet_connection)
+                textViewLackOfInternet.visibility = View.VISIBLE
+                val text = "Do poprawnego działania aplikacji niezbędne jest połączenie z internetem"
+                val duration = Toast.LENGTH_LONG
 
+                val toast = Toast.makeText(this, text, duration)
+                toast.show()
+            }
         }
     }
 }

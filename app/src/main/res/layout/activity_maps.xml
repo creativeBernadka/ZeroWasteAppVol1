@@ -16,16 +16,25 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
 
+    <TextView
+            android:text="BRAK POŁĄCZENIA Z INTERNETEM"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView_lack_of_internet_connection"
+            android:background="@color/common_google_signin_btn_text_light_default"
+            android:gravity="center" android:padding="4dp"
+            android:textColor="@android:color/white" android:textSize="16sp" android:visibility="gone"
+    />
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/SearchPanel"
-        android:hint="Search near"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/SearchPanel"
+            android:hint="Search near"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+            android:layout_below="@id/textView_lack_of_internet_connection"/>
     <Button
             android:text="Filters"
             android:layout_width="wrap_content"
