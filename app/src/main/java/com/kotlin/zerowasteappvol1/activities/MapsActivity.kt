@@ -152,6 +152,10 @@ class MapsActivity :
             if (!::points.isInitialized) placesViewModel.getAllPlaces()
             runOnUiThread {
                 textView_lack_of_internet_connection.visibility = View.GONE
+                val pref = getSharedPreferences("MyPreferences", 0)
+                val shortPlaceJson = pref.getString("shortPlace", "")
+                val place: ShortPlace = Gson().fromJson(shortPlaceJson, ShortPlace::class.java)
+                placesViewModel.getPlaceDescription(place, this)
             }
         }
         else{

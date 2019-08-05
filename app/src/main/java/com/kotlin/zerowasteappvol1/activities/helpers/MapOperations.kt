@@ -126,7 +126,9 @@ class MapOperations(
         activity.findViewById<ProgressBar>(R.id.progressBar_description).visibility = View.VISIBLE
         activity.findViewById<TextView>(R.id.textView_name).text = place?.place_name
         launch {
-            viewModel.getPlaceDescription(place, activity)
+            if(activity.isNetworkConnected){
+                viewModel.getPlaceDescription(place, activity)
+            }
         }
         return true //musi byc true, zeby nie pokazywalo infoWindow
     }
