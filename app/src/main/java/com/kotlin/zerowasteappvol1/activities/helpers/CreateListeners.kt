@@ -157,7 +157,7 @@ class CreateListeners {
         val firstResult = activity.findViewById<LinearLayout>(R.id.linearLayout_first_place)
 
         firstResult.setOnClickListener {
-            putOnSharedPreferences(activity, 2)
+            putOnSharedPreferences(activity, 1)
             activity.finish()
         }
 
