@@ -24,8 +24,8 @@ class PlacesRepositoryImpl:
     lateinit var allPlaces: List<ShortPlace>
 
     object RetrofitFactory {
-        private const val ip = "192.168.1.198"
-        private const val BASE_URL = "http://$ip:3000/"
+//        private const val ip = "192.168.1.198"
+        private const val BASE_URL = "https://zero-waste-database.herokuapp.com/"
 
         fun makeRetrofitService(): RetrofitService {
             return Retrofit.Builder()
