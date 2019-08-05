@@ -1,7 +1,11 @@
 package com.kotlin.zerowasteappvol1.activities.helpers
 
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ResolveInfo
+import android.net.ConnectivityManager
+import android.net.Network
 import android.net.Uri
 import android.widget.Button
 import android.widget.EditText
@@ -13,7 +17,6 @@ import com.kotlin.zerowasteappvol1.R
 import com.kotlin.zerowasteappvol1.activities.MapsActivity
 import com.kotlin.zerowasteappvol1.activities.SearchActivity
 import com.kotlin.zerowasteappvol1.viewModel.PlacesViewModel
-import kotlinx.android.synthetic.main.activity_maps.*
 
 class CreateListeners {
 
@@ -36,7 +39,34 @@ class CreateListeners {
             activity.startActivity(intent)
         }
 
+        createNetworkListener(activity)
         createShortDescriptionListeners(activity)
+    }
+
+    private fun createNetworkListener(activity: MapsActivity){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N){
+            val cm = activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            cm.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
+                override fun onAvailable(network: Network) {
+                    activity.onNetworkChange(true)
+                }
+
+                override fun onUnavailable() {
+                    super.onUnavailable()
+                    activity.onNetworkChange(false)
+                }
+            })
+        }
+        else {
+            val networkChangeReceiver = NetworkChangeReceiver()
+            networkChangeReceiver.setListener(activity)
+            activity.registerReceiver(
+                networkChangeReceiver,
+                IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+            )
+            activity.isNetworkConnected = networkChangeReceiver.isConnected()
+            if(activity.isNetworkConnected) activity.placesViewModel.getAllPlaces()
+        }
     }
 
     private fun createShortDescriptionListeners(activity: MapsActivity){

@@ -1,27 +1,12 @@
 package com.kotlin.zerowasteappvol1.activities
 
-import android.Manifest
-import android.arch.lifecycle.Observer
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.pm.ResolveInfo
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Rect
-import android.graphics.drawable.Drawable
-import android.location.Location
-import android.location.LocationManager
-import android.net.Uri
+import android.net.ConnectivityManager
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.DisplayMetrics
 import android.view.MotionEvent
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -29,7 +14,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.gson.Gson
 import com.kotlin.zerowasteappvol1.R
-import com.kotlin.zerowasteappvol1.activities.helpers.*
 import com.kotlin.zerowasteappvol1.application.ZeroWasteApplication
 import com.kotlin.zerowasteappvol1.models.ShortPlace
 import com.kotlin.zerowasteappvol1.viewModel.PlacesViewModel
@@ -38,10 +22,18 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.HashMap
 import kotlin.coroutines.CoroutineContext
+import com.kotlin.zerowasteappvol1.activities.helpers.*
+import android.net.Network
+import android.content.Context
+import android.content.IntentFilter
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
+
+class MapsActivity :
+    AppCompatActivity(),
+    OnMapReadyCallback,
+    CoroutineScope,
+    NetworkChangeReceiver.NetworkChangeReceiverListener{
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
@@ -50,6 +42,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
     private val REQUEST_PERMISSION_CODE: Int = 123
     private var startClickTime = "0".toLong()
     private lateinit var mapOperator: MapOperations
+    var isNetworkConnected: Boolean = false
 
     @Inject lateinit var placesViewModel: PlacesViewModel
 
@@ -148,6 +141,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope{
                     }
                 }
             }
+        }
+    }
+
+    override fun onNetworkChange(isConnected: Boolean) {
+        isNetworkConnected = isConnected
+        if (isConnected){
+            if (!::points.isInitialized) placesViewModel.getAllPlaces()
+        }
+        else{
+
         }
     }
 }
