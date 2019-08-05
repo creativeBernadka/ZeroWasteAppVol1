@@ -24,9 +24,6 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 import com.kotlin.zerowasteappvol1.activities.helpers.*
-import android.net.Network
-import android.content.Context
-import android.content.IntentFilter
 import android.widget.TextView
 import android.widget.Toast
 
@@ -154,8 +151,10 @@ class MapsActivity :
                 textView_lack_of_internet_connection.visibility = View.GONE
                 val pref = getSharedPreferences("MyPreferences", 0)
                 val shortPlaceJson = pref.getString("shortPlace", "")
-                val place: ShortPlace = Gson().fromJson(shortPlaceJson, ShortPlace::class.java)
-                placesViewModel.getPlaceDescription(place, this)
+                if (shortPlaceJson != ""){
+                    val place: ShortPlace = Gson().fromJson(shortPlaceJson, ShortPlace::class.java)
+                    placesViewModel.getPlaceDescription(place, this)
+                }
             }
         }
         else{
